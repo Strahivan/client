@@ -36,7 +36,9 @@ export class EditProductView {
     this.api
       .create(`collections/${collectionId}/collectionproducts`, { product_id: this.product.id })
       .then(success => notify().log('Successfully Updated'))
-      .catch(err => notify().log(err.message));
+      .catch(err => {
+        err.json().then(res => notify().log(res.err));
+      });
   }
 
   getPrice() {
