@@ -2,8 +2,10 @@ import {inject} from 'aurelia-framework';
 import {Api} from '~/services/api';
 import {EventAggregator} from 'aurelia-event-aggregator';
 import {PriceService} from '~/services/price';
+import {Router} from 'aurelia-router';
+import {activationStrategy} from 'aurelia-router';
 
-@inject(Api, EventAggregator)
+@inject(Api, EventAggregator, Router)
 export class FilterView {
   errors = {};
   products = {
@@ -17,15 +19,38 @@ export class FilterView {
       sort: '-id'
     }
   };
-  constructor(api, ea) {
+
+  determineActivationStrategy() {
+    return activationStrategy.replace;
+  }
+
+  constructor(api, ea, router) {
     this.api = api;
+    this.router = router;
     ea.subscribe('filter__search', payload => {
       this.products.params.filter['name:search'] = payload;
-      this.getProducts();
     });
   }
 
+  reload(params) {
+    const query = {
+      source: params.filter['source_id:eq'],
+      search: params.filter['name:search'],
+      category: params.filter['category_id:eq'],
+      sort: params.sort,
+      page: params.page.number
+    };
+
+    this.router.navigateToRoute('filter', query);
+  }
+
+  resetPageAndFetch() {
+    this.products.params.page.number = 0;
+    this.reload(this.products.params);
+  }
+
   getProducts() {
+    // this.replaceUrlWithParams(this.products.params);
     this.api
       .fetch('products', this.products.params)
       .then(items => {
@@ -63,9 +88,15 @@ export class FilterView {
   }
 
   activate(params) {
-    this.products.params.filter['name:search'] = params.search && params.search;
+    this.products.params.filter['name:search'] = params.search;
     this.products.params.filter['category_id:eq'] = params.category && Number(params.category);
     this.products.params.filter['source_id:eq'] = params.source && Number(params.source);
+    this.products.params.sort = params.sort;
+    this.products.params.page.number = (params.page && Number(params.page)) || 0;
+
+    this.params = Object.assign({}, params);
+    this.params.page = this.params.page || 0;
+
     this.getProducts();
     this.getCategories();
     this.getCountries();

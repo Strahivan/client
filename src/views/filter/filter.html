@@ -4,21 +4,21 @@
     <section class="filter-container__filters">
       <label class="filter-container__filters__origin">
         Country
-        <select value.bind="products.params.filter['source_id:eq']" change.delegate="getProducts()">
+        <select value.bind="products.params.filter['source_id:eq']" change.delegate="resetPageAndFetch()">
           <option model.bind="null">Choose</option>
           <option repeat.for="country of countries" model.bind="country.id">${country.name}</option>
         </select>
       </label>
       <label class="filter-container__filters__category">
         Category
-        <select value.bind="products.params.filter['category_id:eq']" change.delegate="getProducts()">
+        <select value.bind="products.params.filter['category_id:eq']" change.delegate="resetPageAndFetch()">
           <option model.bind="null">Choose</option>
           <option repeat.for="category of categories" model.bind="category.id">${category.name}</option>
         </select>
       </label>
       <label class="filter-container__filters__order">
         Order By
-        <select value.bind="products.params.sort" change.delegate="getProducts()">
+        <select value.bind="products.params.sort" change.delegate="resetPageAndFetch()">
           <option value="-id">Latest</option>
           <option value="-order_count">Popularity</option>
           <option value="-price">Price</option>
@@ -48,7 +48,7 @@
         </li>
       </ul>
       <div class="filter-result-container__pagination">
-        <pagination total.bind="products.total" page.bind="products.params.page" fetcher.call="getProducts()"></pagination>
+        <pagination total.bind="products.total" path="filter" params.bind="params" size.bind="products.params.page.size"></pagination>
       </div>
     </section>
   </div>
