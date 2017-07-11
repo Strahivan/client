@@ -1,7 +1,7 @@
 <template>
   <require from="./pagination.css"></require>
   <div class="pagination-container">
-    <button disabled.bind="page.number <= 0" class="pagination-container__prev" click.delegate="paginate(page.number - 1)">Prev</button>
-    <button disabled.bind="total <= ((page.number + 1) * page.size)" class="pagination-container__next" click.delegate="paginate(page.number + 1)">Next</button>
+    <a class="button ${prevParams.page < 0? 'disabled' : ''}" href.bind="prevUrl" ref="prevElem">Prev</a>
+    <a class="button ${(total <= (nextParams.page * size))? 'disabled' : ''}" href.bind="nextUrl" ref="nextElem">Next</a>
   </div>
 </template>
