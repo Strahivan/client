@@ -3,41 +3,41 @@
   <section class="shop-orders-filter">
     <div class="shop-orders-filter__status">
       <label>Status</label>
-      <select value.bind="requests.params.filter['status:eq']" change.delegate="getOrders()">
+      <select value.bind="requests.params.filter['status:eq']" change.delegate="resetPageAndFetch()">
         <option repeat.for="status of statuses" model.bind="status">${status}</option>
       </select>
     </div>
     <div class="shop-orders-filter__product">
       <label>Product</label>
-      <select value.bind="requests.params.filter['product_id:eq']" change.delegate="getOrders()">
+      <select value.bind="requests.params.filter['product_id:eq']" change.delegate="resetPageAndFetch()">
         <option model.bind="null">Choose</option>
         <option repeat.for="product of products.data" model.bind="product.id">${product.name}</option>
       </select>
     </div>
     <div class="shop-orders-filter__created-after">
       <label>Created After</label>
-      <input type="date" change.delegate="getOrders()" value.bind="requests.params.filter['created_at:gt']" />
+      <input type="date" change.delegate="resetPageAndFetch()" value.bind="requests.params.filter['created_at:gt']" />
     </div>
     <div class="shop-orders-filter__created-before">
       <label>Created Before</label>
-      <input type="date" change.delegate="getOrders()" value.bind="requests.params.filter['created_at:lt']" />
+      <input type="date" change.delegate="resetPageAndFetch()" value.bind="requests.params.filter['created_at:lt']" />
     </div>
   </section>
   <section>
     <table>
       <tr>
         <th>Name</th>
-        <th>Status</th>
+        <th>Customer Info</th>
         <th>Due Date</th>
       </tr>
       <tr repeat.for="request of requests.data">
         <td><a href.bind="'user/shops/' + shop.data.id + '/requests/' + request.id">${request.product.name}</a></td>
-        <td>${request.status}</td>
+        <td>${request.customer.name || request.customer.email}</td>
         <td>${request.delivery_date | toDate: 'date'}</td>
       </tr>
     </table>
     <div>
-      <pagination page.bind="requests.params.page" total.bind="requests.total" fetcher.call="getOrders()"></pagination>
+      <pagination size.bind="requests.params.page.size" total.bind="requests.total" path.bind="path" params.bind="query"></pagination>
     </div>
   </section>
 </template>
