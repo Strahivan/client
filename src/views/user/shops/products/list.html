@@ -3,27 +3,27 @@
   <div class="shop-products-list">
     <section class="shop-products-list__filter">
       <div class="shop-products-list__filter__search">
-        <form submit.delegate="getProducts()">
+        <form submit.delegate="resetPageAndFetch()">
           <input placeholder="Search Products" value.bind="products.params.filter['name:search']">
         </form>
       </div>
       <div class="shop-products-list__filter__category">
         <label>Category</label>
-        <select value.bind="products.params.filter['category_id:eq']" change.delegate="getProducts()">
+        <select value.bind="products.params.filter['category_id:eq']" change.delegate="resetPageAndFetch()">
           <option model.bind="null">Choose</option>
           <option repeat.for="category of categories.data" model.bind="category.id">${category.name}</option>
         </select>
       </div>
       <div class="shop-products-list__filter__source">
         <label>Country</label>
-        <select value.bind="products.params.filter['source_id:eq']" change.delegate="getProducts()">
+        <select value.bind="products.params.filter['source_id:eq']" change.delegate="resetPageAndFetch()">
           <option model.bind="null">Choose</option>
           <option repeat.for="country of countries.data" model.bind="country.id">${country.name}</option>
         </select>
       </div>
       <div class="shop-products-list__filter__source">
         <label>Requires Price Breakdown</label>
-        <input type="checkbox" checked.bind="products.params.filter['cost:isNull']" change.delegate="getProducts()"/>
+        <input type="checkbox" checked.bind="products.params.filter['cost:isNull']" change.delegate="resetPageAndFetch()"/>
       </div>
       <div class="shop-products-list__filter__create">
         <a href.bind="'user/shops/' + shop.data.id + '/products/create'">
@@ -46,7 +46,7 @@
         </tr>
       </table>
     <div>
-      <pagination page.bind="products.params.page" total.bind="products.total" fetcher.call="getProducts()"></pagination>
+      <pagination size.bind="products.params.page.size" total.bind="products.total" path.bind="path" params.bind="query"></pagination>
     </div>
     </section>
   </div>

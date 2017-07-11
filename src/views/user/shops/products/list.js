@@ -1,7 +1,9 @@
 import {Api} from '~/services/api';
 import {inject} from 'aurelia-framework';
+import {activationStrategy} from 'aurelia-router';
+import {Router} from 'aurelia-router';
 
-@inject(Api)
+@inject(Api, Router)
 export class ShopProductListVM {
   shop = {};
   products = {
@@ -15,8 +17,29 @@ export class ShopProductListVM {
   };
   countries = {};
   categories = {};
-  constructor(api) {
+  constructor(api, router) {
     this.api = api;
+    this.router = router;
+  }
+
+  determineActivationStrategy() {
+    return activationStrategy.replace;
+  }
+
+  reload(params) {
+    const query = {
+      search: params.filter['name:search'],
+      category: params.filter['category_id:eq'],
+      country: params.filter['source_id:eq'],
+      page: params.page.number
+    };
+
+    this.router.navigateToRoute('shopProductList', query);
+  }
+
+  resetPageAndFetch() {
+    this.products.params.page.number = 0;
+    this.reload(this.products.params);
   }
 
   getProducts() {
@@ -28,7 +51,15 @@ export class ShopProductListVM {
       .catch(err => console.log(err));
   }
 
-  activate(params) {
+  activate(params, config, instruction) {
+    this.path = window.location.pathname.substring(1);
+    this.query = Object.assign({}, instruction.queryParams);
+
+    this.query.page = this.query.page || 0;
+    this.products.params.filter['category_id:eq'] = this.query.category && Number(this.query.category);
+    this.products.params.filter['name:search'] = this.query.search;
+    this.products.params.filter['source:eq'] = this.query.country && Number(this.query.country);
+
     this.params = params;
     this.getProducts();
 
