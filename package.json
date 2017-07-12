@@ -9,7 +9,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "au run --watch --env dev",
-    "build": "au build --env prod"
+    "build": "au build --env dev"
   },
   "dependencies": {
     "animated-scroll-to": "^1.1.1",
