@@ -59,6 +59,7 @@ export class ShopProductListVM {
     this.products.params.filter['category_id:eq'] = this.query.category && Number(this.query.category);
     this.products.params.filter['name:search'] = this.query.search;
     this.products.params.filter['source:eq'] = this.query.country && Number(this.query.country);
+    this.products.params.page.number = (this.query.page && Number(this.query.page)) || 0;
 
     this.params = params;
     this.getProducts();

@@ -66,6 +66,7 @@ export class ShopRequestListVM {
     this.requests.params.filter['created_at:gt'] = this.query.created_at_gt && (new Date(this.query.created_at_gt)).toISOString();
     this.requests.params.filter['created_at:lt'] = this.query.created_at_lt && (new Date(this.query.created_at_lt)).toISOString();
     this.requests.params.filter['product_id:eq'] = this.query.product && Number(this.query.product);
+    this.products.params.page.number = (this.query.page && Number(this.query.page)) || 0;
 
     this.params = params;
 
