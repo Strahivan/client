@@ -1,13 +1,13 @@
 import {inject} from 'aurelia-framework';
 import {Api} from '~/services/api';
-import {UserService} from '~/services/user';
+import {UserStore} from '~/stores/user';
 import {Router} from 'aurelia-router';
 import {constants} from '~/services/constants';
 import {UploadService} from '~/services/upload';
 import {PriceService} from '~/services/price';
 import {AdwordsService} from '~/services/adwords';
 
-@inject(Router, Api, UserService, UploadService, AdwordsService)
+@inject(Router, Api, UserStore, UploadService, AdwordsService)
 export class CheckoutVM {
   error = {};
   request = {
@@ -15,10 +15,10 @@ export class CheckoutVM {
   };
   cards = [];
 
-  constructor(router, api, user, upload, adwords) {
+  constructor(router, api, userStore, upload, adwords) {
     this.router = router;
     this.api = api;
-    this.user = user.user;
+    this.user = userStore.user;
     this.upload = upload;
     this.adwords = adwords;
     this.constants = constants;

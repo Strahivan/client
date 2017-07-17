@@ -1,8 +1,8 @@
 import {bindable, inject} from 'aurelia-framework';
-import {UserService} from '~/services/user';
+import {UserStore} from '~/stores/user';
 import {AuthService} from 'aurelia-auth';
 
-@inject(UserService, AuthService)
+@inject(UserStore, AuthService)
 export class Navbar {
   @bindable router;
   constructor(userStore, auth) {

@@ -1,18 +1,18 @@
 import {inject} from 'aurelia-framework';
 import {FetchConfig, AuthorizeStep} from 'aurelia-auth';
 import {AuthService} from 'aurelia-auth';
-import {UserService} from '~/services/user';
+import {UserStore} from '~/stores/user';
 import {Api} from '~/services/api';
 import {ValidationRules} from 'aurelia-validation';
 import {CountryStore} from '~/stores/country';
 import {customRules} from '~/services/validation-rules';
 
-@inject(FetchConfig, AuthService, UserService, Api)
+@inject(FetchConfig, AuthService, UserStore, Api)
 export class App {
-  constructor(fetchConfig, auth, user, api) {
+  constructor(fetchConfig, auth, userStore, api) {
     this.fetchConfig = fetchConfig;
     this.auth = auth;
-    this.user = user;
+    this.userStore = userStore;
     this.api = api;
 
     ValidationRules.customRule(...customRules.numberRange);
@@ -31,7 +31,7 @@ export class App {
     if (this.auth.isAuthenticated()) {
       this.api.fetch('me', {include: ['country', 'shops']})
       .then(profile => {
-        this.user.save(profile);
+        this.userStore.save(profile);
       })
       .catch(err => {
         console.log(err);

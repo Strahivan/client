@@ -2,10 +2,10 @@ import {inject} from 'aurelia-framework';
 import {Router} from 'aurelia-router';
 import {Api} from '~/services/api';
 import {constants} from '~/services/constants';
-import {UserService} from '~/services/user';
+import {UserStore} from '~/stores/user';
 import {AuthService} from 'aurelia-auth';
 
-@inject(Api, Router, UserService, AuthService)
+@inject(Api, Router, UserStore, AuthService)
 export class DashboardView {
   requests = {
     params: {

@@ -1,4 +1,4 @@
-export class UserService {
+export class UserStore {
   get user() {
     return this._user;
   }

@@ -1,10 +1,10 @@
 import {inject} from 'aurelia-framework';
 import {Api} from '~/services/api';
-import {UserService} from '~/services/user';
+import {UserStore} from '~/stores/user';
 import {Payment} from '~/services/payment';
 import {ExternalHttp} from '~/services/external-http';
 
-@inject(Api, UserService, Payment, ExternalHttp)
+@inject(Api, UserStore, Payment, ExternalHttp)
 export class ProfileEdit {
   countries = {};
   state = {};
