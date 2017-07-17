@@ -1,7 +1,7 @@
 import {inject, NewInstance} from 'aurelia-framework';
 import {Api} from '~/services/api';
 import {Router} from 'aurelia-router';
-import {NewPassword} from '~/models/new-password';
+import {NewPassword} from './new-password.model';
 import {ValidationController} from 'aurelia-validation';
 import {ValidationRenderer} from '~/services/validation-renderer';
 import {notify} from '~/services/notification';
