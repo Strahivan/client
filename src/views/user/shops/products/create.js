@@ -32,7 +32,7 @@ export class CreateProduct {
       .catch(err => console.log(err));
 
     this.api
-      .fetch('brands', {page: {size: 100}, sort: 'name'})
+      .fetch('brands', {page: {size: 1000}, sort: 'name'})
       .then(brands => this.brands = brands.results)
       .catch(err => console.log(err));
 
