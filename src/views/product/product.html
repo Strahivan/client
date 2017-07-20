@@ -32,21 +32,21 @@
         <label for="color">Color</label>
         <select name="color" value.bind="request.color" change.delegate="getPrice()">
           <option model.bind="null">Choose</option>
-          <option repeat.for="color of product.data.colors" model.bind="color">${color.name}</option>
+          <option disabled.bind="color.out_of_stock" repeat.for="color of product.data.colors" model.bind="color">${color.name} ${color.out_of_stock ? '(Out of stock)': ''}</option>
         </select>
       </div>
       <div if.bind="product.data.sizes.length" class="product-size">
         <label for="size">Size</label>
         <select for="size" value.bind="request.size" change.delegate="getPrice()">
           <option model.bind="null">Choose</option>
-          <option repeat.for="size of product.data.sizes" model.bind="size">${size.name}</option>
+          <option disabled.bind="size.out_of_stock" repeat.for="size of product.data.sizes" model.bind="size">${size.name} ${size.out_of_stock? '(Out of stock)': ''}</option>
         </select>
       </div>
       <div if.bind="product.data.variations.length" class="product-variation">
         <label for="Variation">Variations</label>
         <select for="variations" value.bind="request.variation" change.delegate="getPrice()">
           <option model.bind="null">Choose</option>
-          <option repeat.for="variation of product.data.variations" model.bind="variation">${variation.name}</option>
+          <option disabled.bind="variation.out_of_stock" repeat.for="variation of product.data.variations" model.bind="variation">${variation.name} ${variation.bind? '(Out of stock)' : ''}</option>
         </select>
       </div>
     </div>
