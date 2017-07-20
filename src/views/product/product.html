@@ -46,7 +46,7 @@
         <label for="Variation">Variations</label>
         <select for="variations" value.bind="request.variation" change.delegate="getPrice()">
           <option model.bind="null">Choose</option>
-          <option disabled.bind="variation.out_of_stock" repeat.for="variation of product.data.variations" model.bind="variation">${variation.name} ${variation.bind? '(Out of stock)' : ''}</option>
+          <option disabled.bind="variation.out_of_stock" repeat.for="variation of product.data.variations" model.bind="variation">${variation.name} ${variation.out_of_stock? '(Out of stock)' : ''}</option>
         </select>
       </div>
     </div>
