@@ -1,6 +1,6 @@
 export const constants = {
   requestStatus: [
-    'pending', 'confirmed', 'processing', 'ready', 'completed'
+    'pending', 'confirmed', 'processing', 'ready', 'completed', 'verify', 'approval', 'canceled', 'delivering', 'failed', 'rejected'
   ],
   deliveryOptions: [
     'pickup', 'courier', 'post'

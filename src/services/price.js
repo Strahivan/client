@@ -44,6 +44,9 @@ function decimalAdjust(type, value, exp) {
 export class PriceService {
 
   static calculatePrice(product) {
+    if (!(product && product.source_id)) {
+      return 0;
+    }
     const country = CountryStore.countries.find((cntry) => cntry.id === product.source_id);
     const price = PriceService.getCeiling(product.cost + marginCalculator(product.cost, country.tiers) + (product.cost * 0.07) + (product.weight * country.ems_fee) + (product.local_delivery_fee || 0) + (product.price_override || 0), -1);
     return price || product.price;
