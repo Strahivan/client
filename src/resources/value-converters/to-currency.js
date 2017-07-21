@@ -3,7 +3,7 @@ import {PriceService} from '~/services/price';
 export class ToCurrencyValueConverter {
   toView(input) {
     if (!input) {
-      return;
+      return '';
     }
     const postDecimal = input.toString().split('.')[1] || [];
     let result;
@@ -17,7 +17,7 @@ export class ToCurrencyValueConverter {
       const ceilValue = PriceService.getCeiling(input, -1);
       result = ceilValue.toString();
     }
-    return result;
+    return result || 'not specified';
   }
 }
 

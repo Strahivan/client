@@ -46,11 +46,11 @@ export class CheckoutVM {
   }
 
   getBufferDays(countryId) {
-    if (countryId === 1) {
-      return 3;
-    } else if (countryId === 2) {
-      return 4;
-    }
+    const bufferMap = {
+      1: 3, // korea
+      2: 4  // japan
+    };
+    return bufferMap[countryId];
   }
 
   getProduct(id, selections) {
@@ -59,9 +59,10 @@ export class CheckoutVM {
       .then(product => {
         this.product = product;
         const currentDay = new Date();
-        const deliveryDate = new Date(currentDay.setDate(currentDay.getDate() + 4 + this.getBufferDays(product.source_id)));
+        const deliveryDate = new Date(currentDay.setDate(currentDay.getDate() + (product.delivery_time || 10) + this.getBufferDays(product.source_id)));
         this.request = {
           source_id: product.source_id,
+          shop_id: product.shop_id,
           base_price: product.price,
           cost: product.cost,
           tiers: product.source.tiers,
