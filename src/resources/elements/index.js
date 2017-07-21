@@ -8,7 +8,8 @@ const elements = [
   'editable-address/editable-address',
   'editable-selection/editable-selection',
   'gallery/gallery',
-  'pagination/pagination'
+  'pagination/pagination',
+  'shipping-estimator/shipping-estimator'
 ];
 
 export default elements.map(elem => `./elements/${elem}`);

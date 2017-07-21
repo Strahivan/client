@@ -3,6 +3,8 @@
 .nav-container {
   background-color: white;
   display: flex;
+  height: 3.5rem;
+  box-shadow: 0 2px 6px 0 rgba(0,0,0,0.17);
   font-size: 1.2em;
   justify-content: space-around;
   position: fixed;
