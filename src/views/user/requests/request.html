@@ -3,12 +3,19 @@
   <section class="request-product-info">
     <div class="request-product-info__image">
       <a href.bind="'products/' + request.data.product.id">
-        <img src.bind="request.data.product.gallery[0]"/>
+        <img src.bind="request.data.product.gallery[0] || 'images/default_product.jpg'"/>
       </a>
     </div>
     <div class="request-product-info__title">
       <label>Name</label>
-      <a href.bind="'products/' + request.data.product.id">${request.data.product.name}</a>
+      <a if.bind="request.data.product" href.bind="'products/' + request.data.product.id">${request.data.product.name}</a>
+      <span>${request.data.product_details.name || 'Custom Product'}</span>
+    </div>
+  </section>
+  <section if.bind="request.data.product_details && request.data.status === 'approval'">
+    <div>
+      <button click.delegate="confirm()">Accept and Pay</button>
+      <button class="button--red" click.delegate="reject()">Decline</button>
     </div>
   </section>
   <section class="request-info">
