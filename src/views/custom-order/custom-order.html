@@ -1,0 +1,36 @@
+<template>
+  <require from="./custom-order.css"></require>
+  <div class="custom-order">
+    <form class="custom-order__form" submit.delegate="createOrder()">
+      <div>
+        <label for="">URL</label>
+        <input type="url" value.bind="request.product_details.url" placeholder="Please enter the url of the product you want to buy">
+      </div>
+      <div>
+        <label>Shipping From</label>
+        <select value.bind="request.source_id">
+          <option repeat.for="country of countries" model.bind="country.id">${country.name}</option>
+        </select>
+      </div>
+      <div>
+        <label for="">Instructions</label>
+        <textarea value.bind="request.instructions" placeholder="Please enter the size, color or version of the product you want"></textarea>
+      </div>
+      <div>
+        <label for="">Quantity</label>
+        <input value.bind="request.count | toNumber" placeholder="Please enter how many do you want" type="number" min="1">
+      </div>
+      <div>
+        <label for="">Delivery</label>
+        <select value.bind="request.collection_method">
+          <option value="pickup">Pickup</option>
+          <option value="courier">Doorstep Delivery (+$4.00)</option>
+        </select>
+      </div>
+      <button type="submit">Submit</button>
+      <div>
+        <a click.delegate="calculator()">Price Estimator</a>
+      </div>
+    </form>
+  </div>
+</template>
