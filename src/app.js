@@ -100,6 +100,13 @@ export class App {
         auth: false,
         nav: false,
         moduleId: 'views/info/index'
+      },
+      {
+        route: 'custom-order',
+        name: 'custom-order',
+        auth: false,
+        nav: false,
+        moduleId: 'views/custom-order/index'
       }
     ]);
 
