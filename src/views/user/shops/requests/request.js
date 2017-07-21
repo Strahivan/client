@@ -11,7 +11,8 @@ export class ShopRequestVM {
     }
   };
   editRequest = {};
-  statuses = constants.requestStatus.concat('canceled');
+  statuses = constants.requestStatus;
+
   constructor(api) {
     this.api = api;
   }
@@ -30,6 +31,9 @@ export class ShopRequestVM {
   }
 
   update(fragment) {
+    if (fragment.delivery_date) {
+      fragment.delivery_date = (new Date(fragment.delivery_date)).toISOString();
+    }
     this.api
       .edit(`me/shops/${this.params.shop_id}/requests/${this.params.request_id}`, fragment)
       .then(response => {
