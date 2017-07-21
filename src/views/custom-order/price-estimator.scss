@@ -1,0 +1,8 @@
+@import '../../style/base';
+
+.price-estimator {
+  &__calculated-price {
+    font-size: $subheader-font-size;
+    text-align: center;
+  }
+}
