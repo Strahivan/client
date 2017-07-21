@@ -31,7 +31,7 @@
         <th>Due Date</th>
       </tr>
       <tr repeat.for="request of requests.data">
-        <td><a href.bind="'user/shops/' + shop.data.id + '/requests/' + request.id">${request.product.name}</a></td>
+        <td><a href.bind="'user/shops/' + shop.data.id + '/requests/' + request.id">${request.product.name || request.product_details.name || 'Custom Order'}</a></td>
         <td>${request.customer.name || request.customer.email}</td>
         <td>${request.delivery_date | toDate: 'date'}</td>
       </tr>

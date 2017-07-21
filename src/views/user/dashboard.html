@@ -41,10 +41,10 @@
     <ul class="dashboard-orders">
       <li class="dashboard-orders__row" repeat.for="request of requests.data">
         <figure class="dashboard-orders__row__imagecontainer">
-          <img class="dashboard-orders__row__imagecontainer__image" src.bind="request.product.gallery[0]" alt.bind="request.product.name"/>
+          <img class="dashboard-orders__row__imagecontainer__image" src.bind="request.product.gallery[0] || 'images/default_product.jpg'" alt.bind="request.product.name"/>
         </figure>
         <div class="dashboard-orders-details">
-          <a class="dashboard-orders-details__title" href.bind="'user/requests/' + request.id" >${request.product.name}</a>
+          <a class="dashboard-orders-details__title" href.bind="'user/requests/' + request.id" >${request.product.name || request.product_details.name || 'Custom Product'}</a>
           <div class="dashboard-orders-details__price" if.bind="request.total_price">SGD ${request.total_price | toCurrency}</div>
           <div if.bind="request.color || request.size || request.edition">
             <span class="chip" if.bind="request.color">${request.color.name}</span>
