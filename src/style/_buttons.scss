@@ -56,10 +56,24 @@
   vertical-align: middle;
   white-space: nowrap;
 
+  &--red {
+    background-color: $white;
+    color: $red;
+  }
+
+  &--red:hover {
+    background-color: shade($red, 20%);
+    color: $white;
+  }
+
+  &--none:hover {
+    background-color: inherit;
+  }
+
   &:hover,
   &:focus {
     background-color: shade($primary-color, 20%);
-    color: #fff;
+    color: $white;
   }
 
   &.disabled {
