@@ -1,0 +1,18 @@
+<template>
+  <require from="./confirmation.css"></require>
+  <div class="confirmation modal">
+    <div class="modal-overlay"></div>
+    <div class="modal-container">
+      <div class="modal-header">
+        Order
+      </div>
+      <div class="modal-body">
+        Are You sure?
+      </div>
+      <div class="modal-footer">
+        <button click.delegate="dialog.ok()">Yes</button>
+        <button click.delegate="dialog.cancel()">Close</button>
+      </div>
+    </div>
+  </div>
+</template>
