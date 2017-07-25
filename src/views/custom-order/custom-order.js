@@ -4,10 +4,8 @@ import {notify} from '~/services/notification';
 import {CountryStore} from '~/stores/country';
 import {constants} from '~/services/constants';
 import {Router} from 'aurelia-router';
-import {DialogService} from 'aurelia-dialog';
-import {PriceEstimatorDialog} from './price-estimator';
 
-@inject(Api, Router, DialogService)
+@inject(Api, Router)
 export class CustomOrderView {
 
   request = {
@@ -20,17 +18,10 @@ export class CustomOrderView {
 
   constructor(api, router, dialog) {
     this.api = api;
-    this.dialog = dialog;
     this.router = router;
     this.countries = CountryStore.countries;
   }
 
-  calculator() {
-    this.dialog.open({ viewModel: PriceEstimatorDialog })
-      .whenClosed(response => {
-        console.log(response);
-      });
-  }
 
   createOrder() {
     return this.api
