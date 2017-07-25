@@ -11,7 +11,7 @@
         <div>
           <label>Weight</label>
           <select change.delegate="calculate()" value.bind="product.weight | toNumber">
-            <option model.bind="i + 1" repeat.for="i of 5">${i} to ${i+1} kg</option>
+            <option model.bind="(i*.2) + .2" repeat.for="i of 5">About ${(i * 200) + 200} grams</option>
           </select>
         </div>
         <div>
