@@ -8,7 +8,7 @@ script:
 before_deploy:
 - mkdir deploy
 - cp index.html deploy/
-- cp favicon.ico deploy/
+- cp favicon.png deploy/
 - cp -R images deploy/
 - cp -R scripts deploy/
 - rm -rf scripts
