@@ -13,7 +13,9 @@ export class PriceEstimatorDialog {
     this.user = UserStore.user;
     this.router = router;
     this.priceService = PriceService;
-    this.countries = CountryStore.countries;
+    this.countries = CountryStore.countries.filter(country => {
+      return country.name !== 'Singapore';
+    });
   }
 
   goToCustomPurchase() {
