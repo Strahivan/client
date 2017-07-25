@@ -8,56 +8,208 @@ $categories: (
 .home-page {
   @include grid-container;
 
-  &__gallery {
-    display: flex;
-    justify-content: center;
-    width: 100vw;
-    margin-left: -20px;
+  &__hero {
     @include grid-media($desktop) {
-      width: 100%;
-      margin-left: 0px;
+      @include grid-shift(-3);
+      margin-left: -30px;
+      width: calc(100vw - 15px);
     }
-    img {
-      width: 100vw;
-      object-fit: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 50vh;
+    margin-left: -20px;
+    width: 100vw;
+    justify-content: center;
+    background-color: $primary-color;
+    color: white;
+    &__title {
+      @include grid-media($desktop) {
+        font-size: 6em;
+      }
+      // @media screen and (min-width: $tablet) {
+      //   font-size: 6rem;
+      // }
+      text-align: center;
+      font-size: 3rem;
+      animation: fadein 2s ease 1;
+      &__shipping {
+        color: crimson;
+      }
+      &__simple {
+        color: #0E9B74;
+      }
+    }
+    &__subtitle {
+      @include grid-media($desktop) {
+        font-size: $subheader-font-size;
+      }
+      text-align: center;
+    }
+
+    &__cta {
+      @include grid-media($desktop) {
+        font-size: $subheader-font-size;
+      }
+      margin-top: 1rem;
+    }
+
+    &__ctabutton {
+      margin-top: 1rem;
+      a {
+        border: 1px solid white;
+        &:hover {
+          background: white;
+          color: $primary-color;
+        }
+      }
+    }
+  }
+
+  &__valuescontainer {
+    margin-top: 3rem;
+    margin-bottom: 2rem;
+    text-align: center;
+    h3 {
+      font-size: 2rem;
+      margin-bottom: 2rem;
+    }
+  }
+
+  &__values {
+    display: flex;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    &__section {
+      @include grid-media($tablet) {
+        display: flex;
+        align-items: center;
+        font-size: 1rem;
+      }
+      margin-left: .5rem;
+      font-size: .7rem;
+      flex-basis: 0;
+      flex-grow: 1;
+      img {
+        height: 5rem;
+      }
+      .values__text {
+        display: inline-block;
+        word-wrap: break-word;
+        @include grid-media($tablet) {
+          margin-left: .5rem;
+        }
+      }
     }
   }
 
   &__collections {
-    margin-top: 1rem;
-    &__collection {
-      &__image {
-        width: 100%;
-        height: 20vh;
-        object-fit: cover;
+    margin-top: 3rem;
+    &__selected {
+      @include grid-container;
+
+      &__body {
+        &__title {
+          font-size: $subheader-font-size;
+        }
+        &__description {
+          margin-top: 1rem;
+        }
+        &__total {
+          margin-top: 1rem;
+        }
       }
+
+      @include grid-media($desktop) {
+        &__image {
+          @include grid-column(6);
+        }
+        &__body {
+          @include grid-column(6);
+        }
+      }
+    }
+
+    &__preview {
+      position: relative;
+      margin-top: 1rem;
+      .slider {
+        overflow: hidden;
+        white-space: nowrap;
+        width: 100%;
+      }
+
+      // .slides {
+      //   display: inline-block;
+      // }
+
+      .slide {
+        height: 10vh;
+        display: inline-block;
+        position: relative;
+        width: 25%;
+        filter: brightness(50%);
+        img {
+          height: inherit;
+          object-fit: cover;
+        }
+      }
+
+      .slide--active {
+        filter: brightness(100%);
+      }
+
+      .prev, .next {
+        position: absolute;
+        top: 50%;
+        margin-top: -25px;
+        display: block;
+        cursor: pointer;
+      }
+
+      .next {
+        right: 0;
+      }
+
+      .prev {
+        left: 0;
+      }
+
+      .next svg, .prev svg {
+        width: 25px;
+      }
+
     }
   }
 
   &__categories {
-    margin-top: 1rem;
+    margin-top: 3rem;
+    display: flex;
+    justify-content: space-around;
     &__category {
-      @include grid-column(4, $categories);
-      @include grid-media($tablet) {
-        @include grid-column(2, $categories);
-      }
-      position: relative;
-
-      &__title {
-        bottom: calc(50% - 1.6em/2);
-        color: $white;
-        font-size: $header-font-size;
-        font-weight: 500;
-        left: 0;
-        position: absolute;
-        right: 0;
-        text-align: center;
-      }
+      // @include grid-column(4, $categories);
+      // @include grid-media($tablet) {
+      //   @include grid-column(2, $categories);
+      // }
+      // position: relative;
+      //
+      // &__title {
+      //   bottom: calc(50% - 1.6em/2);
+      //   color: $white;
+      //   font-size: $header-font-size;
+      //   font-weight: 500;
+      //   left: 0;
+      //   position: absolute;
+      //   right: 0;
+      //   text-align: center;
+      // }
     }
   }
 
   &__most-popular {
-    margin-top: 1rem;
+    text-align: center;
+    margin-top: 3rem;
     @include grid-container;
     &__cards {
       &__card {

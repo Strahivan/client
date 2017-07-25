@@ -1,16 +1,20 @@
 import {inject} from 'aurelia-framework';
 import {Api} from '~/services/api';
 import {PriceService} from '~/services/price';
+import {DialogService} from 'aurelia-dialog';
+import {PriceEstimatorDialog} from '~/views/custom-order/price-estimator';
 
-@inject(Api)
+@inject(Api, DialogService)
 export class HomeView {
   countries = {};
   categories = {};
   announcements = {};
   collections = {};
+  selected = {};
 
-  constructor(api, router) {
+  constructor(api, dialog) {
     this.api = api;
+    this.dialog = dialog;
 
     this.popular = {
       params: {
@@ -20,7 +24,7 @@ export class HomeView {
         include: ['source'],
         sort: '-order_count',
         page: {
-          size: 12,
+          size: 6,
           number: 0
         }
       }
@@ -33,6 +37,13 @@ export class HomeView {
     this.getCategories();
     this.getAnnouncements();
     this.getCollections();
+  }
+
+  calculator() {
+    this.dialog.open({ viewModel: PriceEstimatorDialog })
+      .whenClosed(response => {
+        console.log(response);
+      });
   }
 
   getCategories() {
@@ -49,9 +60,10 @@ export class HomeView {
 
   getCollections() {
     this.api
-      .fetch('collections', {page: {size: 4, number: 0}})
+      .fetch('collections', {page: {size: 4, number: 0}, include: ['products', 'creator']})
       .then(response => {
         this.collections.data = response.results;
+        this.selected.collection = response.results[0];
       })
       .catch(error => {
         console.log(error);

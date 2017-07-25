@@ -104,7 +104,7 @@ export class App {
       {
         route: 'custom-order',
         name: 'custom-order',
-        auth: false,
+        auth: true,
         nav: false,
         moduleId: 'views/custom-order/index'
       }

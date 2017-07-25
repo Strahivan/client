@@ -7,8 +7,8 @@
     margin-top: $navbar-height;
     @include grid-column(12);
     @include grid-media($desktop) {
-      @include grid-shift(1);
-      @include grid-column(10);
+      @include grid-shift(2);
+      @include grid-column(8);
     }
     &__footer {
       padding-top: 1rem;
