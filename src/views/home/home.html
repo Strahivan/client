@@ -50,11 +50,13 @@
     <section class="home-page__collections">
       <h2>Featured Collections</h2>
       <div class="home-page__collections__selected">
-        <img class="home-page__collections__selected__image" src.bind="selected.collection.picture" alt=""/>
+        <a href.bind="'collections/' + selected.collection.id">
+          <img class="home-page__collections__selected__image" src.bind="selected.collection.picture" alt=""/>
+        </a>
         <div class="home-page__collections__selected__body">
-          <div class="home-page__collections__selected__body__title">
+          <a href.bind="'collections/' + selected.collection.id" class="home-page__collections__selected__body__title">
             ${selected.collection.name}
-          </div>
+          </a>
           <div class="home-page__collections__selected__body__creator">
             by ${selected.collection.creator.name}
           </div>
