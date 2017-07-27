@@ -31,13 +31,6 @@
 
   <section if.bind="requests.data" class="dashboard-orders-container">
     <h1>Orders</h1>
-    <div class="request-status-selection">
-      <label repeat.for="status of requests.statuses">
-        <input type="radio" name="request-status" value.bind="status" checked.bind="requests.params.filter['status:eq']" click.delegate="getRequests()" >
-        <span class="request-status-selection__item">${status}</span>
-      </label>
-    </div>
-    <br>
     <ul class="dashboard-orders">
       <li class="dashboard-orders__row" repeat.for="request of requests.data">
         <figure class="dashboard-orders__row__imagecontainer">
@@ -45,13 +38,16 @@
         </figure>
         <div class="dashboard-orders-details">
           <a class="dashboard-orders-details__title" href.bind="'user/requests/' + request.id" >${request.product.name || request.product_details.name || 'Custom Product'}</a>
-          <div class="dashboard-orders-details__price" if.bind="request.total_price">SGD ${request.total_price | toCurrency}</div>
+          <div class="dashboard-orders-details__delivery" if.bind="request.delivery_date">Delivery: ${request.delivery_date | toDate: 'date'}</div>
+          <div class="dashboard-orders-details__status">
+            <div class="${request.status === 'approval'? 'animated infinite tada': ''}">${request.status}</div>
+          </div>
           <div if.bind="request.color || request.size || request.edition">
             <span class="chip" if.bind="request.color">${request.color.name}</span>
             <span class="chip" if.bind="request.size">${request.size.name}</span>
             <span if.bind="request.edition">${request.edition.name}</span>
           </div>
-          <div>${request.created_at | toDate:'human'}</div>
+          <div>Updated ${request.updated_at | toDate:'human'}</div>
         </div>
         <div if.bind="request.status === 'ready'" class="dashboard-orders__row__confirm">
           <button click.delegate="confirmDelivery(request)">Got It!</button>

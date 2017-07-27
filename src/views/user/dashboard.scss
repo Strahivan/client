@@ -44,12 +44,23 @@
     }
     &-details {
       margin-left: 1rem;
+      margin-bottom: .5rem;
       &__title {
 
       }
+      &__status {
+        border-radius: 0.2rem;
+        div {
+          display: inline-block;
+          background: $green;
+          color: white;
+          padding: .2rem;
+          padding-right: .5rem;
+          padding-left: .5rem;
+        }
+      }
     }
   }
-
 }
 
 

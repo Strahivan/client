@@ -10,9 +10,10 @@ export class DashboardView {
   requests = {
     params: {
       include: ['product'],
-      filter: {
-        'status:eq': 'confirmed'
-      }
+      sort: '-updated_at'
+    },
+    page: {
+      size: 100
     },
     statuses: constants.requestStatus
   };
