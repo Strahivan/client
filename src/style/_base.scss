@@ -3,6 +3,6 @@
 // Copyright 2013-2015 thoughtbot, inc.
 // MIT License
 
-@import "bourbon";
-@import "neat";
+@import "node_modules/bourbon/core/bourbon";
+@import "node_modules/bourbon-neat/core/neat";
 @import "variables";
