@@ -21,11 +21,6 @@ export class App {
   async activate() {
     this.fetchConfig.configure();
 
-    // window.Intercom('boot', {
-    //   app_id: 'bszrr242',
-    //   custom_launcher_selector: '#novelship-intercom'
-    // });
-    //
     CountryStore.countries = (await this.api.fetch('countries')).results;
 
     if (this.auth.isAuthenticated()) {

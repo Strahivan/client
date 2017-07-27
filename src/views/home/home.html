@@ -77,39 +77,6 @@
       </div>
     </section>
 
-    <div class="home-page__testimonials">
-
-    </div>
-
-    <!-- <div class="home&#45;page__collections"> -->
-    <!--    -->
-    <!-- </div> -->
-
-    <div class="home-page__products">
-
-    </div>
-
-    <!-- <div class="home&#45;page__gallery"> -->
-    <!--   <gallery images.bind="announcements.data"></gallery> -->
-    <!-- </div> -->
-    <!-- <section class="home&#45;page__hero"> -->
-    <!--   <img src.bind="announcements.data[0].image"> -->
-    <!--   <div class="hero__title"> -->
-    <!--     ${announcements.data[0].title} -->
-    <!--   </div> -->
-    <!--   <div class="hero__description"> -->
-    <!--     ${announcements.data[0].description} -->
-    <!--   </div> -->
-    <!-- </section> -->
-    <!--  -->
-    <!-- <section> -->
-    <!--   <div class="home&#45;page__collections"> -->
-    <!--     <a class="home&#45;page__collections__collection" repeat.for="collection of collections.data" href.bind="'collections/' + collection.id"> -->
-    <!--       <img class="home&#45;page__collections__collection__image" src.bind="collection.banner" alt=""> -->
-    <!--     </a> -->
-    <!--   </div> -->
-    <!-- </section> -->
-    <!--  -->
     <section class="home-page__most-popular">
       <h3>Most Popular</h3>
       <div class="home-page__most-popular__cards">
@@ -118,11 +85,11 @@
         </div>
       </div>
     </section>
-    <!--  -->
     <section class="home-page__categories">
       <a class="home-page__categories__category" repeat.for="category of categories.data" route-href="route:filter; params.bind:{category: category.id}">
         ${category.name}
       </a>
     </section>
   </div>
+  <intercom></intercom>
 </template>
