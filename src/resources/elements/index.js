@@ -9,7 +9,8 @@ const elements = [
   'editable-selection/editable-selection',
   'gallery/gallery',
   'pagination/pagination',
-  'shipping-estimator/shipping-estimator'
+  'shipping-estimator/shipping-estimator',
+  'intercom/intercom'
 ];
 
 export default elements.map(elem => `./elements/${elem}`);
