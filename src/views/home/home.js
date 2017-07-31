@@ -11,6 +11,11 @@ export class HomeView {
   announcements = {};
   collections = {};
   selected = {};
+  tags = [
+    {tag: 'Play ', color: 'yellow'},
+    {tag: 'Live ', color: 'red'},
+    {tag: 'Wear ', color: 'white'}
+  ];
 
   constructor(api, dialog) {
     this.api = api;
