@@ -159,7 +159,7 @@ export class CheckoutVM {
   }
 
   saveProof() {
-    this.request.status = 'pending';
+    this.request.status = 'verify';
     this.state.inflight = true;
     this.upload.uploadImages(this.proof, 'proof')
       .then(streams => {
