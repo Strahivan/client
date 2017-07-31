@@ -4,7 +4,7 @@
     <form class="custom-order__form" submit.delegate="createOrder()">
       <div>
         <label for="">URL</label>
-        <input type="url" value.bind="request.product_details.url" placeholder="Please enter the url of the product you want to buy">
+        <input type="url" change.delegate="getData()" value.bind="request.product_details.url" placeholder="Please enter the url of the product you want to buy">
       </div>
       <div>
         <label>Shipping From</label>

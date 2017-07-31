@@ -4,8 +4,9 @@ import {notify} from '~/services/notification';
 import {CountryStore} from '~/stores/country';
 import {constants} from '~/services/constants';
 import {Router} from 'aurelia-router';
+import {UrlExtraction} from '~/services/url-extraction';
 
-@inject(Api, Router)
+@inject(Api, Router, UrlExtraction)
 export class CustomOrderView {
 
   request = {
@@ -16,12 +17,20 @@ export class CustomOrderView {
     collection_method: 'pickup'
   }
 
-  constructor(api, router, dialog) {
+  constructor(api, router, extractor) {
     this.api = api;
     this.router = router;
+    this.extractor = extractor;
     this.countries = CountryStore.countries;
   }
 
+  getData(ur) {
+    this.extractor.getUrlData(this.request.product_details.url)
+    .then(data => {
+      this.request.product_details.name = data.meta && data.meta.title;
+      this.request.product_details.picture = data.links && data.links.thumbnail && data.links.thumbnail[0] && data.links.thumbnail[0].href;
+    });
+  }
 
   createOrder() {
     return this.api
