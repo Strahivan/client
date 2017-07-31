@@ -3,7 +3,7 @@
   <section class="request-product-info">
     <div class="request-product-info__image">
       <a href.bind="'products/' + request.data.product.id">
-        <img src.bind="request.data.product.gallery[0] || 'images/default_product.jpg'"/>
+        <img src.bind="request.data.product.gallery[0] || request.data.product_details.picture || 'images/default_product.jpg'"/>
       </a>
     </div>
     <div class="request-product-info__title">
