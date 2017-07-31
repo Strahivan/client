@@ -10,7 +10,8 @@ const elements = [
   'gallery/gallery',
   'pagination/pagination',
   'shipping-estimator/shipping-estimator',
-  'intercom/intercom'
+  'intercom/intercom',
+  'animated-tag/animated-tag'
 ];
 
 export default elements.map(elem => `./elements/${elem}`);
