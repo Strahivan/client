@@ -15,7 +15,7 @@ export const constants = {
     buyNow: 'rt_xCOK2-XEQv4u4oAM',
     purchase: 'NArACKa5-XEQv4u4oAM'
   },
-  defaultDestination: 1,
+  defaultDestination: 3,
   defaultPostage: 5,
   defaultCourier: 4
 };
