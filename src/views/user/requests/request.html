@@ -9,7 +9,7 @@
     <div class="request-product-info__title">
       <label>Name</label>
       <a if.bind="request.data.product" href.bind="'products/' + request.data.product.id">${request.data.product.name}</a>
-      <span>${request.data.product_details.name || 'Custom Product'}</span>
+      <span if.bind="request.data.product_details">${request.data.product_details.name || 'Custom Product'}</span>
     </div>
     <div if.bind="request.data.product_details" class="request-info__url">
       <label>URL</label>
