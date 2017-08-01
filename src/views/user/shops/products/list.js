@@ -34,6 +34,7 @@ export class ShopProductListVM {
       search: params.filter['name:search'],
       category: params.filter['category_id:eq'],
       country: params.filter['source_id:eq'],
+      breakdown: params.filter['cost:isNull'],
       page: params.page.number
     };
 
@@ -63,6 +64,10 @@ export class ShopProductListVM {
     this.products.params.filter['name:search'] = this.query.search;
     this.products.params.filter['source:eq'] = this.query.country && Number(this.query.country);
     this.products.params.page.number = (this.query.page && Number(this.query.page)) || 0;
+
+    if (this.query.breakdown === 'true') {
+      this.products.params.filter['cost:isNull'] = true;
+    }
 
     this.params = params;
     this.getProducts();
