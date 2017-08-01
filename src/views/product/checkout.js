@@ -143,13 +143,8 @@ export class CheckoutVM {
   toggleAddress() {
     if (this.request.collection_method === 'pickup') {
       this.request.shipping_address = this.constants.defaultShippingAddress;
-      this.request.postage = 0;
-    } else if (this.request.collection_method === 'post') {
-      this.request.shipping_address = this.user && this.user.address;
-      this.request.postage = this.product.postage || constants.defaultPostage;
     } else if (this.request.collection_method === 'courier') {
       this.request.shipping_address = this.user && this.user.address;
-      this.request.postage = this.product.courier || constants.defaultCourier;
     }
     this.request.total_price = PriceService.getPrice(this.request, this.product);
   }

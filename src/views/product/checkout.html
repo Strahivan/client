@@ -44,8 +44,7 @@
             <label>Collection Method</label>
             <select change.delegate="toggleAddress()" value.bind="request.collection_method">
               <option value="pickup">Pickup</option>
-              <option value="courier">Courier (+$${product.courier || constants.defaultCourier})</option>
-              <option value="post">Post (+$${product.postage || constants.defaultPostage})</option>
+              <option value="courier">Courier (Free)</option>
             </select>
           </div>
           <div if.bind="request.collection_method === 'pickup'">
