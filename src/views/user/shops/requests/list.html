@@ -4,6 +4,7 @@
     <div class="shop-orders-filter__status">
       <label>Status</label>
       <select value.bind="requests.params.filter['status:eq']" change.delegate="resetPageAndFetch()">
+        <option model.bind="null">Choose</option>
         <option repeat.for="status of statuses" model.bind="status">${status}</option>
       </select>
     </div>
@@ -14,26 +15,30 @@
         <option repeat.for="product of products.data" model.bind="product.id">${product.name}</option>
       </select>
     </div>
-    <div class="shop-orders-filter__created-after">
+    <div class="shop-orders-filter__email">
+      <label>Customer Email</label>
+      <input type="email" change.delegate="resetPageAndFetch()" value.bind="requests.params.filter['customer.email:eq']" />
+    </div>
+    <div class="shop-orders-filter__created-before">
       <label>Created After</label>
       <input type="date" change.delegate="resetPageAndFetch()" value.bind="requests.params.filter['created_at:gt']" />
     </div>
-    <div class="shop-orders-filter__created-before">
-      <label>Created Before</label>
-      <input type="date" change.delegate="resetPageAndFetch()" value.bind="requests.params.filter['created_at:lt']" />
-    </div>
   </section>
   <section>
-    <table>
+    <table class="shop-orders-list">
       <tr>
         <th>Name</th>
         <th>Customer Info</th>
+        <th if.bind="!requests.params.filter['status:eq']">Status</th>
         <th>Due Date</th>
+        <th>Created At</th>
       </tr>
-      <tr repeat.for="request of requests.data">
+      <tr class="shop-orders-list__row ${request.status === 'pending' || request.status === 'verify'? 'shop-orders-list__row--red': ''}" repeat.for="request of requests.data">
         <td><a href.bind="'user/shops/' + shop.data.id + '/requests/' + request.id">${request.product.name || request.product_details.name || 'Custom Order'}</a></td>
-        <td>${request.customer.name || request.customer.email}</td>
+        <td>${request.customer.email}</td>
+        <td if.bind="!requests.params.filter['status:eq']"><span class="chip ${request.status === 'pending' || request.status === 'verify'? 'animated shake': ''}">${request.status}</span></td>
         <td>${request.delivery_date | toDate: 'date'}</td>
+        <td>${request.created_at | toDate: 'date'}</td>
       </tr>
     </table>
     <div>

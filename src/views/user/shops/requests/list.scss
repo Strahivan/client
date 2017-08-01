@@ -2,7 +2,13 @@
 
 .shop-orders-filter {
   @include grid-container;
-  &__status, &__product, &__created-after, &__created-before {
+  &__status, &__product, &__email, &__created-before {
     @include grid-column(3);
+  }
+}
+
+.shop-orders-list {
+  &__row--red {
+    background: lighten($red, 20);
   }
 }

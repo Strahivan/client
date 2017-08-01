@@ -9,9 +9,7 @@ export class ShopRequestListVM {
   requests = {
     params: {
       include: ['product', 'customer'],
-      filter: {
-        'status:eq': 'pending'
-      },
+      filter: {},
       page: {
         size: 10,
         number: 0
@@ -34,8 +32,8 @@ export class ShopRequestListVM {
   reload(params) {
     const query = {
       status: params.filter['status:eq'],
+      email: params.filter['customer.email:eq'],
       created_at_gt: params.filter['created_at:gt'],
-      created_at_lt: params.filter['createtd_at:lt'],
       product: params.filter['product_id:eq'],
       page: params.page.number
     };
@@ -62,9 +60,9 @@ export class ShopRequestListVM {
     this.query = Object.assign({}, instruction.queryParams);
 
     this.query.page = this.query.page || 0;
-    this.requests.params.filter['status:eq'] = this.query.status || 'pending';
+    this.requests.params.filter['status:eq'] = this.query.status;
+    this.requests.params.filter['customer.email:eq'] = this.query.email;
     this.requests.params.filter['created_at:gt'] = this.query.created_at_gt && (new Date(this.query.created_at_gt)).toISOString();
-    this.requests.params.filter['created_at:lt'] = this.query.created_at_lt && (new Date(this.query.created_at_lt)).toISOString();
     this.requests.params.filter['product_id:eq'] = this.query.product && Number(this.query.product);
     this.requests.params.page.number = (this.query.page && Number(this.query.page)) || 0;
 
