@@ -1,4 +1,5 @@
 import {CountryStore} from '~/stores/country';
+import {constants} from '~/services/constants';
 
 function marginCalculator(cost, tiers) {
   const marginSpread = tiers.map(tier => {
@@ -48,8 +49,8 @@ export class PriceService {
       return 0;
     }
     const country = CountryStore.countries.find((cntry) => cntry.id === product.source_id);
-    const price = PriceService.getCeiling(product.cost + marginCalculator(product.cost, country.tiers) + (product.cost * 0.07) + (product.weight * country.ems_fee) + (product.local_delivery_fee || 0) + (product.price_override || 0), -1);
-    return price || product.price;
+    const price = PriceService.getCeiling(product.cost + marginCalculator(product.cost, country.tiers) + (product.cost * 0.07) + (product.weight * country.ems_fee) + (product.local_delivery_fee || 0) + (product.price_override || 0) + (product.cost && constants.defaultCourier), -1);
+    return price || product.price + constants.defaultCourier;
   }
 
   static getCeiling(value, exp) {
@@ -71,7 +72,7 @@ export class PriceService {
   }
 
   static getPrice(request, product) {
-    return request.count * (PriceService.calculatePrice(product) + this.getDelta(request)) + (request.postage || 0);
+    return request.count * (PriceService.calculatePrice(product) + this.getDelta(request));
   }
 }
 
