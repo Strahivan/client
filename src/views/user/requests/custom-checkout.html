@@ -23,7 +23,7 @@
         </div>
       </section>
       <section>
-        <div if.bind="request.collection_method === 'post' || request.collection_method === 'courier'" class="shipping-address">
+        <div if.bind="request.collection_method === 'courier'" class="shipping-address">
           <label>Address</label>
           Line 1
           <input value.bind="request.shipping_address.line_1" type="text" />
