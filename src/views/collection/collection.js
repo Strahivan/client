@@ -1,5 +1,6 @@
 import {inject} from 'aurelia-framework';
 import {Api} from '~/services/api';
+import {PriceService} from '~/services/price';
 
 @inject(Api)
 export class CollectionView {
@@ -22,9 +23,12 @@ export class CollectionView {
 
     this.api
       .fetch(`collections/${param.collection_id}/collectionproducts`, {include: ['product', 'product.source'], page: {size: 24}})
-      .then(products => {
-        this.collectionproducts.data = products.results;
+      .then(response => {
+        this.collectionproducts.data = response.results.map(cp => {
+          cp.product.price = PriceService.calculatePrice(cp.product);
+          return cp;
+        });
       })
-      .catch(err => this.collectionproducts.error = err);
+      .catch(err => console.log(err));
   }
 }
