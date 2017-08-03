@@ -71,7 +71,7 @@
       <div class="home-page__collections__preview">
         <ul class="slider">
           <li click.delegate="selected.collection = collection" class="slide ${collection.id === selected.collection.id ? 'slide--active': ''}" repeat.for="collection of collections.data">
-            <img src.bind="collection.banner" alt=""/>
+            <img src.bind="collection.picture" alt=""/>
           </li>
         </ul>
       </div>

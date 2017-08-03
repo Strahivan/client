@@ -75,12 +75,14 @@ $categories: (
       width: calc(90vw - 15px);
     }
     margin-top: 3rem;
-    margin-bottom: 2rem;
+    padding-bottom: 3rem;
     text-align: center;
     h3 {
       font-size: 2rem;
       margin-bottom: 2rem;
     }
+
+    border-bottom: 1px solid rgba(0,0,0,0.2);
   }
 
   &__values {
@@ -139,6 +141,7 @@ $categories: (
 
     &__preview {
       position: relative;
+      cursor: pointer;
       margin-top: 1rem;
       .slider {
         overflow: hidden;
@@ -159,12 +162,19 @@ $categories: (
         img {
           height: inherit;
           object-fit: cover;
+          &:hover {
+            border: 1px solid rgba(0,0,0,0.2);
+          }
+        }
+        &:hover {
+          filter: brightness(90%);
         }
       }
 
       .slide--active {
         filter: brightness(100%);
       }
+
 
       .prev, .next {
         position: absolute;
