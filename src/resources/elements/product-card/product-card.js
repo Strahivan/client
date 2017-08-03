@@ -7,4 +7,11 @@ export class ProductCard {
   constructor(router) {
     this.router = router;
   }
+
+  showImage(index) {
+    if (this.product.gallery[index]) {
+      this.imgUrl = this.product.gallery[index];
+    }
+  }
+
 }

@@ -4,7 +4,7 @@
   <div class="card-element">
     <div class="card-element__image">
       <a route-href="route: product; params.bind: {product_id: product.id}">
-        <img src.bind="product.gallery[0]" alt="">
+        <img class="animated" animate-on-change.bind="imgUrl" mouseover.delegate="showImage(1)" mouseout.delegate="showImage(0)" src.bind="imgUrl || product.gallery[0]" alt="">
       </a>
     </div>
     <div if.bind="product.order_count" class="card-element__ribbon">
