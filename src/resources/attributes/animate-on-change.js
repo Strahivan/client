@@ -6,15 +6,13 @@ export class AnimateOnChangeCustomAttribute {
   constructor(element, animator) {
     this.element = element;
     this.animator = animator;
-    this.initialValueSet = false;
   }
 
   valueChanged(newValue) {
-    if (this.initialValueSet) {
-      this.animator.addClass(this.element, this.value).then(() => {
-        this.animator.removeClass(this.element, 'background-animation');
-      });
-    }
-    this.initialValueSet = true;
+    this.animator.addClass(this.element, 'fadeIn').then(() => {
+      setTimeout(() => {
+        this.animator.removeClass(this.element, 'fadeIn');
+      }, 400);
+    });
   }
 }
