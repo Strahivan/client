@@ -14,5 +14,8 @@
         </li>
       </ul>
     </section>
+    <div class="collection__pagination">
+      <pagination total.bind="collectionproducts.total" path.bind="'collections/' + params.collection_id" params.bind="query" size.bind="collectionproducts.params.page.size"></pagination>
+    </div>
   </div>
 </template>
