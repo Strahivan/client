@@ -25,9 +25,9 @@ export class ProductView {
     .fetch(`products/${id}`, this.product.params)
     .then(product => {
       this.product.data = product;
-      this.product.data.price = PriceService.calculatePrice(this.product.data);
+      this.product.data.calculated_price = PriceService.calculatePrice(this.product.data);
       this.request = {
-        total_price: (this.product.data.price || product.price) - (product.discount ? product.discount : 0),
+        total_price: (this.product.data.calculated_price || product.price) - (product.discount ? product.discount : 0),
         count: 1
       };
     })
