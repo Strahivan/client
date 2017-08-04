@@ -68,6 +68,7 @@ export class CheckoutVM {
           tiers: product.source.tiers,
           local_delivery_fee: product.local_delivery_fee,
           delta: product.price_override,
+          discount: product.discount,
           ems_fee: product.source.ems_fee,
           weight: product.weight,
           postage: product.courier || constants.defaultCourier,
@@ -146,7 +147,6 @@ export class CheckoutVM {
     } else if (this.request.collection_method === 'courier') {
       this.request.shipping_address = this.user && this.user.address;
     }
-    this.request.total_price = PriceService.getPrice(this.request, this.product);
   }
 
   togglePaymentView(toggle) {
