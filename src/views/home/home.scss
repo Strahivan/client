@@ -65,6 +65,13 @@ $categories: (
         }
       }
     }
+
+    &__announcement {
+      text-align: center;
+      margin-top: 3rem;
+      padding: 1rem;
+      border-bottom: 1px solid white;
+    }
   }
 
   &__valuescontainer {
