@@ -14,13 +14,19 @@
   }
   &__source {
     font-size: 1rem;
-    display: inline-block;
   }
   &__ordercount {
     float: right;
   }
+
   &__price {
     font-size: 1.2rem;
+  }
+  &__discounted {
+    margin-top: 0px;
+    color: red;
+    margin-bottom: 1rem;
+    text-decoration: line-through;
   }
   &__cta {
     margin-top: 1rem;

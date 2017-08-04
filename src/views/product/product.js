@@ -27,12 +27,12 @@ export class ProductView {
       this.product.data = product;
       this.product.data.price = PriceService.calculatePrice(this.product.data);
       this.request = {
-        total_price: product.price,
+        total_price: (this.product.data.price || product.price) - (product.discount ? product.discount : 0),
         count: 1
       };
     })
     .catch(error => {
-      this.product.error = error;
+      console.log(error);
     });
   }
 

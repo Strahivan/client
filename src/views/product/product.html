@@ -10,17 +10,14 @@
     <h3 class="product-info__price">
       SGD ${request.total_price | toCurrency}
     </h3>
+    <div if.bind="product.data.discount" class="product-info__discounted">Retail: $${(request.total_price + product.data.discount) | toCurrency}</div>
     <div class="product-info__source" for="From">
       <i class="icon ion-location"></i>
       From ${product.data.source.name}
     </div>
-    <span class="product-info__ordercount" if.bind="product.data.order_count">${product.data.order_count} people have ordered this</span>
+    <!-- <span class="chip product&#45;info__ordercount" if.bind="product.data.order_count">${product.data.order_count} people have ordered this</span> -->
     <div class="product-info__cta">
       <button type="submit" click.delegate="confirm()">Buy Now</button>
-      <label>
-        Quantity:
-        <input change.trigger="getPrice()" type="number" value.bind="request.count" min="1" max="99">
-      </label>
     </div>
   </section>
 
