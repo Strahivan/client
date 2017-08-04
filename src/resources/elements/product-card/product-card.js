@@ -13,5 +13,4 @@ export class ProductCard {
       this.imgUrl = this.product.gallery[index];
     }
   }
-
 }

@@ -16,9 +16,9 @@ $padding-md: 0.5rem;
   border-radius: $border-radius;
   box-shadow: 0 1px 2px darken($base-background-color, 10%);
   display: block;
-  margin-bottom: 0.5rem;
+  margin-bottom: 1rem;
   position: relative;
-  padding: $layout-padding-lg;
+  overflow: hidden;
 
   &__header,
   &__body {
@@ -28,18 +28,33 @@ $padding-md: 0.5rem;
   &__body {
     &__price {
       font-weight: bold;
+      display: inline-block;
+
+      &--discounted {
+        margin-left: 0.5rem;
+        color: red;
+        font-weight: bold;
+      }
     }
+  }
+
+  .strikethrough {
+    font-size: .8rem;
+    text-decoration: line-through;
   }
 
   &__ribbon {
     position: absolute;
-    top: 20px;
-    color: $base-background-color;
-    background: $dark-gray;
+    top: 2rem;
+    color: $primary-color;
+    background: $red;
     border-radius: $border-radius;
-    left: 0px;
+    left: -2rem;
     opacity: $base-transparency;
     padding: $padding-sm;
+    text-align: center;
+    width: 10rem;
+    transform: rotate(-45deg);
     padding-left: $padding-md;
     padding-right: $padding-md;
 
@@ -50,7 +65,6 @@ $padding-md: 0.5rem;
   }
 
   &__image {
-    padding-top: $layout-padding-lg;
     text-align: center;
     img {
       object-fit: cover;

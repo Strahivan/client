@@ -7,9 +7,9 @@
         <img class="animated" animate-on-change.bind="imgUrl" mouseover.delegate="showImage(1)" mouseout.delegate="showImage(0)" src.bind="imgUrl || product.gallery[0]" alt="">
       </a>
     </div>
-    <div if.bind="product.order_count" class="card-element__ribbon">
+    <div if.bind="product.discount" class="card-element__ribbon">
       <i class="icon ion-flame"></i>
-      ${product.order_count} sold
+      $${product.discount | toCurrency} off
     </div>
     <div class="card-element__header">
       <div class="card-element__header__title">
@@ -19,9 +19,12 @@
       </div>
     </div>
     <div class="card-element__body">
-      <div class="card-element__body__price">
+      <div class="card-element__body__price ${product.discount? 'strikethrough': ''}">
         SGD ${product.price | toCurrency}
       </div>
+      <span if.bind="product.discount" class="card-element__body__price--discounted">
+        SGD ${(product.price - product.discount) | toCurrency}
+      </span>
       <div class="card-element__source">
         <i class="icon ion-ios-location"></i>
         From ${product.source.name}
