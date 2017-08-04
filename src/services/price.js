@@ -72,7 +72,7 @@ export class PriceService {
   }
 
   static getPrice(request, product) {
-    return request.count * (PriceService.calculatePrice(product) + this.getDelta(request));
+    return request.count * (PriceService.calculatePrice(product) + this.getDelta(request) - (product.discount || 0));
   }
 }
 
