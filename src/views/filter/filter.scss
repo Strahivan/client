@@ -42,6 +42,11 @@
     }
   }
 
+  .strikethrough {
+    font-size: .8rem;
+    text-decoration: line-through;
+  }
+
   &__content {
     vertical-align: top;
     display: inline-block;
