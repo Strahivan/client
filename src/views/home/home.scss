@@ -13,12 +13,13 @@ $categories: (
       @include grid-shift(-3);
       margin-left: -30px;
       width: calc(100vw - 15px);
+      height: 50vh;
     }
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    height: 50vh;
+    height: calc(100vh - 3.5rem);
     margin-left: -20px;
     width: 100vw;
     justify-content: center;
