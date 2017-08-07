@@ -4,6 +4,7 @@ import {Api} from '~/services/api';
 import {PriceService} from '~/services/price';
 import {AdwordsService} from '~/services/adwords';
 import {UserStore} from '~/stores/user';
+import animateScrollTo from 'animated-scroll-to';
 
 @inject(Router, Api, AdwordsService, UserStore)
 export class ProductView {
@@ -14,6 +15,7 @@ export class ProductView {
   };
   request = {};
   selections = {};
+  state = {};
 
   constructor(router, api, adwords, userStore) {
     this.router = router;
@@ -40,6 +42,12 @@ export class ProductView {
 
   getParameters(product, request) {
     const params = {};
+    if ((product.colors && !request.color) || (product.sizes && !request.size) || (product.variations && !! request.variation)) {
+      this.state.showSelectionError = true;
+      animateScrollTo(400);
+      throw new Error('Please make your selection');
+    }
+    this.state.showSelectionError = true;
     if (product.colors) {
       params.color = product.colors.map(color => color.name).indexOf(request.color.name);
     }
@@ -58,9 +66,13 @@ export class ProductView {
   }
 
   confirm() {
-    const selections = this.getParameters(this.product.data, this.request);
-    this.adwords.reportBuyNowAction();
-    this.router.navigateToRoute('checkout', selections);
+    try {
+      const selections = this.getParameters(this.product.data, this.request);
+      this.adwords.reportBuyNowAction();
+      this.router.navigateToRoute('checkout', selections);
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   activate(params) {

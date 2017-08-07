@@ -25,8 +25,11 @@
 
   <section if.bind="product.data.sizes.length || product.data.colors.length || product.data.variations.length" class="product-variations" name="product-variations">
     <!-- variations -->
-    <div class="product-selection">
+    <div class="product-selection" ref="selection">
       <h2>Selection</h2>
+      <div if.bind="state.showSelectionError" class="product-selection__validation-error animated shake">
+        Please make your selection
+      </div>
       <div if.bind="product.data.colors.length" class="product-color">
         <label for="color">Color</label>
         <select name="color" value.bind="request.color" change.delegate="getPrice()">

@@ -55,6 +55,12 @@
   }
 }
 
+.product-selection {
+  &__validation-error {
+    color: red;
+  }
+}
+
 .product-gallery {
   text-align: center;
 }
