@@ -11,11 +11,13 @@
       SGD ${request.total_price | toCurrency}
     </h3>
     <div if.bind="product.data.discount" class="product-info__discounted">Retail: $${(request.total_price + product.data.discount) | toCurrency}</div>
-    <div class="product-info__source" for="From">
+    <div class="product-info__source">
       <i class="icon ion-location"></i>
       From ${product.data.source.name}
     </div>
-    <!-- <span class="chip product&#45;info__ordercount" if.bind="product.data.order_count">${product.data.order_count} people have ordered this</span> -->
+    <div class="product-info__url" if.bind="user.id === product.data.shop.owner_id">
+      <a href.bind="product.data.url" target="_blank">Product URL</a>
+    </div>
     <div class="product-info__cta">
       <button type="submit" click.delegate="confirm()">Buy Now</button>
     </div>

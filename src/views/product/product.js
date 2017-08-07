@@ -3,21 +3,23 @@ import {Router} from 'aurelia-router';
 import {Api} from '~/services/api';
 import {PriceService} from '~/services/price';
 import {AdwordsService} from '~/services/adwords';
+import {UserStore} from '~/stores/user';
 
-@inject(Router, Api, AdwordsService)
+@inject(Router, Api, AdwordsService, UserStore)
 export class ProductView {
   product = {
     params: {
-      include: ['source']
+      include: ['source', 'shop']
     }
   };
   request = {};
   selections = {};
 
-  constructor(router, api, adwords) {
+  constructor(router, api, adwords, userStore) {
     this.router = router;
     this.api = api;
     this.adwords = adwords;
+    this.user = userStore.user;
   }
 
   getProduct(id) {
