@@ -4,17 +4,17 @@
     <form class="custom-order__form" submit.delegate="createOrder()">
       <div>
         <label for="">URL</label>
-        <input type="url" change.delegate="getData()" value.bind="request.product_details.url" placeholder="Please enter the url of the product you want to buy">
+        <input type="url" change.delegate="getData()" value.bind="request.url & validate" placeholder="Please enter the url of the product you want to buy" required>
       </div>
       <div>
         <label>Shipping From</label>
-        <select value.bind="request.source_id">
+        <select value.bind="request.source_id & validate">
           <option repeat.for="country of countries" model.bind="country.id">${country.name}</option>
         </select>
       </div>
       <div>
         <label for="">Instructions</label>
-        <textarea value.bind="request.instructions" placeholder="Please enter the size, color or version of the product you want"></textarea>
+        <textarea value.bind="request.instructions && validate" placeholder="Please enter the size, color or version of the product you want"></textarea>
       </div>
       <div>
         <label for="">Quantity</label>
@@ -22,7 +22,7 @@
       </div>
       <div>
         <label for="">Delivery</label>
-        <select value.bind="request.collection_method">
+        <select value.bind="request.collection_method & validate">
           <option value="courier">Courier (Free)</option>
           <option value="pickup">Pickup</option>
         </select>
