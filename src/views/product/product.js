@@ -42,7 +42,7 @@ export class ProductView {
 
   getParameters(product, request) {
     const params = {};
-    if ((product.colors && !request.color) || (product.sizes && !request.size) || (product.variations && !! request.variation)) {
+    if ((product.colors && !request.color) || (product.sizes && !request.size) || (product.variations && !request.variation)) {
       this.state.showSelectionError = true;
       animateScrollTo(400);
       throw new Error('Please make your selection');
