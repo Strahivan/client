@@ -52,6 +52,13 @@
         max-width: 5rem;
       }
     }
+
+    &__soldout {
+      border: 1px solid black;
+      border-radius: .5rem;
+      display: inline-block;
+      padding: .5rem;
+    }
   }
 }
 

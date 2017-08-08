@@ -19,7 +19,8 @@
       <a href.bind="product.data.url" target="_blank">Product URL</a>
     </div>
     <div class="product-info__cta">
-      <button type="submit" click.delegate="confirm()">Buy Now</button>
+      <button type="submit" if.bind="!product.data.sold_out" click.delegate="confirm()">Buy Now</button>
+      <div class="product-info__cta__soldout">Sold Out</div>
     </div>
   </section>
 
