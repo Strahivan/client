@@ -25,7 +25,8 @@ export class CheckoutVM {
     this.priceService = PriceService;
 
     this.state = {
-      addcard: false
+      addcard: false,
+      error: {}
     };
   }
 
@@ -92,8 +93,12 @@ export class CheckoutVM {
   }
 
   charge(token) {
+    if (!this.validate()) {
+      return;
+    }
     this.state.inflight = true;
     this.saveAddress(this.request.shipping_address);
+    this.savePhone(this.phone);
     this.saveCountry(this.request.destination_id);
     (token ? this.api.create('me/cards', {token}) : Promise.resolve())
       .then(res => {
@@ -121,6 +126,32 @@ export class CheckoutVM {
       });
   }
 
+  validate() {
+    if (this.request.collection_method === 'courier') {
+      if (!this.user.phone) {
+        this.state.error.phoneRequired = true;
+        throw new Error('phone required');
+      }
+      if (!this.request.shipping_address.line_1) {
+        this.state.error.addressRequired = true;
+        throw new Error('Address required');
+      }
+      if (!this.request.shipping_address.zip) {
+        this.state.error.zipRequired = true;
+        throw new Error('Zip required');
+      }
+    }
+
+    if (this.currentPaymentMethod === 'bank-payment') {
+      if (!this.proof) {
+        this.state.error.proofRequired = true;
+        throw new Error('Proof required');
+      }
+    }
+
+    return true;
+  }
+
   saveAddress(address) {
     if (address.line_1 === constants.defaultShippingAddress.line_1) {
       return;
@@ -141,6 +172,13 @@ export class CheckoutVM {
     }
   }
 
+  savePhone(phone) {
+    if (this.state.changedPhone) {
+      this.api.edit('me', {phone: phone})
+      .then(success => console.log(success));
+    }
+  }
+
   toggleAddress() {
     if (this.request.collection_method === 'pickup') {
       this.request.shipping_address = this.constants.defaultShippingAddress;
@@ -154,6 +192,9 @@ export class CheckoutVM {
   }
 
   saveProof() {
+    if (!this.validate()) {
+      return;
+    }
     this.request.status = 'verify';
     this.state.inflight = true;
     this.upload.uploadImages(this.proof, 'proof')
