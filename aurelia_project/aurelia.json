@@ -72,7 +72,7 @@
     },
     "options": {
       "minify": "stage & prod",
-      "sourcemaps": "dev & stage",
+      "sourcemaps": "prod & dev",
       "rev": "stage & prod"
     },
     "bundles": [
@@ -183,7 +183,13 @@
             "path": "../node_modules/aurelia-google-analytics/dist/amd",
             "resources": []
           },
-          "animated-scroll-to"
+          "animated-scroll-to",
+          {
+            "name": "raven-js",
+            "main": "raven.js",
+            "path": "../node_modules/raven-js/dist",
+            "resources": []
+          }
         ]
       }
     ]

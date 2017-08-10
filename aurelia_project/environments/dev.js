@@ -6,6 +6,7 @@ export default {
   ga_tracking_id: 'UA-101140118-1',
   ga_tracking_enabled: false,
   adwordtracking: false,
+  report_errors: true,
   iframely_token: 'dcb9fc71f1e5e1b528995c',
   intercom_token: 'bszrr242',
   adwords: {
