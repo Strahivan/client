@@ -3,8 +3,9 @@ import {Api} from '~/services/api';
 import {DialogService} from 'aurelia-dialog';
 import {CustomCheckoutDialog} from './custom-checkout';
 import {ConfirmationDialog} from '~/resources/dialogs/confirmation/confirmation';
+import {ErrorReporting} from '~/services/error-reporting';
 
-@inject(Api, DialogService)
+@inject(Api, DialogService, ErrorReporting)
 export class RequestVM {
   request = {
     params: {
@@ -12,9 +13,10 @@ export class RequestVM {
     }
   };
 
-  constructor(api, dialog) {
+  constructor(api, dialog, errorReporting) {
     this.api = api;
     this.dialog = dialog;
+    this.errorReporting = errorReporting;
   }
 
   confirm() {
@@ -40,8 +42,6 @@ export class RequestVM {
       .then(response => {
         this.request.data = response;
       })
-      .catch(err => {
-        console.log(err);
-      });
+      .catch(err => errorReporting.report(new Error(err.message)));
   }
 }

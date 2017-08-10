@@ -27,7 +27,7 @@ export class CustomCheckoutDialog {
           this.cards = cards.data;
         }
       })
-      .catch(err => errorReporting.report(new Error(error.message)));
+      .catch(err => errorReporting.report(new Error(err.message)));
   }
 
   saveProof() {
@@ -44,7 +44,7 @@ export class CustomCheckoutDialog {
         notify().log('Successfully placed order. Waiting for verification.');
         return this.controller.ok();
       })
-      .catch(err => errorReporting.report(new Error(error.message)));
+      .catch(err => errorReporting.report(new Error(err.message)));
   }
 
   togglePaymentView(toggle) {
@@ -60,7 +60,7 @@ export class CustomCheckoutDialog {
       this.user.address = address;
       this.api.edit('me', { address: address })
         .then(success => console.log(success))
-        .catch(err => errorReporting.report(new Error(error.message)));
+        .catch(err => errorReporting.report(new Error(err.message)));
     }
   }
 
@@ -69,7 +69,7 @@ export class CustomCheckoutDialog {
       this.user.country_id = countryId;
       this.api.edit('me', { country_id: countryId })
         .then(success => console.log(success))
-        .catch(err => errorReporting.report(new Error(error.message)));
+        .catch(err => errorReporting.report(new Error(err.message)));
     }
   }
 
@@ -96,7 +96,7 @@ export class CustomCheckoutDialog {
       .catch(error => {
         this.state.inflight = false;
         // send error to admin
-        errorReporting.report(new Error(error.message));
+        errorReporting.report(new Error(err.message));
       });
   }
 }
