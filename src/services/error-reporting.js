@@ -1,4 +1,5 @@
 import Raven from 'raven-js';
+import {notify} from '~/services/notification';
 
 export class ErrorReporting {
   constructor() {
@@ -23,5 +24,10 @@ export class ErrorReporting {
   report(err) {
     console.log(err);
     Raven.captureException(err);
+  }
+
+  notifyAndReport(err, message) {
+    notify().log(message);
+    this.report(err);
   }
 }
