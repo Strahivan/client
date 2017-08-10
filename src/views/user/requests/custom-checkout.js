@@ -5,15 +5,17 @@ import {UserStore} from '~/stores/user';
 import {DialogController} from 'aurelia-dialog';
 import {constants} from '~/services/constants';
 import {notify} from '~/services/notification';
+import {ErrorReporting} from '~/services/error-reporting';
 
-@inject(Api, DialogController, UploadService, UserStore)
+@inject(Api, DialogController, UploadService, UserStore, ErrorReporting)
 export class CustomCheckoutDialog {
   state = {};
-  constructor(api, controller, upload, userStore) {
+  constructor(api, controller, upload, userStore, errorReporting) {
     this.api = api;
     this.controller = controller;
     this.upload = upload;
     this.user = userStore.user;
+    this.errorReporting = errorReporting;
   }
 
   activate(request) {
@@ -25,7 +27,7 @@ export class CustomCheckoutDialog {
           this.cards = cards.data;
         }
       })
-      .catch(err => console.log(err));
+      .catch(err => errorReporting.report(new Error(error.message)));
   }
 
   saveProof() {
@@ -42,7 +44,7 @@ export class CustomCheckoutDialog {
         notify().log('Successfully placed order. Waiting for verification.');
         return this.controller.ok();
       })
-      .catch(err => console.log(err));
+      .catch(err => errorReporting.report(new Error(error.message)));
   }
 
   togglePaymentView(toggle) {
@@ -57,7 +59,8 @@ export class CustomCheckoutDialog {
     if (this.user && !this.user.address) {
       this.user.address = address;
       this.api.edit('me', { address: address })
-        .then(success => console.log(success));
+        .then(success => console.log(success))
+        .catch(err => errorReporting.report(new Error(error.message)));
     }
   }
 
@@ -65,7 +68,8 @@ export class CustomCheckoutDialog {
     if (!this.user.country_id) {
       this.user.country_id = countryId;
       this.api.edit('me', { country_id: countryId })
-        .then(success => console.log(success));
+        .then(success => console.log(success))
+        .catch(err => errorReporting.report(new Error(error.message)));
     }
   }
 
@@ -92,7 +96,7 @@ export class CustomCheckoutDialog {
       .catch(error => {
         this.state.inflight = false;
         // send error to admin
-        console.log(error);
+        errorReporting.report(new Error(error.message));
       });
   }
 }
