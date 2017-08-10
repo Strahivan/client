@@ -1,15 +1,17 @@
 import {bindable, inject} from 'aurelia-framework';
 import {Api} from '~/services/api';
 import environment from '~/environment';
+import {ErrorReporting} from '~/services/error-reporting';
 
-@inject(Api)
+@inject(Api, ErrorReporting)
 export class PaymentForm {
   @bindable save;
   @bindable buttonText;
   stripe = Stripe(environment.stripe_key);
 
-  constructor(api) {
+  constructor(api, errorReporting) {
     this.api = api;
+    this.errorReporting = errorReporting;
   }
 
   attached() {
@@ -21,6 +23,7 @@ export class PaymentForm {
       if (result.error) {
         const errorElement = document.getElementById('card-errors');
         errorElement.textContent = result.error.message;
+        this.errorReporting.report(result.error);
       } else {
         this.card.clear();
         this.save({token: result.token});

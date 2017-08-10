@@ -5,7 +5,6 @@ import {DialogController} from 'aurelia-dialog';
 export class ConfirmationDialog {
   constructor(dialog) {
     this.dialog = dialog;
-    console.log(this.dialog);
   }
 
   activate(message) {

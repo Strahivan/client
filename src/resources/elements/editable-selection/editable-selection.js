@@ -13,7 +13,6 @@ export class EditableSelection {
   @computedFrom('choices')
   get displayValue() {
     if (this.choices) {
-      console.log(this.choices.find(choice => choice.id === this.selection));
       return this.choices.find(choice => choice.id === this.selection);
     }
   }
