@@ -2,17 +2,19 @@ import {inject, NewInstance} from 'aurelia-framework';
 import {Api} from '~/services/api';
 import {Signup} from './signup.model';
 import {Router} from 'aurelia-router';
+import {ErrorReporting} from '~/services/error-reporting';
 import {ValidationController} from 'aurelia-validation';
 import {ValidationRenderer} from '~/services/validation-renderer';
 
-@inject(Api, Router, NewInstance.of(ValidationController))
+@inject(Api, Router, NewInstance.of(ValidationController), ErrorReporting)
 export class SignupView {
   signup = new Signup();
-  constructor(api, router, controller) {
+  constructor(api, router, controller, errorReporting) {
     this.controller = controller;
     this.api = api;
     this.router = router;
     this.controller.addRenderer(new ValidationRenderer());
+    this.errorReporting = errorReporting;
   }
 
   submit() {
@@ -26,6 +28,6 @@ export class SignupView {
     .then(response => {
       this.router.navigateToRoute('confirm');
     })
-    .catch(err => console.log(err));
+    .catch(err => this.errorReporting.report(new Error(err.message)));
   }
 }
