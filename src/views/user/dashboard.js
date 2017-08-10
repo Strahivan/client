@@ -4,8 +4,9 @@ import {Api} from '~/services/api';
 import {constants} from '~/services/constants';
 import {UserStore} from '~/stores/user';
 import {AuthService} from 'aurelia-auth';
+import {ErrorReporting} from '~/services/error-reporting';
 
-@inject(Api, Router, UserStore, AuthService)
+@inject(Api, Router, UserStore, AuthService, ErrorReporting)
 export class DashboardView {
   requests = {
     params: {
@@ -19,41 +20,24 @@ export class DashboardView {
   };
   shops = {};
 
-  constructor(api, router, userStore, auth) {
+  constructor(api, router, userStore, auth, errorReporting) {
     this.api = api;
     this.router = router;
     this.user = userStore.user;
     this.auth = auth;
+    this.errorReporting = errorReporting;
   }
 
   activate() {
     this.api
       .fetch('me/requests', this.requests.params)
       .then(requests => this.requests.data = requests.results)
-      .catch(err => this.requests.error = err);
+      .catch(err => this.errorReporting.report(new Error(err.message)));
 
     this.api
       .fetch('me/shops')
       .then(shops => this.shops.data = shops.results)
-      .catch(err => this.shops.error = err);
-  }
-
-  getRequests() {
-    setTimeout(() => {
-      this.api
-        .fetch('me/requests', this.requests.params)
-        .then(requests => this.requests.data = requests.results)
-        .catch(err => this.requests.error = err);
-    });
-    /* required for event propagation */
-    return true;
-  }
-
-  confirmDelivery(request) {
-    this.api
-      .edit(`me/requests/${request.id}`, {status: 'completed'})
-      .then(() => request.status = 'completed')
-      .catch(err => this.requests.error = err);
+      .catch(err => this.errorReporting.report(new Error(err.message)));
   }
 }
 
