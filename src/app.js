@@ -6,15 +6,18 @@ import {Api} from '~/services/api';
 import {ValidationRules} from 'aurelia-validation';
 import {CountryStore} from '~/stores/country';
 import {customRules} from '~/services/validation-rules';
+import {ErrorReporting} from '~/services/error-reporting';
 
-@inject(FetchConfig, AuthService, UserStore, Api)
+@inject(FetchConfig, AuthService, UserStore, Api, ErrorReporting)
 export class App {
-  constructor(fetchConfig, auth, userStore, api) {
+  constructor(fetchConfig, auth, userStore, api, errorReporting) {
     this.fetchConfig = fetchConfig;
     this.auth = auth;
     this.userStore = userStore;
     this.api = api;
+    this.errorReporting = errorReporting;
 
+    errorReporting.reportUnhandledErrors();
     ValidationRules.customRule(...customRules.numberRange);
   }
 
@@ -24,13 +27,13 @@ export class App {
     CountryStore.countries = (await this.api.fetch('countries')).results;
 
     if (this.auth.isAuthenticated()) {
-      this.api.fetch('me', {include: ['country', 'shops']})
-      .then(profile => {
-        this.userStore.save(profile);
-      })
-      .catch(err => {
-        console.log(err);
-      });
+      this.api
+        .fetch('me', {include: ['country', 'shops']})
+        .then(profile => {
+          this.userStore.user = profile;
+          this.errorReporting.setUserContext(profile);
+        })
+        .catch(err => this.errorReporting.report(err));
     }
   }
 
