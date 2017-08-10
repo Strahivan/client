@@ -6,9 +6,7 @@
     <input type="email" class="email" name="email" value.bind="email">
     <label for="password">Password</label>
     <input type="password" name="password" value.bind="password">
-    <ul if.bind="errors.length" class="login-container__errors">
-      <li repeat.for="error of errors">${error}</li>
-    </ul>
+    <div class="login-container__errors" if.bind="state.error.wrongLogin">${state.error.wrongLogin}</div>
     <button type="submit">Login</button>
   </form>
   <div>
