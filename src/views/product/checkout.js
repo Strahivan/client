@@ -6,8 +6,9 @@ import {constants} from '~/services/constants';
 import {UploadService} from '~/services/upload';
 import {PriceService} from '~/services/price';
 import {AdwordsService} from '~/services/adwords';
+import {ErrorReporting} from '~/services/error-reporting';
 
-@inject(Router, Api, UserStore, UploadService, AdwordsService)
+@inject(Router, Api, UserStore, UploadService, AdwordsService, ErrorReporting)
 export class CheckoutVM {
   error = {};
   request = {
@@ -15,7 +16,7 @@ export class CheckoutVM {
   };
   cards = [];
 
-  constructor(router, api, userStore, upload, adwords) {
+  constructor(router, api, userStore, upload, adwords, errorReporting) {
     this.router = router;
     this.api = api;
     this.user = userStore.user;
@@ -23,6 +24,7 @@ export class CheckoutVM {
     this.adwords = adwords;
     this.constants = constants;
     this.priceService = PriceService;
+    this.errorReporting = errorReporting;
 
     this.state = {
       addcard: false,
@@ -33,7 +35,7 @@ export class CheckoutVM {
   activate(params) {
     this.api.fetch('countries')
       .then(countries => this.countries = countries.results)
-      .catch(err => console.log(err));
+      .catch(err => errorReporting.report(new Error(err.message)));
 
     this.api.fetch('me/cards')
       .then(cards => {
@@ -41,7 +43,7 @@ export class CheckoutVM {
           this.cards = cards.data;
         }
       })
-      .catch(err => console.log(err));
+      .catch(err => errorReporting.report(new Error(err.message)));
 
     this.getProduct(Number(params.product_id), params);
   }
@@ -82,10 +84,7 @@ export class CheckoutVM {
         this.selectOptions(selections);
         this.request.total_price = PriceService.getPrice(this.request, this.product);
       })
-      .catch(error => {
-        console.log(error);
-        this.error.product = error;
-      });
+      .catch(err => errorReporting.report(new Error(err.message)));
   }
 
   getPrice() {
@@ -111,10 +110,9 @@ export class CheckoutVM {
         return this.api.create(`products/${this.product.id}/requests`, this.request);
       })
       .then(this.confirmPurchase.bind(this))
-      .catch(error => {
+      .catch(err => {
         this.state.inflight = false;
-        // send error to admin
-        console.log(error);
+        return errorReporting.report(new Error(err.message));
       });
   }
 
@@ -203,7 +201,7 @@ export class CheckoutVM {
         return this.api.create(`products/${this.product.id}/requests`, this.request);
       })
       .then(this.confirmPurchase.bind(this))
-      .catch(err => console.log(err));
+      .catch(err => errorReporting.report(new Error(err.message)));
   }
 
   selectOptions(selections) {

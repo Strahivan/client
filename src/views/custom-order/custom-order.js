@@ -38,7 +38,8 @@ export class CustomOrderView {
     .then(data => {
       this.request.product_details.name = data.meta && data.meta.title;
       this.request.product_details.picture = data.links && data.links.thumbnail && data.links.thumbnail[0] && data.links.thumbnail[0].href;
-    });
+    })
+    .catch(err => errorReporting.report(new Error(err.message)));
   }
 
   createOrder() {
@@ -55,6 +56,6 @@ export class CustomOrderView {
       notify().log('Successfully placed order');
       return this.router.navigateToRoute('confirm');
     })
-    .catch(err => console.log(err));
+    .catch(err => errorReporting.report(new Error(err.message)));
   }
 }

@@ -33,7 +33,7 @@ export class App {
           this.userStore.user = profile;
           this.errorReporting.setUserContext(profile);
         })
-        .catch(err => this.errorReporting.report(err));
+        .catch(err => this.errorReporting.report(err.message));
     }
   }
 

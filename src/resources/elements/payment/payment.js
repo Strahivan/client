@@ -23,7 +23,7 @@ export class PaymentForm {
       if (result.error) {
         const errorElement = document.getElementById('card-errors');
         errorElement.textContent = result.error.message;
-        this.errorReporting.report(result.error);
+        this.errorReporting.report(result.error.message);
       } else {
         this.card.clear();
         this.save({token: result.token});
