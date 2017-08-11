@@ -8,6 +8,13 @@
         <option repeat.for="status of statuses" model.bind="status">${status}</option>
       </select>
     </div>
+    <div class="shop-orders-filter__created-before">
+      <label>Source Country</label>
+      <select value.bind="requests.params.filter['source_id:eq']" change.delegate="resetPageAndFetch()">
+        <option model.bind="null">Choose</option>
+        <option repeat.for="country of countries" model.bind="country.id">${country.name}</option>
+      </select>
+    </div>
     <div class="shop-orders-filter__product">
       <label>Product</label>
       <select value.bind="requests.params.filter['product_id:eq']" change.delegate="resetPageAndFetch()">
@@ -19,10 +26,10 @@
       <label>Customer Email</label>
       <input type="email" change.delegate="resetPageAndFetch()" value.bind="requests.params.filter['customer.email:eq']" />
     </div>
-    <div class="shop-orders-filter__created-before">
-      <label>Created After</label>
-      <input type="date" change.delegate="resetPageAndFetch()" value.bind="requests.params.filter['created_at:gt']" />
-    </div>
+    <!-- <div class="shop&#45;orders&#45;filter__created&#45;before"> -->
+    <!--   <label>Created After</label> -->
+    <!--   <input type="date" change.delegate="resetPageAndFetch()" value.bind="requests.params.filter['created_at:gt']" /> -->
+    <!-- </div> -->
   </section>
   <section>
     <table class="shop-orders-list">

@@ -3,6 +3,7 @@ import {Api} from '~/services/api';
 import {constants} from '~/services/constants';
 import {activationStrategy} from 'aurelia-router';
 import {Router} from 'aurelia-router';
+import {CountryStore} from '~/stores/country';
 
 @inject(Api, Router)
 export class ShopRequestListVM {
@@ -23,6 +24,7 @@ export class ShopRequestListVM {
     this.api = api;
     this.router = router;
     this.statuses = constants.requestStatus;
+    this.countries = CountryStore.countries;
   }
 
   determineActivationStrategy() {
@@ -33,7 +35,7 @@ export class ShopRequestListVM {
     const query = {
       status: params.filter['status:eq'],
       email: params.filter['customer.email:eq'],
-      created_at_gt: params.filter['created_at:gt'],
+      source: params.filter['source_id:eq'],
       product: params.filter['product_id:eq'],
       page: params.page.number
     };
@@ -62,7 +64,7 @@ export class ShopRequestListVM {
     this.query.page = this.query.page || 0;
     this.requests.params.filter['status:eq'] = this.query.status;
     this.requests.params.filter['customer.email:eq'] = this.query.email;
-    this.requests.params.filter['created_at:gt'] = this.query.created_at_gt && (new Date(this.query.created_at_gt)).toISOString();
+    this.requests.params.filter['source_id:eq'] = this.query.source && Number(this.query.source);
     this.requests.params.filter['product_id:eq'] = this.query.product && Number(this.query.product);
     this.requests.params.page.number = (this.query.page && Number(this.query.page)) || 0;
 
