@@ -1,15 +1,17 @@
+import { computedFrom } from 'aurelia-framework';
+
 export class UserStore {
+
+  @computedFrom('_user')
   get user() {
     return this._user;
   }
 
-  save(user) {
-    // publish an event
-    this._user = user;
+  set user(val) {
+    this._user = val;
   }
 
   clear() {
-    // publish another event
     this._user = undefined;
   }
 }
