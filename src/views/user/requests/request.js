@@ -26,6 +26,17 @@ export class RequestVM {
       });
   }
 
+  currentStatus(status) {
+    const statusMap = {
+      pending: 'Checking and Quoting',
+      verify: 'Verifying Receipt',
+      confirmed: 'Confirmed',
+      approval: 'Waiting for your Approval'
+    };
+
+    return statusMap[status];
+  }
+
   reject() {
     this.dialog.open({ viewModel: ConfirmationDialog, model: {message: ', cancel order'}})
       .whenClosed(response => {

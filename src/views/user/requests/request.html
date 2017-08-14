@@ -6,6 +6,22 @@
         <img src.bind="request.data.product.gallery[0] || request.data.product_details.picture || 'images/default_product.jpg'"/>
       </a>
     </div>
+    <div class="request-product-info__progress">
+      <ul class="step">
+        <li class="step-item ${(request.data.status === 'approval' || request.data.status === 'confirmed' || request.data.status === 'pending' || request.data.status === 'verify') ? 'active': ''}">
+          <a class="tooltip" data-tooltip="Step 1">${currentStatus(request.data.status)}</a>
+        </li>
+        <li class="step-item ${request.data.status === 'processing' ? 'active' : '' }">
+          <a class="tooltip" data-tooltip="Step 2">Processing</a>
+        </li>
+        <li class="step-item ${request.data.status === 'shipping' ? 'active' : '' }">
+          <a class="tooltip" data-tooltip="Step 3">Shipping</a>
+        </li>
+        <li class="step-item ${(request.data.status === 'ready' || request.data.status === 'delivering') ? 'active' : '' }">
+          <a class="tooltip" data-tooltip="Step 4">${request.data.collection_method === 'pickup' ? 'Ready for Pickup': 'Delivery'}</a>
+        </li>
+      </ul>
+    </div>
     <div class="request-product-info__title">
       <label>Name</label>
       <a if.bind="request.data.product" href.bind="'products/' + request.data.product.id">${request.data.product.name}</a>
