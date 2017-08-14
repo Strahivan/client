@@ -1,14 +1,18 @@
 <template>
   <require from="./signup.css"></require>
-
-  <form class="signup" submit.delegate="submit()">
-    <label for="email">Email</label>
-    <input type="email" class="email" name="email" value.bind="signup.email & validate">
-    <label for="password">Password</label>
-    <input type="password" name="password" value.bind="signup.password & validate">
-    <label for="repeat">Repeat Password</label>
-    <input type="password" name="repeat" value.bind="signup.repeat & validate">
-    <button type="submit">Signup</button>
-  </form>
-
+  <div class="signup-wrapper">
+    <form class="signup-container" class="signup" submit.delegate="submit()">
+      <label for="email">Email</label>
+      <input type="email" class="email" name="email" value.bind="signup.email & validate">
+      <label for="password">Password</label>
+      <input type="password" name="password" value.bind="signup.password & validate">
+      <label for="repeat">Repeat Password</label>
+      <input type="password" name="repeat" value.bind="signup.repeat & validate">
+      <button class="signup-container__submit" type="submit">Signup</button>
+        
+      <div>
+        Already a user? <a class="border-up" route-href="route: login">Login</a>!
+      </div>
+    </form>
+  </div>
 </template>

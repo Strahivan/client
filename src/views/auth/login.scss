@@ -1,9 +1,23 @@
 @import '../../style/base';
 
+.login-wrapper {
+  margin-top: 10vh;
+  margin-bottom: 20vh;
+  @include grid-container;
+}
+
 .login-container {
+  @include grid-media($desktop) {
+    @include grid-shift(4);
+    @include grid-column(4);
+  }
 
   &__errors {
     color: $red;
+  }
+
+  &__submit {
+    float: right;
   }
 }
 

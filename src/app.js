@@ -90,7 +90,7 @@ export class App {
         auth: false,
         nav: true,
         moduleId: 'views/auth/index',
-        title: 'Login'
+        title: 'Signup/Login'
       },
       {
         route: 'info',

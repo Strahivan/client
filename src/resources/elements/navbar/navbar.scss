@@ -14,7 +14,7 @@
   &__logo {
     min-width: 3em;
     padding-left: .3em;
-    padding-top: .6em;
+    padding-top: .4em;
     text-align: center;
 
     .logo-image {
@@ -26,12 +26,13 @@
   }
 
   &__search {
-
+    font-size: 1rem;
   }
 
   &__item {
     color: $secondary-color;
-    padding: .6em;
+    padding: .7rem;
+    font-size: 1rem;
 
     &:hover {
       background-color: $primary-color;

@@ -1,18 +1,20 @@
 <template>
   <require from="./login.css"></require>
 
-  <form class="login-container" submit.delegate="login()">
-    <label for="email">Email</label>
-    <input type="email" class="email" name="email" value.bind="email">
-    <label for="password">Password</label>
-    <input type="password" name="password" value.bind="password">
-    <div class="login-container__errors" if.bind="state.error.wrongLogin">${state.error.wrongLogin}</div>
-    <button type="submit">Login</button>
-  </form>
-  <div>
-    Don't have an account? <a route-href="route: signup">Signup</a>!
-  </div>
-  <div>
-    <a route-href="route: reset">Forgot password?</a>
+  <div class="login-wrapper">
+    <form class="login-container" submit.delegate="login()">
+      <label for="email">Email</label>
+      <input type="email" class="email" name="email" value.bind="email" autofocus>
+      <label for="password">Password</label>
+      <input type="password" name="password" value.bind="password">
+      <div class="login-container__errors" if.bind="state.error.wrongLogin">${state.error.wrongLogin}</div>
+      <button class="login-container__submit" type="submit">Login</button>
+      <div>
+        Don't have an account? <a route-href="route: signup">Signup</a>!
+      </div>
+      <div>
+        <a route-href="route: reset">Forgot password?</a>
+      </div>
+    </form>
   </div>
 </template>

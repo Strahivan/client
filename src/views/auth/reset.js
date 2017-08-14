@@ -4,6 +4,9 @@ import {Router} from 'aurelia-router';
 
 @inject(Api, Router)
 export class Reset {
+  state = {
+    error: {}
+  }
   constructor(api, router) {
     this.api = api;
     this.router = router;
@@ -13,6 +16,8 @@ export class Reset {
     this.api
     .create('auth/request-reset', {email: this.email})
     .then(success => this.router.navigateToRoute('confirm'))
-    .catch(err => console.log(err));
+    .catch(err => {
+      state.error.invalidMail = err.message;
+    });
   }
 }

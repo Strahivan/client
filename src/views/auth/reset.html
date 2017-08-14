@@ -1,7 +1,11 @@
 <template>
   <require from="./reset.css"></require>
-
-  <label for="email">Email</label>
-  <input value.bind="email" type="email" class="email" name="email">
-  <button click.delegate="reset()" type="submit">Send Reset Link</button>
+  <div class="reset-wrapper">
+    <form class="reset-container">
+      <label for="email">Email</label>
+      <input value.bind="email" type="email" class="email" name="email">
+      <div class="reset-container__errors" if.bind="state.error.invalidMail">${state.error.invalidMail}</div>
+      <button class="reset-container__submit" click.delegate="reset()" type="submit">Send Reset Link</button>
+    </form>
+  </div>
 </template>

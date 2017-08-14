@@ -1,1 +1,23 @@
 @import '../../style/base';
+
+.confirm-wrapper {
+  margin-top: 10vh;
+  margin-bottom: 20vh;
+  @include grid-container;
+}
+
+.confirm-container {
+  @include grid-media($desktop) {
+    @include grid-shift(4);
+    @include grid-column(4);
+  }
+
+  &__errors {
+    color: $red;
+  }
+
+  &__submit {
+    float: right;
+  }
+}
+

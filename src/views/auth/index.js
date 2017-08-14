@@ -1,7 +1,7 @@
 export class LoginRouter {
   configureRouter(config, router) {
     config.map([
-      {route: '', redirect: 'login'},
+      {route: '', redirect: 'signup'},
       {route: 'login', name: 'login', moduleId: './login', nav: true},
       {route: 'signup', name: 'signup', moduleId: './signup'},
       {route: 'reset', name: 'reset', moduleId: './reset'},
