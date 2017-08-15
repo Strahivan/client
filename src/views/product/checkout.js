@@ -51,7 +51,8 @@ export class CheckoutVM {
   getBufferDays(countryId) {
     const bufferMap = {
       1: 3, // korea
-      2: 4  // japan
+      2: 4,  // japan
+      4: 4
     };
     return bufferMap[countryId];
   }
