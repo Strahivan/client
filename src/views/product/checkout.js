@@ -97,7 +97,7 @@ export class CheckoutVM {
     }
     this.state.inflight = true;
     this.saveAddress(this.request.shipping_address);
-    this.savePhone(this.phone);
+    this.savePhone(this.user.phone);
     this.saveCountry(this.request.destination_id);
     (token ? this.api.create('me/cards', {token}) : Promise.resolve())
       .then(res => {
