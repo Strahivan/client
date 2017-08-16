@@ -5,6 +5,11 @@
   &__image {
     display: inline-block;
     vertical-align: top;
+    figure {
+      img {
+        object-fit: cover;
+      }
+    }
   }
   &__details {
     display: inline-block;
