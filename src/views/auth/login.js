@@ -17,6 +17,13 @@ export class Login {
     };
   }
 
+  authenticate(name) {
+    return this.auth.authenticate(name, false, null)
+      .then((response)=>{
+        console.log(response);
+      });
+  }
+
   login() {
     this.state.error.wrongLogin = null;
     return this.auth.login(this.email, this.password)
