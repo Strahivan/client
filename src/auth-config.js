@@ -1,7 +1,5 @@
 import environment from '~/environment';
 
-console.log(environment.facebook);
-
 const configForDevelopment = {
   responseTokenProp: 'token',
   baseUrl: environment.base,
@@ -24,7 +22,7 @@ const configForDevelopment = {
       requiredUrlParams: ['nonce', 'display', 'scope'],
       display: 'popup',
       type: '2.0',
-      clientId: environment.facebook,
+      clientId: '2024958714406360',
       popupOptions: { width: 580, height: 400 }
     }
   }
