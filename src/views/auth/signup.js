@@ -5,16 +5,26 @@ import {Router} from 'aurelia-router';
 import {ErrorReporting} from '~/services/error-reporting';
 import {ValidationController} from 'aurelia-validation';
 import {ValidationRenderer} from '~/services/validation-renderer';
+import {AuthService} from 'aurelia-auth';
 
-@inject(Api, Router, NewInstance.of(ValidationController), ErrorReporting)
+@inject(Api, AuthService, Router, NewInstance.of(ValidationController), ErrorReporting)
 export class SignupView {
   signup = new Signup();
-  constructor(api, router, controller, errorReporting) {
+
+  constructor(api, auth, router, controller, errorReporting) {
     this.controller = controller;
     this.api = api;
     this.router = router;
+    this.auth = auth;
     this.controller.addRenderer(new ValidationRenderer());
     this.errorReporting = errorReporting;
+  }
+
+  authenticate(name) {
+    return this.auth.authenticate(name, false, null)
+      .then((response)=>{
+        console.log(response);
+      });
   }
 
   submit() {
