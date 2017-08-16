@@ -10,6 +10,7 @@ export function configure(aurelia) {
     .plugin('aurelia-animator-css')
     .plugin('aurelia-dialog', dialogConfig => dialogConfig.useDefaults())
     .plugin('aurelia-auth', baseConfig => {
+      console.log(authConfig);
       baseConfig.configure(authConfig);
     })
     .plugin('aurelia-google-analytics', config => {
