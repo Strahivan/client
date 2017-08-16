@@ -1,6 +1,6 @@
 import environment from '~/environment';
 
-const configForDevelopment = {
+const authConfig = {
   responseTokenProp: 'token',
   baseUrl: environment.base,
   logoutRedirect: '/',
@@ -22,29 +22,10 @@ const configForDevelopment = {
       requiredUrlParams: ['nonce', 'display', 'scope'],
       display: 'popup',
       type: '2.0',
-      clientId: '2024958714406360',
+      clientId: environment.facebook,
       popupOptions: { width: 580, height: 400 }
     }
   }
 };
-
-const configForProduction = {
-  responseTokenProp: 'token',
-  baseUrl: 'https://api.novelship.com/',
-  logoutRedirect: '/',
-  loginRoute: '/auth',
-  signupRoute: '/auth/signup',
-  profileUrl: '/me',
-  tokenPrefix: ''
-};
-
-let authConfig;
-
-if (window.location.hostname === 'localhost') {
-  authConfig = configForDevelopment;
-} else {
-  authConfig = configForProduction;
-}
-
 
 export default authConfig;
