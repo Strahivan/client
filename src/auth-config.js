@@ -22,7 +22,7 @@ const configForDevelopment = {
       requiredUrlParams: ['nonce', 'display', 'scope'],
       display: 'popup',
       type: '2.0',
-      clientId: '116846465638888',
+      clientId: environment.facebook,
       popupOptions: { width: 580, height: 400 }
     }
   }
