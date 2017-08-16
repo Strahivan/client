@@ -29,7 +29,7 @@ export class FilterView {
     this.router = router;
     ea.subscribe('filter__search', payload => {
       this.products.params.filter['name:search'] = payload;
-      this.getProducts();
+      this.reload(this.products.params);
     });
   }
 
