@@ -28,7 +28,7 @@ export class Login {
     this.state.error.wrongLogin = null;
     return this.auth.login(this.email, this.password)
       .then(response => this.api.fetch('me', {include: ['country', 'shops']}))
-      .then(user => this.userStore.save(user))
+      .then(user => this.userStore.user = user)
       .catch(err => {
         if (err.status === 422) {
           this.state.error.wrongLogin = 'Wrong username or password';

@@ -1,5 +1,7 @@
 import environment from '~/environment';
 
+console.log(environment.facebook);
+
 const configForDevelopment = {
   responseTokenProp: 'token',
   baseUrl: environment.base,
