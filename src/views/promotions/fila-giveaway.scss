@@ -1,0 +1,85 @@
+@import '../../style/base';
+
+$contest-background-color: rgba(255,255,255,0.8);
+
+.contest-banner {
+  img {
+    width: 100%;
+    height: 30vh;
+    object-fit: cover;
+  }
+}
+
+.contest-wrapper {
+  @include grid-container;
+
+  .contest-content {
+    padding-top: 2vh;
+    padding-bottom: 10vh;
+    padding-left: 1rem;
+    padding-right: 1rem;
+
+    header {
+      h1 {
+        font-family: 'Julius Sans One', sans-serif;
+      }
+      font-size: 2rem;
+    }
+    @include grid-media($desktop) {
+      @include grid-shift(3);
+      @include grid-column(6);
+    }
+
+    .error {
+      color: $red;
+      background-color: $contest-background-color;
+      padding: .5rem;
+      border-radius: 1rem;
+      margin-bottom: 0.5rem;
+      margin-top: .2rem;
+    }
+
+    &__terms {
+      background-color: $contest-background-color;
+      padding: .5rem;
+      border-radius: 1rem;
+      font-size: .9rem;
+    }
+
+    &__submit {
+      margin-top: 1rem;
+    }
+
+    &__success {
+      // @include grid-container;
+      &__thankyou {
+        font-size: 1.5rem;
+        text-align: center;
+      }
+
+      &__label {
+        text-align: center;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+      }
+      &__products {
+        @include grid-column(6);
+        @include grid-media($desktop) {
+          @include grid-column(4);
+        }
+        img {
+          width: 10rem;
+          height: 10rem;
+          object-fit: cover;
+        }
+      }
+      &__cta {
+        margin-top: 3rem;
+        text-align: center;
+      }
+    }
+  }
+
+}
+
+

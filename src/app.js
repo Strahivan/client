@@ -105,6 +105,11 @@ export class App {
         auth: true,
         nav: false,
         moduleId: 'views/custom-order/index'
+      },
+      {
+        route: 'contests',
+        name: 'contests',
+        moduleId: 'views/promotions/index'
       }
     ]);
 

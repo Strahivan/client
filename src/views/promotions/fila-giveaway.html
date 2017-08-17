@@ -1,0 +1,63 @@
+<template>
+  <require from="./fila-giveaway.css"></require>
+
+  <div class="contest-banner">
+    <img src="/images/fila-banner.png" alt=""/>
+  </div>
+  <div class="contest-wrapper">
+<!--     <style> -->
+<!-- @import url('https://fonts.googleapis.com/css?family=Julius+Sans+One'); -->
+<!--     </style>  -->
+    <div class="contest-content">
+      <!-- <header> -->
+      <!--   <h1>Novelship &#45; FILA Giveaway</h1> -->
+      <!-- </header> -->
+      <form if.bind="!user.meta.shoe_size" submit.delegate="save()">
+        <div class="contest-content__shoe-size">
+          <label>Please enter your shoe size:</label>
+          <input placeholder="Please enter your shoe size (US)" type="text" value.bind="shoeSize" id=""/>
+        </div>
+        <!-- <div class="contest&#45;content__shoe&#45;size"> -->
+        <!--   <label>Please specify your shoe size</label> -->
+        <!--   <select value.bind="shoeSize"> -->
+        <!--     <option model.bind="null">Choose</option> -->
+        <!--     <option value="220">220 (Female US 5/ Male US 4)</option> -->
+        <!--     <option value="230">230 (Female US 6/ Male US 5)</option> -->
+        <!--     <option value="235">235 (Female US 6.5/ Male US 5.5)</option> -->
+        <!--     <option value="240">240 (Female US 7/ Male US 6)</option> -->
+        <!--   </select> -->
+        <!-- </div> -->
+        <div if.bind="state.errorShoeSize" class="error">
+          Please enter a shoe size
+        </div>
+
+        <div class="contest-content__terms">
+          <label>Terms of Entry</label>
+          <div class="contest-content__terms__content" innerhtml.bind="terms | markdown" class="product-description-content">
+          </div>
+          <input type="checkbox" checked.bind="agreed"/><span> I agree to the terms and conditions</span>
+        </div>
+        <div if.bind="state.errorTerms" class="error">
+          Please agree to the terms
+        </div>
+        <button class="contest-content__submit" type="submit">Enter Competition</button>
+      </form>
+      <div if.bind="user.meta.shoe_size" class="contest-content__success">
+        <div class="contest-content__success__thankyou">
+          Thank you for participating in Novelship-FILA giveaway contest
+        </div>
+        <div class="contest-content__success__label">
+          If you like FILA, why not checkout our FILA collection?
+        </div>
+        <div class="contest-content__success__products" repeat.for="product of products">
+          <a href.bind="'products/' + product.id">
+            <img src.bind="product.gallery[0]" alt=""/>
+          </a>
+        </div>
+        <div class="contest-content__success__cta">
+          <a class="button" href.bind="'collections/' + 11">Browse Collection</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
