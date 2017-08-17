@@ -11,7 +11,8 @@ const elements = [
   'pagination/pagination',
   'shipping-estimator/shipping-estimator',
   'intercom/intercom',
-  'animated-tag/animated-tag'
+  'animated-tag/animated-tag',
+  'hotjar/hotjar'
 ];
 
 export default elements.map(elem => `./elements/${elem}`);
