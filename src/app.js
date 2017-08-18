@@ -107,8 +107,8 @@ export class App {
         moduleId: 'views/custom-order/index'
       },
       {
-        route: 'contests',
-        name: 'contests',
+        route: 'promotions',
+        name: 'promotions',
         moduleId: 'views/promotions/index'
       }
     ]);
