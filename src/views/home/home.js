@@ -1,10 +1,8 @@
 import {inject} from 'aurelia-framework';
 import {Api} from '~/services/api';
 import {PriceService} from '~/services/price';
-import {DialogService} from 'aurelia-dialog';
-import {PriceEstimatorDialog} from '~/views/custom-order/price-estimator';
 
-@inject(Api, DialogService)
+@inject(Api)
 export class HomeView {
   countries = {};
   categories = {};
@@ -17,9 +15,8 @@ export class HomeView {
     {tag: 'Wear ', color: 'white'}
   ];
 
-  constructor(api, dialog) {
+  constructor(api) {
     this.api = api;
-    this.dialog = dialog;
 
     this.popular = {
       params: {
@@ -42,13 +39,6 @@ export class HomeView {
     this.getCategories();
     this.getAnnouncements();
     this.getCollections();
-  }
-
-  calculator() {
-    this.dialog.open({ viewModel: PriceEstimatorDialog })
-      .whenClosed(response => {
-        console.log(response);
-      });
   }
 
   getCategories() {
