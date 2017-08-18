@@ -16,7 +16,7 @@ export class FilaGiveAway {
       .then(profile => this.user = profile);
 
     this.api
-      .fetch('products', {filter: {'where[brand_id:eq]': 81}, page: {number: 0, size: 6}, sort: 'id'})
+      .fetch('products', {filter: {'brand_id:eq': 81}, page: {number: 0, size: 6}, sort: 'id'})
       .then(products => {
         this.products = products.results;
       });
