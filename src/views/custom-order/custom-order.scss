@@ -1,1 +1,24 @@
 @import '../../style/base';
+
+.custom-order {
+  @include grid-container;
+
+  margin-top: 1rem;
+
+  &__form {
+    @include grid-media($desktop) {
+      @include grid-shift(3);
+      @include grid-column(6);
+    }
+
+    &__submit {
+      button {
+        float: right;
+      }
+      .button {
+        float: left;
+      }
+    }
+
+  }
+}

@@ -6,10 +6,12 @@ import {constants} from '~/services/constants';
 import {Router} from 'aurelia-router';
 import {UrlExtraction} from '~/services/url-extraction';
 import {CustomOrder} from './custom-order.model';
+import {DialogService} from 'aurelia-dialog';
+import {PriceEstimatorDialog} from '~/views/custom-order/price-estimator';
 import {ValidationController} from 'aurelia-validation';
 import {ValidationRenderer} from '~/services/validation-renderer';
 
-@inject(Api, Router, UrlExtraction, NewInstance.of(ValidationController))
+@inject(Api, Router, UrlExtraction, NewInstance.of(ValidationController), DialogService)
 export class CustomOrderView {
   request = new CustomOrder();
 
@@ -22,9 +24,17 @@ export class CustomOrderView {
     count: 1
   }
 
-  constructor(api, router, extractor, controller) {
+  calculator() {
+    this.dialog.open({ viewModel: PriceEstimatorDialog })
+      .whenClosed(response => {
+        console.log(response);
+      });
+  }
+
+  constructor(api, router, extractor, controller, dialog) {
     this.api = api;
     this.router = router;
+    this.dialog = dialog;
     this.extractor = extractor;
     this.controller = controller;
     this.countries = CountryStore.countries;

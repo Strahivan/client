@@ -1,6 +1,11 @@
 @import '../../style/base';
 
 .price-estimator {
+  .modal-container {
+    @include grid-media($desktop) {
+      min-width: 20vw;
+    }
+  }
   &__calculated-price {
     font-size: $subheader-font-size;
     text-align: center;

@@ -8,7 +8,7 @@
       </div>
       <div>
         <label>Shipping From</label>
-        <select value.bind="request.source_id & validate">
+        <select class="" value.bind="request.source_id & validate">
           <option repeat.for="country of countries" model.bind="country.id">${country.name}</option>
         </select>
       </div>
@@ -27,7 +27,10 @@
           <option value="pickup">Pickup</option>
         </select>
       </div>
-      <button type="submit">Submit</button>
+      <div class="custom-order__form__submit">
+        <a click.delegate="calculator()" class="button">Estimate Price</a>
+        <button type="submit">Submit</button>
+      </div>
     </form>
   </div>
 </template>
