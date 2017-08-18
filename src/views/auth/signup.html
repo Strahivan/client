@@ -4,6 +4,9 @@
     <form class="signup-container" class="signup" submit.delegate="submit()">
       <label for="email">Email</label>
       <input type="email" class="email" name="email" value.bind="signup.email & validate">
+      <div class="signup-container__error" if.bind="state.error">
+        ${state.error}
+      </div>
       <label for="password">Password</label>
       <input type="password" name="password" value.bind="signup.password & validate">
       <label for="repeat">Repeat Password</label>

@@ -10,6 +10,7 @@ import {AuthService} from 'aurelia-auth';
 @inject(Api, AuthService, Router, NewInstance.of(ValidationController), ErrorReporting)
 export class SignupView {
   signup = new Signup();
+  state = {};
 
   constructor(api, auth, router, controller, errorReporting) {
     this.controller = controller;
@@ -38,6 +39,11 @@ export class SignupView {
     .then(response => {
       this.router.navigateToRoute('confirm');
     })
-    .catch(err => this.errorReporting.report(new Error(err.message)));
+    .catch(err => {
+      if (err.status === 409) {
+        this.state.error = 'An account with this email already exists';
+      }
+      return this.errorReporting.report(new Error(err.message));
+    });
   }
 }
