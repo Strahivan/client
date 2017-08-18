@@ -13,8 +13,12 @@
       <div class="user-info__details__country">
         ${user.country.name}
       </div>
-      <div class="user-info__details__created">
-        ${user.created_at | toDate:'human'}
+      <div if.bind="user.phone" class="user-info__details__phone">
+        <i class="icon ion-ios-telephone"></i>
+        ${user.phone}
+      </div>
+      <div class="user-info__details__edit">
+        <a route-href="route: profile">Edit Profile</a>
       </div>
       <a class="user-info__details__logout" href="#" click.delegate="auth.logout()">Logout</a>
     </div>

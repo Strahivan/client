@@ -1,7 +1,7 @@
 @import '../../style/base';
 
 .user-info {
-  margin-top: 0.5em;
+  margin-top: 1rem;
   &__image {
     display: inline-block;
     vertical-align: top;
@@ -14,9 +14,19 @@
   &__details {
     display: inline-block;
     margin-left: 2em;
+
     &__name {
       font-size: 1.6rem;
     }
+
+    &__phone {
+      margin-top: .2rem;
+    }
+
+    &__edit {
+      margin-top: 1rem;
+    }
+
     &__logout {
       display: block;
       margin-top: 1rem;
