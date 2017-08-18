@@ -4,7 +4,7 @@ import {notify} from '~/services/notification';
 export class ErrorReporting {
   constructor() {
     Raven
-      .config('https://6cbc07d4e8354ef8aae5aeb24e812c1b@sentry.io/200197')
+      .config('https://6cbc07d4e8354ef8aae5aeb24e812c1b@sentry.io/200197', { autoBreadcrumbs: { console: false }})
       .install();
   }
 
