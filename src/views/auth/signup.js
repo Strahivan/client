@@ -25,7 +25,8 @@ export class SignupView {
     return this.auth.authenticate(name, false, null)
       .then((response)=>{
         console.log(response);
-      });
+      })
+      .catch(err => this.errorReporting.report(err));
   }
 
   submit() {
