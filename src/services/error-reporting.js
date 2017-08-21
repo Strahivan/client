@@ -17,7 +17,7 @@ export class ErrorReporting {
 
   reportUnhandledErrors() {
     window.onunhandledrejection = function(evt) {
-      console.log(err);
+      console.log(evt);
       Raven.captureException(evt);
     };
   }
