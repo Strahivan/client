@@ -28,7 +28,7 @@ export class FilterView {
     this.api = api;
     this.router = router;
     ea.subscribe('filter__search', payload => {
-      this.products.params.filter['name:search'] = payload;
+      this.products.params.filter['tsv:search'] = payload;
       this.reload(this.products.params);
     });
   }
@@ -36,7 +36,7 @@ export class FilterView {
   reload(params) {
     const query = {
       source: params.filter['source_id:eq'],
-      search: params.filter['name:search'],
+      search: params.filter['tsv:search'],
       category: params.filter['category_id:eq'],
       sort: params.sort,
       page: params.page.number
@@ -89,7 +89,7 @@ export class FilterView {
   }
 
   activate(params) {
-    this.products.params.filter['name:search'] = params.search;
+    this.products.params.filter['tsv:search'] = params.search;
     this.products.params.filter['category_id:eq'] = params.category && Number(params.category);
     this.products.params.filter['source_id:eq'] = params.source && Number(params.source);
     this.products.params.sort = params.sort;
