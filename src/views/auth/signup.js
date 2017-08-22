@@ -26,7 +26,10 @@ export class SignupView {
       .then((response)=>{
         console.log(response);
       })
-      .catch(err => this.errorReporting.report(err));
+      .catch(err => {
+        console.log(err);
+        return this.errorReporting.report(err);
+      });
   }
 
   submit() {
