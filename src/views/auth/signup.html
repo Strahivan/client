@@ -17,12 +17,12 @@
       </div>
       <div class="signup-container__social" if.bind="!isOnFbOnIos()">
         <a class="button" click.trigger="authenticate('facebook', true)">
-          <i class="ion-social-facebook"></i> Sign in with Facebook
+          <i class="ion-social-facebook"></i> Sign up with Facebook
         </a>
       </div>
-      <div class="signup-container__social" if.bind="isOnFbOnIos()">
+      <div class="signup-container__social">
         <a class="button" href.bind="getFacebookAuthWithRedirect()">
-          <i class="ion-social-facebook"></i> Sign in with Facebook
+          <i class="ion-social-facebook"></i> Sign up with Facebook(experimental)
         </a>
       </div>
     </form>
