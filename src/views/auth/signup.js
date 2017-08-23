@@ -33,13 +33,14 @@ export class SignupView {
       });
   }
 
-  isOnFacebookBroweserOnIos() {
-    // this.errorReporting.report(new Error(ua));
-    // this.errorReporting.report(new Error(ua));
-    // const ua = navigator.userAgent || navigator.vendor || window.opera;
-    // const isFacebook = (ua.indexOf('FBAN') > -1) || (ua.indexOf('FBAV') > -1);
-    // const isIos = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
-    return navigator.userAgent.match(/(iPod|iPhone|iPad)/) && navigator.userAgent.match(/FBAV/i);
+  isOnFbOnIos() {
+    const ua = navigator.userAgent || navigator.vendor || window.opera;
+    this.errorReporting.report(new Error(ua));
+    const isFacebook = (ua.indexOf('FBAN') > -1) || (ua.indexOf('FBAV') > -1);
+    this.errorReporting.report(new Error('is facebook: ' + isFacebook));
+    const isIos = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
+    this.errorReporting.report(new Error('is ios: ' + isIos));
+    return isFacebook && isIos;
   }
 
   getFacebookWithRedirect() {

@@ -15,12 +15,12 @@
       <div class="signup-container__prompt">
         Already a user? <a class="border-up" route-href="route: login">Login</a>
       </div>
-      <div class="signup-container__social" if.bind="!isOnFacebookBrowserOnIos()">
+      <div class="signup-container__social" if.bind="!isOnFbOnIos()">
         <a class="button" click.trigger="authenticate('facebook', true)">
           <i class="ion-social-facebook"></i> Sign in with Facebook
         </a>
       </div>
-      <div class="signup-container__social" if.bind="isFacebookBrowserOnIos()">
+      <div class="signup-container__social" if.bind="isOnFbOnIos()">
         <a class="button" href.bind="getFacebookAuthWithRedirect()">
           <i class="ion-social-facebook"></i> Sign in with Facebook
         </a>
