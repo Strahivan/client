@@ -35,11 +35,9 @@ export class SignupView {
 
   isOnFbOnIos() {
     const ua = navigator.userAgent || navigator.vendor || window.opera;
-    this.errorReporting.report(new Error(ua));
     const isFacebook = (ua.indexOf('FBAN') > -1) || (ua.indexOf('FBAV') > -1);
-    this.errorReporting.report(new Error('is facebook: ' + isFacebook));
     const isIos = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
-    this.errorReporting.report(new Error('is ios: ' + isIos));
+    this.errorReporting.report(new Error(`isIOS: ${isIos}, isFB: ${isFacebook}`));
     return isFacebook && isIos;
   }
 
