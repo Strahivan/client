@@ -6,6 +6,7 @@ import {ErrorReporting} from '~/services/error-reporting';
 import {ValidationController} from 'aurelia-validation';
 import {ValidationRenderer} from '~/services/validation-renderer';
 import {AuthService} from 'aurelia-auth';
+import environment from '~/environment';
 
 @inject(Api, AuthService, Router, NewInstance.of(ValidationController), ErrorReporting)
 export class SignupView {
@@ -30,6 +31,18 @@ export class SignupView {
         console.log(err);
         return this.errorReporting.report(err);
       });
+  }
+
+  isOnFacebookBroweserOnIos() {
+    const ua = navigator.userAgent || navigator.vendor || window.opera;
+    const isFacebook = (ua.indexOf('FBAN') > -1) || (ua.indexOf('FBAV') > -1);
+    const isIos = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
+    return isFacebook && isIos;
+  }
+
+  getFacebookWithRedirect() {
+    // servers redirect /facebook/auth
+    return `https://www.facebook.com/v2.10/dialog/oauth?client_id=${environment.facebook}&redirect_uri=${environment.base}facebook/auth?iosfb=true`;
   }
 
   submit() {
