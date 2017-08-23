@@ -34,10 +34,12 @@ export class SignupView {
   }
 
   isOnFacebookBroweserOnIos() {
-    const ua = navigator.userAgent || navigator.vendor || window.opera;
-    const isFacebook = (ua.indexOf('FBAN') > -1) || (ua.indexOf('FBAV') > -1);
-    const isIos = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
-    return isFacebook && isIos;
+    // this.errorReporting.report(new Error(ua));
+    // this.errorReporting.report(new Error(ua));
+    // const ua = navigator.userAgent || navigator.vendor || window.opera;
+    // const isFacebook = (ua.indexOf('FBAN') > -1) || (ua.indexOf('FBAV') > -1);
+    // const isIos = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
+    return navigator.userAgent.match(/(iPod|iPhone|iPad)/) && navigator.userAgent.match(/FBAV/i);
   }
 
   getFacebookWithRedirect() {
