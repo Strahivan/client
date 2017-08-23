@@ -41,7 +41,7 @@ export class SignupView {
     return isFacebook && isIos;
   }
 
-  getFacebookWithRedirect() {
+  getFacebookAuthWithRedirect() {
     // servers redirect /facebook/auth
     return `https://www.facebook.com/v2.10/dialog/oauth?client_id=${environment.facebook}&redirect_uri=${environment.base}auth/facebook?iosfb=true`;
   }
