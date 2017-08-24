@@ -3,6 +3,7 @@ import {Api} from '~/services/api';
 import {AuthService} from 'aurelia-auth';
 import {UserStore} from '~/stores/user';
 import {ErrorReporting} from '~/services/error-reporting';
+import environment from '~/environment';
 
 @inject(AuthService, Api, UserStore, ErrorReporting)
 export class Login {
@@ -22,6 +23,11 @@ export class Login {
       .then((response)=>{
         console.log(response);
       });
+  }
+
+  getFacebookAuthWithRedirect() {
+    // servers redirect /facebook/auth
+    return `https://www.facebook.com/v2.10/dialog/oauth?client_id=${environment.facebook}&redirect_uri=${environment.base}auth/facebook?state=${this.auth.auth.initialUrl || environment.app}`;
   }
 
   login() {
