@@ -22,28 +22,16 @@ export class SignupView {
     this.errorReporting = errorReporting;
   }
 
-  authenticate(name) {
-    return this.auth.authenticate(name, false, null)
-      .then((response)=>{
-        console.log(response);
-      })
-      .catch(err => {
-        console.log(err);
-        return this.errorReporting.report(err);
-      });
-  }
-
-  isOnFbOnIos() {
-    const ua = navigator.userAgent || navigator.vendor || window.opera;
-    const isFacebook = (ua.indexOf('FBAN') > -1) || (ua.indexOf('FBAV') > -1);
-    const isIos = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
-    this.errorReporting.report(new Error(`isIOS: ${isIos}, isFB: ${isFacebook}`));
-    return isFacebook && isIos;
+  activate(params) {
+    // check if the url has redirect uri and token
+    if (params.token && params.redirect) {
+      this.auth.auth.setToken({token: params.token}, decodeURIComponent(params.redirect));
+    }
   }
 
   getFacebookAuthWithRedirect() {
     // servers redirect /facebook/auth
-    return `https://www.facebook.com/v2.10/dialog/oauth?client_id=${environment.facebook}&redirect_uri=${environment.base}auth/facebook?iosfb=true&post_redir=${this.auth.auth.initialUrl || ''}`;
+    return `https://www.facebook.com/v2.10/dialog/oauth?client_id=${environment.facebook}&redirect_uri=${environment.base}auth/facebook?state=${this.auth.auth.initialUrl || environment.app}`;
   }
 
   submit() {
