@@ -31,7 +31,7 @@ export class ShopProductListVM {
 
   reload(params) {
     const query = {
-      search: params.filter['name:search'],
+      search: params.filter['tsv:search'],
       category: params.filter['category_id:eq'],
       country: params.filter['source_id:eq'],
       breakdown: params.filter['cost:isNull'],
@@ -61,7 +61,7 @@ export class ShopProductListVM {
 
     this.query.page = this.query.page || 0;
     this.products.params.filter['category_id:eq'] = this.query.category && Number(this.query.category);
-    this.products.params.filter['name:search'] = this.query.search;
+    this.products.params.filter['tsv:search'] = this.query.search;
     this.products.params.filter['source:eq'] = this.query.country && Number(this.query.country);
     this.products.params.page.number = (this.query.page && Number(this.query.page)) || 0;
 
