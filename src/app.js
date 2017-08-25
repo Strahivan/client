@@ -23,17 +23,15 @@ export class App {
 
   async activate() {
     this.fetchConfig.configure();
+    try {
+      CountryStore.countries = (await this.api.fetch('countries')).results;
 
-    CountryStore.countries = (await this.api.fetch('countries')).results;
-
-    if (this.auth.isAuthenticated()) {
-      this.api
-        .fetch('me', {include: ['country', 'shops']})
-        .then(profile => {
-          this.userStore.user = profile;
-          this.errorReporting.setUserContext(profile);
-        })
-        .catch(err => this.errorReporting.report(err.message));
+      if (this.auth.isAuthenticated()) {
+        this.userStore.user = await this.api.fetch('me', {include: ['country', 'shops']});
+        this.errorReporting.setUserContext(this.userStore.user);
+      }
+    } catch (e) {
+      this.errorReporting.report(e);
     }
   }
 
