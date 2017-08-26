@@ -1,1 +1,12 @@
 @import '../../../style/base';
+
+.bank-payment {
+
+  &__account {
+    text-align: center;
+
+    span {
+      font-weight: 400;
+    }
+  }
+}

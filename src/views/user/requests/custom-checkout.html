@@ -66,38 +66,32 @@
           <i class="icon ion-cash"></i>
           Bank Payment
         </div>
-        <div class="cc__bank-payment__content" show.bind="currentPaymentMethod === 'bank-payment'">
+        <div class="bank-payment" show.bind="currentPaymentMethod === 'bank-payment'">
           <ol class="cc__bank-payment__content__instructions">
             <li class="cc__bank-payment__content__instructions__step">
               <i class="icon ion-checkmark-circled"></i>
-              Log in to internet banking
-            </li>
-            <li class="cc__bank-payment__content__instructions__step">
-              <i class="icon ion-checkmark-circled"></i>
-              Add new Payee:
-              <div class="cc__bank-payment__content__instructions__step__account">
+              Add new Payee
+              <div class="bank-payment__account">
                 <label>DBS Business Banking</label>
-                <div>
-                  <label>Account Name:</label>
-                  AthenaDesk Pte Ltd
-                </div>
-                <div>
-                  <label>Account No:</label>
-                  003-949373-8
-                </div>
-                <div>
-                  <label>Branch Code:</label>
-                  003
-                </div>
+                <table>
+                  <tr>
+                    <td>Name:</td>
+                    <td>Novelship</td>
+                  </tr>
+                  <tr>
+                    <td>Account No:</td>
+                    <td>003-949373-8</td>
+                  </tr>
+                  <tr>
+                    <td>Branch Code:</td>
+                    <td>003</td>
+                  </tr>
+                </table>
               </div>
             </li>
             <li class="cc__bank-payment__content__instructions__step">
               <i class="icon ion-checkmark-circled"></i>
               Transfer ${request.currency} ${request.total_price | toCurrency} to the account
-            </li>
-            <li class="cc__bank-payment__content__instructions__step">
-              <i class="icon ion-checkmark-circled"></i>
-              For Internet Banking, please put your full name into "Your Initials"
             </li>
             <li class="cc__bank-payment__content__instructions__step">
               <i class="icon ion-checkmark-circled"></i>
