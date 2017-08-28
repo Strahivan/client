@@ -8,10 +8,11 @@ export class Pagination {
   @bindable size;
 
   attached() {
+    this.params.page = Number(this.params.page);
     this.nextParams = Object.assign({}, this.params);
-    this.nextParams.page = Number(this.nextParams.page) + 1;
+    this.nextParams.page = this.nextParams.page + 1;
     this.prevParams = Object.assign({}, this.params);
-    this.prevParams.page = Number(this.prevParams.page) - 1;
+    this.prevParams.page = this.prevParams.page - 1;
   }
 
   @computedFrom('total')
