@@ -1,25 +1,23 @@
 <template>
   <require from="./signup.css"></require>
-  <div class="signup-wrapper">
-    <form class="signup-container" class="signup" submit.delegate="submit()">
-      <label for="email">Email</label>
-      <input type="email" class="email" name="email" value.bind="signup.email & validate">
-      <div class="signup-container__error" if.bind="state.error">
-        ${state.error}
-      </div>
-      <label for="password">Password</label>
-      <input type="password" name="password" value.bind="signup.password & validate">
-      <label for="repeat">Repeat Password</label>
-      <input type="password" name="repeat" value.bind="signup.repeat & validate">
-      <button class="signup-container__submit" type="submit">Signup</button>
-      <div class="signup-container__prompt">
-        Already a user? <a class="border-up" route-href="route: login">Login</a>
-      </div>
-      <div class="signup-container__social">
-        <a class="button" href.bind="getFacebookAuthWithRedirect()">
-          <i class="ion-social-facebook"></i> Sign up with Facebook
-        </a>
-      </div>
-    </form>
-  </div>
+  <form class="signup" submit.delegate="submit()">
+    <label for="email">Email</label>
+    <input type="email" class="email" name="email" value.bind="signup.email & validate">
+    <div class="signup-container__error" if.bind="state.error">
+      ${state.error}
+    </div>
+    <label for="password">Password</label>
+    <input type="password" name="password" value.bind="signup.password & validate">
+    <label for="repeat">Repeat Password</label>
+    <input type="password" name="repeat" value.bind="signup.repeat & validate">
+    <button class="submit" type="submit">Signup</button>
+    <div class="signup__prompt">
+      Already a user? <a class="border-up" route-href="route: login">Login</a>
+    </div>
+    <div class="social">
+      <a class="button" href.bind="getFacebookAuthWithRedirect()">
+        <i class="ion-social-facebook"></i> Sign up with Facebook
+      </a>
+    </div>
+  </form>
 </template>

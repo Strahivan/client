@@ -1,37 +1,16 @@
 @import '../../style/base';
 
-.signup-wrapper {
-  margin-top: 10vh;
-  margin-bottom: 20vh;
-  @include grid-container;
-}
-
-.signup-container {
-  @include grid-media($desktop) {
-    @include grid-shift(4);
-    @include grid-column(4);
-  }
-
-  &__error {
-    color: $red;
-  }
-
-  &__submit {
-    float: right;
-  }
-
-  .border-up {
-    padding: 0.5rem;
-    border: 1px solid $primary-color;
-    border-radius: $base-border-radius;
-  }
+.signup {
 
   &__prompt {
-    margin-top: 1.3rem;
-  }
 
-  &__social {
-    margin-top: 10vh;
-    text-align: center;
+    margin-top: 1.3rem;
+
+    .border-up {
+      padding: 0.5rem;
+      border: 1px solid $primary-color;
+      border-radius: $base-border-radius;
+    }
   }
 }
+

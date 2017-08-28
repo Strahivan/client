@@ -1,25 +1,25 @@
 <template>
   <require from="./login.css"></require>
-
-  <div class="login-wrapper">
-    <form class="login-container" submit.delegate="login()">
-      <label for="email">Email</label>
+  <form submit.delegate="login()">
+    <label> Email
       <input type="email" class="email" name="email" value.bind="email" autofocus>
+    </label>
+    <div>
       <label for="password">Password</label>
       <input type="password" name="password" value.bind="password">
-      <div class="login-container__errors" if.bind="state.error.wrongLogin">${state.error.wrongLogin}</div>
-      <button class="login-container__submit" type="submit">Login</button>
-      <div>
-        Don't have an account? <a route-href="route: signup">Signup</a>!
-      </div>
-      <div>
-        <a route-href="route: reset">Forgot password?</a>
-      </div>
-      <div class="signup-container__social">
-        <a class="button" href.bind="getFacebookAuthWithRedirect()">
-          <i class="ion-social-facebook"></i> Sign in with Facebook
-        </a>
-      </div>
-    </form>
-  </div>
+    </div>
+    <div class="error" if.bind="state.error.wrongLogin">${state.error.wrongLogin}</div>
+    <button class="submit" type="submit">Login</button>
+    <div>
+      Don't have an account? <a route-href="route: signup">Signup</a>!
+    </div>
+    <div class="forgot">
+      <a route-href="route: reset">Forgot password?</a>
+    </div>
+    <div class="social">
+      <a class="button" href.bind="getFacebookAuthWithRedirect()">
+        <i class="ion-social-facebook"></i> Sign in with Facebook
+      </a>
+    </div>
+  </form>
 </template>

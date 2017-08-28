@@ -7,7 +7,6 @@ import environment from '~/environment';
 
 @inject(AuthService, Api, UserStore, ErrorReporting)
 export class Login {
-  errors = [];
   constructor(auth, api, userStore, errorReporting) {
     this.auth = auth;
     this.api = api;
@@ -16,13 +15,6 @@ export class Login {
     this.state = {
       error: {}
     };
-  }
-
-  authenticate(name) {
-    return this.auth.authenticate(name, false, null)
-      .then((response)=>{
-        console.log(response);
-      });
   }
 
   getFacebookAuthWithRedirect() {

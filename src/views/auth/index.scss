@@ -1,0 +1,31 @@
+@import '../../style/base';
+
+.auth {
+  @include grid-container;
+  margin-bottom: 20vh;
+  margin-top: 10vh;
+
+  form {
+    @include grid-media($desktop) {
+      @include grid-shift(4);
+      @include grid-column(4);
+    }
+
+    .submit {
+      float: right;
+    }
+
+    .error {
+      color: $red;
+    }
+
+    .social {
+      margin-top: 10vh;
+      text-align: center;
+    }
+
+    .prompt {
+      margin-top: 1.3rem;
+    }
+  }
+}
