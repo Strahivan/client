@@ -1,9 +1,12 @@
 <template>
   <require from="./list.css"></require>
   <section>
-    <div repeat.for="collection of collections.data">
-      <a href.bind="'collections/' + collection.id">
-        ${collection.name}
+    <div class="collection-card" repeat.for="collection of collections.data">
+      <a class="collection-card__link" href.bind="'collections/' + collection.id">
+        <img class="collection-card__link__image" src.bind="collection.banner" alt="">
+        <div class="collection-card__link__title">
+          ${collection.name}
+        </div>
       </a>
     </div>
   </section>

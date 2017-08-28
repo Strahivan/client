@@ -1,3 +1,23 @@
 @import '../../style/base';
 
+.collection-card {
+  position: relative;
+  @include grid-media($desktop) {
+    @include grid-column(4);
+  }
+
+  &__link {
+
+    &__image {
+    }
+
+    &__title {
+      font-size: 4rem;
+      left: 50%;
+      position: absolute;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+}
 
