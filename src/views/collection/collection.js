@@ -1,6 +1,5 @@
 import {inject} from 'aurelia-framework';
 import {Api} from '~/services/api';
-import {PriceService} from '~/services/price';
 import {activationStrategy} from 'aurelia-router';
 
 @inject(Api)
@@ -44,10 +43,7 @@ export class CollectionView {
       .fetch(`collections/${param.collection_id}/collectionproducts`, this.collectionproducts.params)
       .then(response => {
         this.collectionproducts.total = response.total;
-        this.collectionproducts.data = response.results.map(cp => {
-          cp.product.price = PriceService.calculatePrice(cp.product);
-          return cp;
-        });
+        this.collectionproducts.data = response.results;
       })
       .catch(err => console.log(err));
   }

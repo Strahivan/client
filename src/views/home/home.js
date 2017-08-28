@@ -1,6 +1,5 @@
 import {inject} from 'aurelia-framework';
 import {Api} from '~/services/api';
-import {PriceService} from '~/services/price';
 
 @inject(Api)
 export class HomeView {
@@ -82,10 +81,7 @@ export class HomeView {
     this.api
       .fetch('products', container.params)
       .then(response => {
-        container.data = response.results.map(product => {
-          product.price = PriceService.calculatePrice(product);
-          return product;
-        });
+        container.data = response.results;
       })
       .catch(error => {
         container.error = error;
