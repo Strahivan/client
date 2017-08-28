@@ -1,5 +1,6 @@
 import {inject} from 'aurelia-framework';
 import {Api} from '~/services/api';
+import {activationStrategy} from 'aurelia-router';
 
 @inject(Api)
 export class BrandListView {
@@ -10,15 +11,19 @@ export class BrandListView {
       }
     }
   }
+
   constructor(api) {
     this.api = api;
   }
 
-  activate(params) {
-    this.query = {};
-    this.query.page = (params && params.page) || 0;
+  determineActivationStrategy() {
+    return activationStrategy.replace;
+  }
 
+  activate(params) {
     this.brands.params.page.number = (params.page && Number(params.page)) || 0;
+    this.params = Object.assign({}, params);
+    this.params.page = this.params.page || 0;
 
     this.api
       .fetch('brands', this.brands.params)
