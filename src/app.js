@@ -101,6 +101,13 @@ export class App {
         moduleId: 'views/info/index'
       },
       {
+        route: 'brands',
+        name: 'brand',
+        auth: false,
+        nav: false,
+        moduleId: 'views/brand/index'
+      },
+      {
         route: 'custom-order',
         name: 'custom-order',
         auth: true,
