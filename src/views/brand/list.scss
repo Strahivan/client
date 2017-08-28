@@ -1,0 +1,23 @@
+@import '../../style/base';
+
+.brand-card {
+  position: relative;
+  @include grid-column(6);
+  @include grid-media($desktop) {
+    @include grid-column(3);
+  }
+
+  &__link {
+
+    &__image {
+    }
+
+    &__title {
+      font-size: 2rem;
+      left: 50%;
+      position: absolute;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+}
