@@ -14,10 +14,18 @@ export class BrandListView {
     this.api = api;
   }
 
-  activate() {
+  activate(params) {
+    this.query = {};
+    this.query.page = (params && params.page) || 0;
+
+    this.brands.params.page.number = (params.page && Number(params.page)) || 0;
+
     this.api
       .fetch('brands', this.brands.params)
-      .then(brands => this.brands.data = brands.results);
+      .then(brands => {
+        this.brands.total = brands.total;
+        this.brands.data = brands.results;
+      });
   }
 
 }
