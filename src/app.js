@@ -24,9 +24,12 @@ export class App {
   async activate() {
     this.fetchConfig.configure();
     try {
+      // TODO: should not use await
       CountryStore.countries = (await this.api.fetch('countries')).results;
 
       if (this.auth.isAuthenticated()) {
+        // TODO: should not use await
+        // find out a way to resolve this asynchronously
         this.userStore.user = await this.api.fetch('me', {include: ['country', 'shops']});
         this.errorReporting.setUserContext(this.userStore.user);
       }
@@ -88,7 +91,7 @@ export class App {
         auth: false,
         nav: true,
         moduleId: 'views/auth/index',
-        title: 'Signup/Login'
+        title: 'Login/Register'
       },
       {
         route: 'info',
@@ -120,7 +123,6 @@ class PostCompleteStep {
     if (!instruction.config.settings.noScrollToTop) {
       window.scrollTo(0, 0);
     }
-    // window.Intercom('update');
     return next();
   }
 }
