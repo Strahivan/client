@@ -1,11 +1,17 @@
 @import '../../style/base';
 
 .brand-card {
-  position: relative;
   @include grid-column(6);
+
   @include grid-media($desktop) {
     @include grid-column(3);
   }
+
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  height: 20rem;
 
   &__link {
 
