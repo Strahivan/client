@@ -1,12 +1,9 @@
 <template>
   <require from="./list.css"></require>
   <section>
-    <div class="brand-card" repeat.for="brand of brands">
+    <div class="brand-card" repeat.for="brand of brands.data">
       <a href.bind="'brands/' + brand.id" class="brand-card__link">
         <img src.bind="brand.logo" class="brand-card__link__image">
-        <div class="brand-card__link__title">
-          ${brand.name}
-        </div>
       </a>
     </div>
   </section>
