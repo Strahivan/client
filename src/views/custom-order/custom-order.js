@@ -11,7 +11,7 @@ import {PriceEstimatorDialog} from '~/views/custom-order/price-estimator';
 import {ValidationController} from 'aurelia-validation';
 import {ValidationRenderer} from '~/services/validation-renderer';
 
-@inject(Api, Router, UrlExtraction, NewInstance.of(ValidationController), DialogService)
+@inject(Api, Router, UrlExtraction, CountryStore, NewInstance.of(ValidationController), DialogService)
 export class CustomOrderView {
   request = new CustomOrder();
 
@@ -24,23 +24,23 @@ export class CustomOrderView {
     count: 1
   }
 
-  calculator() {
-    this.dialog.open({ viewModel: PriceEstimatorDialog })
-      .whenClosed(response => {
-        console.log(response);
-      });
-  }
-
-  constructor(api, router, extractor, controller, dialog) {
+  constructor(api, router, extractor, countryStore, controller, dialog) {
     this.api = api;
     this.router = router;
     this.dialog = dialog;
     this.extractor = extractor;
     this.controller = controller;
-    this.countries = CountryStore.countries;
+    this.countryStore = countryStore;
 
     Object.assign(this.request, this.init);
     this.controller.addRenderer(new ValidationRenderer());
+  }
+
+  calculator() {
+    this.dialog.open({ viewModel: PriceEstimatorDialog })
+      .whenClosed(response => {
+        console.log(response);
+      });
   }
 
   getData(ur) {
