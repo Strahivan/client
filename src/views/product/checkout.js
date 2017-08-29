@@ -8,7 +8,7 @@ import {PriceService} from '~/services/price';
 import {AdwordsService} from '~/services/adwords';
 import {ErrorReporting} from '~/services/error-reporting';
 
-@inject(Router, Api, UserStore, UploadService, AdwordsService, ErrorReporting)
+@inject(Router, Api, UserStore, UploadService, AdwordsService, ErrorReporting, PriceService)
 export class CheckoutVM {
   error = {};
   request = {
@@ -83,13 +83,13 @@ export class CheckoutVM {
           delivery_date: deliveryDate.toISOString()
         };
         this.selectOptions(selections);
-        this.request.total_price = PriceService.getPrice(this.request, this.product);
+        this.request.total_price = this.priceService.getPrice(this.request, this.product);
       })
       .catch(err => errorReporting.report(new Error(err.message)));
   }
 
   getPrice() {
-    this.request.total_price = PriceService.getPrice(this.request, this.product);
+    this.request.total_price = this.priceService.getPrice(this.request, this.product);
   }
 
   charge(token) {

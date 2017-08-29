@@ -6,7 +6,7 @@ import {AdwordsService} from '~/services/adwords';
 import {UserStore} from '~/stores/user';
 import animateScrollTo from 'animated-scroll-to';
 
-@inject(Router, Api, AdwordsService, UserStore)
+@inject(Router, Api, AdwordsService, UserStore, PriceService)
 export class ProductView {
   product = {
     params: {
@@ -17,11 +17,12 @@ export class ProductView {
   selections = {};
   state = {};
 
-  constructor(router, api, adwords, userStore) {
+  constructor(router, api, adwords, userStore, priceService) {
     this.router = router;
     this.api = api;
     this.adwords = adwords;
-    this.user = userStore.user;
+    this.userStore = userStore;
+    this.priceService = priceService;
   }
 
   getProduct(id) {
@@ -29,7 +30,7 @@ export class ProductView {
     .fetch(`products/${id}`, this.product.params)
     .then(product => {
       this.product.data = product;
-      this.product.data.calculated_price = PriceService.calculatePrice(this.product.data);
+      this.product.data.calculated_price = this.priceService.calculatePrice(this.product.data);
       this.request = {
         total_price: (this.product.data.calculated_price || product.price) - (product.discount ? product.discount : 0),
         count: 1
@@ -62,7 +63,7 @@ export class ProductView {
   }
 
   getPrice() {
-    this.request.total_price = PriceService.getPrice(this.request, this.product.data);
+    this.request.total_price = this.priceService.getPrice(this.request, this.product.data);
   }
 
   confirm() {

@@ -15,7 +15,7 @@
       <i class="icon ion-location"></i>
       From ${product.data.source.name}
     </div>
-    <div class="product-info__url" if.bind="user.id === product.data.shop.owner_id">
+    <div class="product-info__url" if.bind="userStore.user.id === product.data.shop.owner_id">
       <a href.bind="product.data.url" target="_blank">Product URL</a>
     </div>
     <div class="product-info__cta">
