@@ -12,7 +12,7 @@
       <label>Source Country</label>
       <select value.bind="requests.params.filter['source_id:eq']" change.delegate="resetPageAndFetch()">
         <option model.bind="null">Choose</option>
-        <option repeat.for="country of countries" model.bind="country.id">${country.name}</option>
+        <option repeat.for="country of countryStore.countries" model.bind="country.id">${country.name}</option>
       </select>
     </div>
     <div class="shop-orders-filter__product">

@@ -5,7 +5,7 @@ import {activationStrategy} from 'aurelia-router';
 import {Router} from 'aurelia-router';
 import {CountryStore} from '~/stores/country';
 
-@inject(Api, Router)
+@inject(Api, Router, CountryStore)
 export class ShopRequestListVM {
   requests = {
     params: {
@@ -20,11 +20,11 @@ export class ShopRequestListVM {
   shop = {};
   products = {};
 
-  constructor(api, router) {
+  constructor(api, router, countryStore) {
     this.api = api;
     this.router = router;
     this.statuses = constants.requestStatus;
-    this.countries = CountryStore.countries;
+    this.countryStore = countryStore;
   }
 
   determineActivationStrategy() {
