@@ -8,12 +8,13 @@ import {CountryStore} from '~/stores/country';
 import {customRules} from '~/services/validation-rules';
 import {ErrorReporting} from '~/services/error-reporting';
 
-@inject(FetchConfig, AuthService, UserStore, Api, ErrorReporting)
+@inject(FetchConfig, AuthService, UserStore, CountryStore, Api, ErrorReporting)
 export class App {
-  constructor(fetchConfig, auth, userStore, api, errorReporting) {
+  constructor(fetchConfig, auth, userStore, countryStore, api, errorReporting) {
     this.fetchConfig = fetchConfig;
     this.auth = auth;
     this.userStore = userStore;
+    this.countryStore = countryStore;
     this.api = api;
     this.errorReporting = errorReporting;
 
@@ -24,14 +25,17 @@ export class App {
   async activate() {
     this.fetchConfig.configure();
     try {
-      // TODO: should not use await
-      CountryStore.countries = (await this.api.fetch('countries')).results;
+      this.api
+        .fetch('countries')
+        .then(countries => this.countryStore.countries = countries.results);
 
       if (this.auth.isAuthenticated()) {
-        // TODO: should not use await
-        // find out a way to resolve this asynchronously
-        this.userStore.user = await this.api.fetch('me', {include: ['country', 'shops']});
-        this.errorReporting.setUserContext(this.userStore.user);
+        this.api
+          .fetch('me', {include: ['country', 'shops']})
+          .then(me => {
+            this.userStore.user = me;
+            this.errorReporting.setUserContext(me);
+          });
       }
     } catch (e) {
       this.errorReporting.report(e);
