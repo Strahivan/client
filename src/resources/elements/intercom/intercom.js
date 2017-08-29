@@ -4,8 +4,8 @@ import {UserStore} from '~/stores/user';
 @inject(UserStore)
 export class Intercom {
 
-  constructor(user) {
-    this.user = user.user;
+  constructor(userStore) {
+    this.userStore = userStore;
   }
 
   intercom() {
@@ -14,14 +14,14 @@ export class Intercom {
     if (typeof intercom === 'function') {
       intercom('reattach_activator');
       intercom('update', {
-        email: this.user && this.user.email,
-        user_id: this.user && this.user.id,
-        name: this.user && this.user.name
+        email: this.userStore.user && this.userStore.user.email,
+        user_id: this.userStore.user && this.userStore.user.id,
+        name: this.userStore.user && this.userStore.user.name
       });
     } else {
       const doc = document;
       const i = function() {
-        i.c(arguments)
+        i.c(arguments);
       };
       i.q = [];
       i.c = function(args) {
@@ -42,9 +42,9 @@ export class Intercom {
     this.intercom();
     window.Intercom('boot', {
       app_id: 'bszrr242',
-      email: this.user && this.user.email,
-      user_id: this.user && this.user.id,
-      name: this.user && this.user.name
+      email: this.userStore.user && this.userStore.user.email,
+      user_id: this.userStore.user && this.userStore.user.id,
+      name: this.userStore.user && this.userStore.user.name
     });
   }
 }
