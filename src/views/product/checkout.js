@@ -98,7 +98,7 @@ export class CheckoutVM {
     }
     this.state.inflight = true;
     this.saveAddress(this.request.shipping_address);
-    this.savePhone(this.user.phone);
+    this.savePhone(this.userStore.user.phone);
     this.saveCountry(this.request.destination_id);
     (token ? this.api.create('me/cards', {token}) : Promise.resolve())
       .then(res => {
@@ -127,7 +127,7 @@ export class CheckoutVM {
 
   validate() {
     if (this.request.collection_method === 'courier') {
-      if (!this.user.phone) {
+      if (!this.userStore.user.phone) {
         this.state.error.phoneRequired = true;
         throw new Error('phone required');
       }
