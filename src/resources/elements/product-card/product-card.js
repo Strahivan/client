@@ -2,15 +2,16 @@ import {inject, bindable} from 'aurelia-framework';
 import {Router} from 'aurelia-router';
 import {PriceService} from '~/services/price';
 
-@inject(Router)
+@inject(Router, PriceService)
 export class ProductCard {
   @bindable product;
-  constructor(router) {
+  constructor(router, priceService) {
     this.router = router;
+    this.priceService = priceService;
   }
 
   attached() {
-    this.product.price = PriceService.calculatePrice(this.product);
+    this.product.price = this.priceService.calculatePrice(this.product);
   }
 
   showImage(index) {
