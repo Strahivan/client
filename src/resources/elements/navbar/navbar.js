@@ -9,9 +9,4 @@ export class Navbar {
     this.auth = auth;
     this.userStore = userStore;
   }
-
-  logout() {
-    this.auth.logout();
-    this.userStore.clear();
-  }
 }
