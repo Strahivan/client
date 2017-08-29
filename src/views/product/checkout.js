@@ -16,14 +16,14 @@ export class CheckoutVM {
   };
   cards = [];
 
-  constructor(router, api, userStore, upload, adwords, errorReporting) {
+  constructor(router, api, userStore, upload, adwords, errorReporting, priceService) {
     this.router = router;
     this.api = api;
     this.userStore = userStore;
     this.upload = upload;
     this.adwords = adwords;
     this.constants = constants;
-    this.priceService = PriceService;
+    this.priceService = priceService;
     this.errorReporting = errorReporting;
 
     this.state = {

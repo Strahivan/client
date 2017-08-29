@@ -4,10 +4,11 @@ import {notify} from '~/services/notification';
 import {utilities} from '~/services/utilities';
 import {PriceService} from '~/services/price';
 
-@inject(Api)
+@inject(Api, PriceService)
 export class EditProductView {
-  constructor(api) {
+  constructor(api, priceService) {
     this.api = api;
+    this.priceService = priceService;
   }
 
   activate(params) {
@@ -42,7 +43,7 @@ export class EditProductView {
   }
 
   getPrice() {
-    this.newProduct.price = PriceService.calculatePrice(this.newProduct);
+    this.newProduct.price = this.priceService.calculatePrice(this.newProduct);
   }
 
   edit() {

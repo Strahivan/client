@@ -1,5 +1,7 @@
+import {inject} from 'aurelia-framework';
 import {PriceService} from '~/services/price';
 
+@inject(PriceService)
 export class ToCurrencyValueConverter {
   toView(input) {
     if (!input) {
@@ -14,7 +16,7 @@ export class ToCurrencyValueConverter {
       result = input.toString() + '.' + '00';
     }
     if (postDecimal.length > 1 ) {
-      const ceilValue = PriceService.getCeiling(input, -1);
+      const ceilValue = this.priceService.getCeiling(input, -1);
       result = ceilValue.toString();
     }
     return result || 'not specified';

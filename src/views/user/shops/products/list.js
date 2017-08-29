@@ -4,7 +4,7 @@ import {activationStrategy} from 'aurelia-router';
 import {Router} from 'aurelia-router';
 import {PriceService} from '~/services/price';
 
-@inject(Api, Router)
+@inject(Api, Router, PriceService)
 export class ShopProductListVM {
   shop = {};
   products = {
@@ -18,11 +18,11 @@ export class ShopProductListVM {
   };
   countries = {};
   categories = {};
-  priceService = PriceService;
 
-  constructor(api, router) {
+  constructor(api, router, priceService) {
     this.api = api;
     this.router = router;
+    this.priceService = PriceService;
   }
 
   determineActivationStrategy() {

@@ -8,7 +8,7 @@ import {Product} from './create.model';
 import {constants} from '~/services/constants';
 import {PriceService} from '~/services/price';
 
-@inject(Api, UploadService, NewInstance.of(ValidationController))
+@inject(Api, UploadService, PriceService, NewInstance.of(ValidationController))
 export class CreateProduct {
   counter = {
     size: 0,
@@ -18,10 +18,12 @@ export class CreateProduct {
   gallery = [];
   status = {};
   product = new Product();
-  constructor(api, upload, controller) {
+
+  constructor(api, upload, priceService, controller) {
     this.controller = controller;
     this.api = api;
     this.upload = upload;
+    this.priceService = priceService;
     this.controller.addRenderer(new ValidationRenderer());
   }
 
@@ -47,7 +49,7 @@ export class CreateProduct {
   }
 
   getPrice() {
-    this.product.price = PriceService.calculatePrice(this.product);
+    this.product.price = this.priceService.calculatePrice(this.product);
   }
 
   add(property, counter) {

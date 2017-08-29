@@ -3,12 +3,12 @@ import {Api} from '~/services/api';
 import {CountryStore} from '~/stores/country';
 import {PriceService} from '~/services/price';
 
-@inject(Api)
+@inject(Api, PriceService)
 export class ShippingEstimator {
   product = {};
-  constructor(api) {
+  constructor(api, priceService) {
     this.api = api;
-    this.priceService = PriceService;
+    this.priceService = priceService;
   }
 
   attached() {
@@ -16,7 +16,6 @@ export class ShippingEstimator {
   }
 
   calculate() {
-    console.log(this.product);
-    this.price = PriceService.calculatePrice(this.product);
+    this.price = this.priceService.calculatePrice(this.product);
   }
 }

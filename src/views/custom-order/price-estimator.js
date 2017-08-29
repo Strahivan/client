@@ -1,19 +1,17 @@
 import {inject} from 'aurelia-framework';
 import {DialogController} from 'aurelia-dialog';
-import {UserStore} from '~/stores/user';
 import {CountryStore} from '~/stores/country';
 import {PriceService} from '~/services/price';
 import {Router} from 'aurelia-router';
 
-@inject(DialogController, Router)
+@inject(DialogController, Router, CountryStore, PriceService)
 export class PriceEstimatorDialog {
 
-  constructor(dialog, router) {
+  constructor(dialog, router, countryStore, priceService) {
     this.dialog = dialog;
-    this.user = UserStore.user;
     this.router = router;
-    this.priceService = PriceService;
-    this.countries = CountryStore.countries.filter(country => {
+    this.priceService = priceService;
+    this.countries = countryStore.countries.filter(country => {
       return country.name !== 'Singapore';
     });
   }
@@ -24,7 +22,7 @@ export class PriceEstimatorDialog {
   }
 
   calculate() {
-    this.price = PriceService.calculatePrice(this.product);
+    this.price = priceService.calculatePrice(this.product);
   }
 
 }
