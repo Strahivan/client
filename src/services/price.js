@@ -1,3 +1,4 @@
+import {inject} from 'aurelia-framework';
 import {CountryStore} from '~/stores/country';
 import {constants} from '~/services/constants';
 
@@ -42,22 +43,27 @@ function decimalAdjust(type, value, exp) {
   return +(value[0] + 'e' + (value[1] ? (+value[1] + exp) : exp));
 }
 
+@inject(CountryStore)
 export class PriceService {
 
-  static calculatePrice(product) {
+  constructor(countryStore) {
+    this.countryStore = countryStore;
+  }
+
+  calculatePrice(product) {
     if (!(product && product.source_id)) {
       return 0;
     }
-    const country = CountryStore.countries.find((cntry) => cntry.id === product.source_id);
-    const price = PriceService.getCeiling(product.cost + marginCalculator(product.cost, country.tiers) + (product.cost * 0.07) + (product.weight * country.ems_fee) + (product.local_delivery_fee || 0) + (product.price_override || 0) + (product.cost && constants.defaultCourier), -1);
+    const country = this.countryStore.countries.find((cntry) => cntry.id === product.source_id);
+    const price = this.getCeiling(product.cost + marginCalculator(product.cost, country.tiers) + (product.cost * 0.07) + (product.weight * country.ems_fee) + (product.local_delivery_fee || 0) + (product.price_override || 0) + (product.cost && constants.defaultCourier), -1);
     return price || product.price + constants.defaultCourier;
   }
 
-  static getCeiling(value, exp) {
+  getCeiling(value, exp) {
     return decimalAdjust('ceil', value, exp);
   }
 
-  static getDelta(request) {
+  getDelta(request) {
     let delta = 0;
     if (request.size && request.size.delta) {
       delta = delta + request.size.delta;
@@ -71,8 +77,8 @@ export class PriceService {
     return delta;
   }
 
-  static getPrice(request, product) {
-    return request.count * (PriceService.calculatePrice(product) + this.getDelta(request) - (product.discount || 0));
+  getPrice(request, product) {
+    return request.count * (this.calculatePrice(product) + this.getDelta(request) - (product.discount || 0));
   }
 }
 
