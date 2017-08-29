@@ -65,7 +65,7 @@
             Zip * <span if.bind="state.error.zipRequired" style="color:red">Zip is required</span>
             <input value.bind="request.shipping_address.zip" type="text" />
             Phone * <span if.bind="state.error.phoneRequired" style="color:red">Phone is required</span>
-            <input value.bind="user.phone" change.delegate="state.changedPhone = true" type="text" />
+            <input value.bind="userStore.user.phone" change.delegate="state.changedPhone = true" type="text" />
           </div>
         </section>
         <hr>

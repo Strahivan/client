@@ -19,7 +19,7 @@ export class CheckoutVM {
   constructor(router, api, userStore, upload, adwords, errorReporting) {
     this.router = router;
     this.api = api;
-    this.user = userStore.user;
+    this.userStore = userStore;
     this.upload = upload;
     this.adwords = adwords;
     this.constants = constants;
@@ -76,10 +76,10 @@ export class CheckoutVM {
           ems_fee: product.source.ems_fee,
           weight: product.weight,
           postage: product.courier || constants.defaultCourier,
-          destination_id: this.user && this.user.country_id || constants.defaultDestination,
+          destination_id: this.userStore.user && this.userStore.user.country_id || constants.defaultDestination,
           collection_method: 'courier',
           count: Number(selections.count),
-          shipping_address: (this.user && this.user.address) || {line_1: '', line_2: '', zip: '', city: ''},
+          shipping_address: (this.userStore.user && this.userStore.user.address) || {line_1: '', line_2: '', zip: '', city: ''},
           delivery_date: deliveryDate.toISOString()
         };
         this.selectOptions(selections);
@@ -156,16 +156,16 @@ export class CheckoutVM {
       return;
     }
 
-    if (this.user && !this.user.address) {
-      this.user.address = address;
+    if (this.userStore.user && !this.userStore.user.address) {
+      this.userStore.user.address = address;
       this.api.edit('me', { address: address })
         .then(success => console.log(success));
     }
   }
 
   saveCountry(countryId) {
-    if (!this.user.country_id) {
-      this.user.country_id = countryId;
+    if (!this.userStore.user.country_id) {
+      this.userStore.user.country_id = countryId;
       this.api.edit('me', { country_id: countryId })
         .then(success => console.log(success));
     }
@@ -182,7 +182,7 @@ export class CheckoutVM {
     if (this.request.collection_method === 'pickup') {
       this.request.shipping_address = this.constants.defaultShippingAddress;
     } else if (this.request.collection_method === 'courier') {
-      this.request.shipping_address = this.user && this.user.address;
+      this.request.shipping_address = this.userStore.user && this.userStore.user.address;
     }
   }
 
