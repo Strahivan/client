@@ -2,10 +2,11 @@ import {inject} from 'aurelia-framework';
 import {Api} from '~/services/api';
 import {constants} from '~/services/constants';
 import {UserStore} from '~/stores/user';
+import {CountryStore} from '~/stores/country';
 import {AuthService} from 'aurelia-auth';
 import {ErrorReporting} from '~/services/error-reporting';
 
-@inject(Api, UserStore, AuthService, ErrorReporting)
+@inject(Api, AuthService, ErrorReporting, UserStore, CountryStore)
 export class DashboardView {
   requests = {
     params: {
@@ -19,10 +20,10 @@ export class DashboardView {
   };
   shops = {};
 
-  constructor(api, userStore, auth, errorReporting) {
+  constructor(api, auth, errorReporting, userStore, countryStore) {
     this.api = api;
-    this.user = userStore.user;
     this.auth = auth;
+    this.userStore = userStore;
     this.errorReporting = errorReporting;
   }
 

@@ -14,7 +14,7 @@ export class CustomCheckoutDialog {
     this.api = api;
     this.controller = controller;
     this.upload = upload;
-    this.user = userStore.user;
+    this.userStore = userStore;
     this.errorReporting = errorReporting;
   }
 
@@ -56,7 +56,7 @@ export class CustomCheckoutDialog {
       return;
     }
 
-    if (this.user && !this.user.address) {
+    if (this.userStore.user && !this.userStore.user.address) {
       this.user.address = address;
       this.api.edit('me', { address: address })
         .then(success => console.log(success))
@@ -65,8 +65,8 @@ export class CustomCheckoutDialog {
   }
 
   saveCountry(countryId) {
-    if (!this.user.country_id) {
-      this.user.country_id = countryId;
+    if (!this.userStore.user.country_id) {
+      this.userStore.user.country_id = countryId;
       this.api.edit('me', { country_id: countryId })
         .then(success => console.log(success))
         .catch(err => errorReporting.report(new Error(err.message)));

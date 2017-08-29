@@ -3,29 +3,29 @@
 
   <section class="profile-container">
     <div class="profile-container__image-upload">
-      <img class="profile-container__image-upload__image" src.bind="user.avatar || 'https://api.adorable.io/avatars/285/' + user.email" alt.bind="user.name"/>
+      <img class="profile-container__image-upload__image" src.bind="userStore.user.avatar || 'https://api.adorable.io/avatars/285/' + userStore.user.email" alt.bind="userStore.user.name"/>
       <label>Upload</label>
       <input type="file" files.bind="avatar | toArray" change.delegate="upload()" accept="image/*"/>
     </div>
     <div>
       <label>Name</label>
-      <editable-text store.bind="user.name" key="name" placeholder="Full Name" update.call="userUpdate(fragment)"></editable-text>
+      <editable-text store.bind="userStore.user.name" key="name" placeholder="Full Name" update.call="userUpdate(fragment)"></editable-text>
     </div>
     <div>
       <label>Country</label>
-      <editable-selection choices.bind="countries.data" selection.bind="user.country_id" key="country_id" update.call="userUpdate(fragment)">
+      <editable-selection choices.bind="countries.data" selection.bind="userStore.user.country_id" key="country_id" update.call="userUpdate(fragment)">
         <template replacable-part="value">
-          ${user.country.name}
+          ${userStore.user.country.name}
         </template>
       </editable-selection>
     </div>
     <div>
       <label>Phone</label>
-      <editable-text store.bind="user.phone" key="phone" placeholder="Phone" update.call="userUpdate(fragment)"></editable-text>
+      <editable-text store.bind="userStore.user.phone" key="phone" placeholder="Phone" update.call="userUpdate(fragment)"></editable-text>
     </div>
     <div>
       <label>Address</label>
-      <editable-address address.bind="user.address" key="address" callback.call="userUpdate(address)"></editable-address>
+      <editable-address address.bind="userStore.user.address" key="address" callback.call="userUpdate(address)"></editable-address>
     </div>
   </section>
   <section class="card-list-container">

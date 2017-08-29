@@ -12,7 +12,7 @@ export class ProfileEdit {
   constructor(api, userStore, payment, http) {
     this.api = api;
     this.payment = payment;
-    this.user = userStore.user;
+    this.userStore = userStore;
     this.http = http;
   }
 
@@ -31,7 +31,7 @@ export class ProfileEdit {
   userUpdate(fragment) {
     return this.api
       .edit('me', fragment)
-      .then(success =>this.user = Object.assign(this.user, fragment))
+      .then(success =>this.userStore.user = Object.assign(this.userStore.user, fragment))
       .catch(err => console.log(err));
   }
 

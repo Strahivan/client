@@ -1,21 +1,21 @@
 <template>
   <require from="./dashboard.css"></require>
   <section class="user-info">
-    <div class="user-info__image" if.bind="user">
+    <div class="user-info__image" if.bind="userStore.user">
       <figure class="avatar avatar-xl">
-        <img src.bind="user.avatar || 'https://api.adorable.io/avatars/285/' + user.email" alt.bind="user.name"/>
+        <img src.bind="userStore.user.avatar || ('https://api.adorable.io/avatars/285/' + userStore.user.email)" alt.bind="userStore.user.name"/>
       </figure>
     </div>
     <div class="user-info__details">
       <div class="user-info__details__name">
-        ${user.name || user.email}
+        ${userStore.user.name || userStore.user.email}
       </div>
       <div class="user-info__details__country">
-        ${user.country.name}
+        ${userStore.user.country.name}
       </div>
       <div if.bind="user.phone" class="user-info__details__phone">
         <i class="icon ion-ios-telephone"></i>
-        ${user.phone}
+        ${userStore.user.phone}
       </div>
       <div class="user-info__details__edit">
         <a route-href="route: profile">Edit Profile</a>
