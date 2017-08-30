@@ -5,6 +5,7 @@ import {PriceService} from '~/services/price';
 import {AdwordsService} from '~/services/adwords';
 import {UserStore} from '~/stores/user';
 import animateScrollTo from 'animated-scroll-to';
+import {OpenGraphMetadataService} from '~/services/open-graph';
 
 @inject(Router, Api, AdwordsService, UserStore, PriceService)
 export class ProductView {
@@ -29,6 +30,24 @@ export class ProductView {
     this.api
     .fetch(`products/${id}`, this.product.params)
     .then(product => {
+      OpenGraphMetadataService.setMeta([
+        {
+          property: 'og:title',
+          content: product.name
+        },
+        {
+          property: 'og:image',
+          content: product.gallery[0]
+        },
+        {
+          property: 'og:type',
+          content: 'website'
+        },
+        {
+          property: 'og:url',
+          content: window.location.href
+        }
+      ]);
       this.product.data = product;
       this.product.data.calculated_price = this.priceService.calculatePrice(this.product.data);
       this.request = {
