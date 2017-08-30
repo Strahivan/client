@@ -8,6 +8,7 @@ export class HomeView {
   announcements = {};
   collections = {};
   selected = {};
+  brands = {};
   tags = [
     {tag: 'Play ', color: 'yellow'},
     {tag: 'Live ', color: 'red'},
@@ -38,6 +39,15 @@ export class HomeView {
     this.getCategories();
     this.getAnnouncements();
     this.getCollections();
+    this.getBrands();
+  }
+
+  getBrands() {
+    this.api
+      .fetch('brands', {sort: '-sequence', filter: {'sequence:notNull': true}})
+      .then(response => {
+        this.brands.data = response.results;
+      });
   }
 
   getCategories() {
@@ -45,10 +55,6 @@ export class HomeView {
       .fetch('categories')
       .then(response => {
         this.categories.data = response.results;
-      })
-      .catch(error => {
-        console.log(error);
-        this.categories.error = error;
       });
   }
 
