@@ -1,4 +1,7 @@
 <template>
   <require from="./brand.css"></require>
   <product-card repeat.for="product of products.data" class="brand-product" product.bind="product"></product-card>
+  <section>
+    <pagination total.bind="products.total" path.bind="'brands/' + params.brand_id" params.bind="params" size.bind="products.params.page.size"></pagination>
+  </section>
 </template>
