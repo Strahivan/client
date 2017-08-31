@@ -1,5 +1,9 @@
 @import '../../style/base';
 
+.brand-container {
+  @include grid-container;
+}
+
 .brand-product {
   @include grid-media($desktop) {
     @include grid-column(4);
