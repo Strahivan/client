@@ -22,7 +22,7 @@ export class PriceEstimatorDialog {
   }
 
   calculate() {
-    this.price = priceService.calculatePrice(this.product);
+    this.price = this.priceService.calculatePrice(this.product);
   }
 
 }
