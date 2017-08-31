@@ -6,12 +6,12 @@
 
   &__page-host {
     @include grid-media($desktop) {
-      @include grid-shift(2);
-      @include grid-column(8);
+      @include grid-shift(1);
+      @include grid-column(10);
     }
 
     @include grid-column(12);
-    margin-top: $navbar-height;
+    margin-top: $navbar-height + 1rem;
 
     &__page {
       @include grid-container;
