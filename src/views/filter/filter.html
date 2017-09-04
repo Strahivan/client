@@ -26,6 +26,16 @@
       </label>
     </section>
     <section class="filter-result-container">
+      <div class="filter-result-container__empty" if.bind="products.data && !products.total">
+        <i class="icon ion-sad"></i>
+        <div class="filter-result-container__empty__header">
+          Could not find the product
+        </div>
+        <div>
+          But fret not! You can always place a <a href="custom-order">custom order</a> for the product.
+        </div>
+        <a class="button" href="custom-order">Place custom order</a>
+      </div>
       <ul>
         <li class="filter-result" repeat.for="product of products.data">
           <div class="filter-result__image">
@@ -50,7 +60,7 @@
           </div>
         </li>
       </ul>
-      <div class="filter-result-container__pagination">
+      <div if.bind="products.total" class="filter-result-container__pagination">
         <pagination total.bind="products.total" path="filter" params.bind="params" size.bind="products.params.page.size"></pagination>
       </div>
     </section>

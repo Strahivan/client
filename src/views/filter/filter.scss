@@ -26,6 +26,26 @@
     @include grid-column(8);
   }
   margin-top: 1.4rem;
+
+  &__empty {
+    @media screen and (min-width: $medium-screen) {
+      padding: 3 * $base-spacing;
+    }
+    background: $light-gray;
+    text-align: center;
+    padding: 1 * $base-spacing;
+
+    .ion-sad {
+      font-size: 2rem;
+    }
+
+    .button {
+      margin-top: 1rem;
+    }
+
+    &__header {
+    }
+  }
 }
 
 .filter-result {
