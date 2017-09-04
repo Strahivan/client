@@ -100,6 +100,7 @@ export class CheckoutVM {
     this.saveAddress(this.request.shipping_address);
     this.savePhone(this.userStore.user.phone);
     this.saveCountry(this.request.destination_id);
+    this.saveEmail(this.userStore.user.email);
     (token ? this.api.create('me/cards', {token}) : Promise.resolve())
       .then(res => {
         const cardId = (res && res.card_id) || this.card;
@@ -129,7 +130,7 @@ export class CheckoutVM {
     if (this.request.collection_method === 'courier') {
       if (!this.userStore.user.phone) {
         this.state.error.phoneRequired = true;
-        throw new Error('phone required');
+        throw new Error('Phone required');
       }
       if (!this.request.shipping_address.line_1) {
         this.state.error.addressRequired = true;
@@ -139,6 +140,11 @@ export class CheckoutVM {
         this.state.error.zipRequired = true;
         throw new Error('Zip required');
       }
+    }
+
+    if (!this.userStore.user.email) {
+      this.state.error.emailRequired = true;
+      throw new Error('Email required');
     }
 
     if (this.currentPaymentMethod === 'bank-payment') {
@@ -157,24 +163,29 @@ export class CheckoutVM {
     }
 
     if (this.userStore.user && !this.userStore.user.address) {
-      this.userStore.user.address = address;
       this.api.edit('me', { address: address })
-        .then(success => console.log(success));
+        .then(success => this.userStore.user.address = address);
     }
   }
 
   saveCountry(countryId) {
     if (!this.userStore.user.country_id) {
-      this.userStore.user.country_id = countryId;
       this.api.edit('me', { country_id: countryId })
-        .then(success => console.log(success));
+        .then(success => this.userStore.user.country_id = countryId);
     }
   }
 
   savePhone(phone) {
     if (this.state.changedPhone) {
       this.api.edit('me', {phone: phone})
-      .then(success => console.log(success));
+      .then(success => this.userStore.user.phone = phone);
+    }
+  }
+
+  saveEmail(email) {
+    if (this.state.changedEmail) {
+      this.api.edit('me', {email: email})
+      .then(success => this.userStore.user.email = email);
     }
   }
 

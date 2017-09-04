@@ -67,6 +67,10 @@
             Phone * <span if.bind="state.error.phoneRequired" style="color:red">Phone is required</span>
             <input value.bind="userStore.user.phone" change.delegate="state.changedPhone = true" type="text" />
           </div>
+          <div>
+            Email * <span if.bind="state.error.emailRequired" style="color:red">Email is required</span>
+            <input value.bind="userStore.user.email" change.delegate="state.changedEmail = true" type="email" />
+          </div>
         </section>
         <hr>
         <section class="checkout-container__card-payment">
