@@ -217,7 +217,8 @@ $categories: (
       .slider {
         overflow: hidden;
         white-space: nowrap;
-        width: 100%;
+        display: flex;
+        justify-content: center;
       }
 
       .slide {
@@ -225,7 +226,7 @@ $categories: (
         filter: brightness(50%);
         height: 10vh;
         position: relative;
-        width: 25%;
+        margin-right: .2rem;
 
         img {
           height: inherit;
