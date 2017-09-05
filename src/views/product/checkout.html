@@ -29,7 +29,7 @@
               </label>
             </div>
             <div class="checkout-container__order-details__arrival">
-              <label>Arrival</label>
+              <label>Estimated Arrival</label>
               ${request.delivery_date | toDate:'date'}
             </div>
           </div>
@@ -120,7 +120,7 @@
                     AthenaDesk Pte Ltd
                   </div>
                   <div>
-                    <label>Account No:</label>
+                    <label>Account Number:</label>
                     003-949373-8
                   </div>
                   <div>
@@ -139,7 +139,7 @@
               </li>
               <li class="checkout-container__bank-payment__content__instructions__step">
                 <i class="icon ion-checkmark-circled"></i>
-                Take a picture of the reciept and submit the photo as proof
+                Take a picture of the receipt and submit the photo as proof
               </li>
             </ol>
             <div class="checkout-container__bank-payment__ref"><span if.bind="state.error.proofRequired" style="color:red">Proof is required</span>
