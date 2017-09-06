@@ -1,0 +1,16 @@
+<template>
+  <require from="./hero-carousel.css"></require>
+  <div class='wrap'>
+    <ul class='carousel is-set' ref="carousel">
+      <li repeat.for="item of gallery" css.bind="{order: item.order}" class="carousel-seat">
+        <a href.bind="item.url ? item.url: 'home'">
+          <img src.bind="item.image" alt=""/>
+        </a>
+      </li>
+    </ul>
+  </div>
+  <div class='controls'>
+    <button click.delegate="prev()">Prev</button>
+    <button click.delegate="next()">Next</button>
+  </div>
+</template>

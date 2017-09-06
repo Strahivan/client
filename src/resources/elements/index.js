@@ -12,7 +12,8 @@ const elements = [
   'shipping-estimator/shipping-estimator',
   'intercom/intercom',
   'animated-tag/animated-tag',
-  'hotjar/hotjar'
+  'hotjar/hotjar',
+  'hero-carousel/hero-carousel'
 ];
 
 export default elements.map(elem => `./elements/${elem}`);
