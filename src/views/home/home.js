@@ -26,7 +26,7 @@ export class HomeView {
         include: ['source'],
         sort: '-order_count',
         page: {
-          size: 6,
+          size: 12,
           number: 0
         }
       }
@@ -75,6 +75,9 @@ export class HomeView {
     this.api
       .fetch('announcements')
       .then(response => {
+        // push the last element of the array to the beginning
+        // for hero-carousel element
+        response.results.unshift(response.results.pop());
         this.announcements.data = response.results;
       })
       .catch(error => {
