@@ -6,29 +6,30 @@ $border-width: 0.1rem;
 $bg-color-light: lighten($white, 40%);
 $body-font-color: #667189;
 $font-size-sm: 1.2rem;
-$layout-padding-lg: 0.5rem;
+$layout-padding-lg: .2rem;
 $base-transparency: 0.9;
 $inverted-text-color: white;
 $padding-sm: 0.1rem;
 $padding-md: 0.5rem;
 .card-element {
-  background: $bg-color-light;
   border-radius: $border-radius;
   box-shadow: 0 1px 2px darken($base-background-color, 10%);
   display: block;
   margin-bottom: 1rem;
   position: relative;
   overflow: hidden;
+  text-align: center;
 
   &__header,
   &__body {
-    padding: $layout-padding-lg;
+    padding-left: $layout-padding-lg;
   }
 
   &__body {
     &__price {
-      font-weight: bold;
       display: inline-block;
+      font-size: .9rem;
+      padding-bottom: .4rem;
 
       &--discounted {
         margin-left: 0.5rem;
@@ -68,9 +69,11 @@ $padding-md: 0.5rem;
     text-align: center;
     img {
       object-fit: cover;
-      height: 14rem;
+      height: 15rem;
+      width: 100%;
       border-top-left-radius: $border-radius;
       border-top-right-radius: $border-radius;
+      animation-duration: .4s;
     }
   }
 
@@ -79,7 +82,7 @@ $padding-md: 0.5rem;
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
-      font-size: 1.2rem;
+      font-size: .8rem;
     }
   }
 }

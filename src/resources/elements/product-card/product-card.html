@@ -25,10 +25,6 @@
       <span if.bind="product.discount" class="card-element__body__price--discounted">
         SGD ${(product.price - product.discount) | toCurrency}
       </span>
-      <div class="card-element__source">
-        <i class="icon ion-ios-location"></i>
-        From ${product.source.name}
-      </div>
     </div>
   </div>
 </template>
