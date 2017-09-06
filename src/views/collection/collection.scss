@@ -26,11 +26,14 @@
     @include grid-container;
 
     li {
-    @include grid-column(12);
-    @include grid-media($desktop) {
-      @include grid-column(4);
+      @include grid-column(12);
+      @include grid-media($desktop) {
+        @include grid-column(2);
+      }
     }
+  }
 
-    }
+  &__pagination {
+    text-align: center;
   }
 }
