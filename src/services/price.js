@@ -55,7 +55,7 @@ export class PriceService {
       return 0;
     }
     const country = this.countryStore.countries.find((cntry) => cntry.id === product.source_id);
-    const price = this.getCeiling(product.cost + marginCalculator(product.cost, country.tiers) + (product.cost * 0.07) + (product.weight * country.ems_fee) + (product.local_delivery_fee || 0) + (product.price_override || 0) + (product.cost && constants.defaultCourier), -1);
+    const price = this.getCeiling(product.cost + marginCalculator(product.cost, country.tiers) + (product.weight * country.ems_fee) + (product.local_delivery_fee || 0) + (product.price_override || 0) + (product.cost && constants.defaultCourier), -1);
     return price || product.price + constants.defaultCourier;
   }
 
