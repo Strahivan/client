@@ -44,7 +44,25 @@
     "elements": "src/resources/elements",
     "attributes": "src/resources/attributes",
     "valueConverters": "src/resources/value-converters",
-    "bindingBehaviors": "src/resources/binding-behaviors"
+    "bindingBehaviors": "src/resources/binding-behaviors",
+    "assets": [
+      {
+        "src": "index.html",
+        "dest": "dist/"
+      },
+      {
+        "src": "scripts/**/*",
+        "dest": "dist/scripts/"
+      },
+      {
+        "src": "images/**/*",
+        "dest": "dist/images/"
+      },
+      {
+        "src": "favicon.png",
+        "dest": "dist/"
+      }
+    ]
   },
   "build": {
     "targets": [

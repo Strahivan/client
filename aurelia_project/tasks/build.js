@@ -2,6 +2,7 @@ import gulp from 'gulp';
 import transpile from './transpile';
 import processMarkup from './process-markup';
 import processCSS from './process-css';
+import makeDistribution from './make-distribution';
 import copyFiles from './copy-files';
 import {build} from 'aurelia-cli';
 import project from '../aurelia.json';
@@ -14,7 +15,8 @@ export default gulp.series(
     processCSS,
     copyFiles
   ),
-  writeBundles
+  writeBundles,
+  makeDistribution
 );
 
 function readProjectConfiguration() {
