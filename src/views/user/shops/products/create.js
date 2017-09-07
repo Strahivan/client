@@ -6,6 +6,7 @@ import {ValidationController} from 'aurelia-validation';
 import {ValidationRenderer} from '~/services/validation-renderer';
 import {Product} from './create.model';
 import {constants} from '~/services/constants';
+import animateScrollTo from 'animated-scroll-to';
 import {PriceService} from '~/services/price';
 
 @inject(Api, UploadService, PriceService, NewInstance.of(ValidationController))
@@ -46,6 +47,32 @@ export class CreateProduct {
     this.product.shop_id = Number(params.shop_id);
     this.product.postage = constants.defaultPostage;
     this.product.courier = constants.defaultCourier;
+  }
+
+  attached() {
+    setTimeout(this.focus.bind(this), 200);
+  }
+
+  focus() {
+    this.first.focus();
+  }
+
+  reset() {
+    this.focus();
+    animateScrollTo(30);
+
+    this.product = {
+      shop_id: this.product.shop_id,
+      source_id: this.product.source_id,
+      category_id: this.product.category_id,
+      brand_id: this.product.brand_id,
+      postage: constants.defaultPostage,
+      courier: constants.defaultCourier,
+      delivery_time: this.product.delivery_time,
+      local_delivery_fee: this.product.local_delivery_fee
+    };
+
+    this.gallery = null;
   }
 
   getPrice() {
@@ -117,13 +144,7 @@ export class CreateProduct {
             .then(response => {
               this.status.inprogress = false;
               notify().log('Successfully created!');
-              this.product = {
-                shop_id: this.product.shop_id,
-                source_id: this.product.source_id,
-                postage: constants.defaultPostage,
-                courier: constants.defaultCourier
-              };
-              this.gallery = null;
+              this.reset();
             })
             .catch(err => {
               console.log(err);

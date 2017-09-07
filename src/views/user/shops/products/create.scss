@@ -1,0 +1,30 @@
+@import '../../../../style/base';
+
+.create-product {
+  @include grid-media($desktop) {
+    @include grid-shift(2);
+    @include grid-column(8);
+  }
+
+  textarea {
+    height: 10em;
+  }
+
+  button {
+    margin-right: .5rem;
+    margin-top: .5rem;
+  }
+
+  &__submit {
+    text-align: center;
+
+    button {
+      background-color: $green;
+      font-size: 1.3rem;
+      padding-bottom: 1rem;
+      padding-left: 6rem;
+      padding-right: 6rem;
+      padding-top: 1rem;
+    }
+  }
+}

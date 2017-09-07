@@ -1,9 +1,9 @@
 <template>
   <require from="./create.css"></require>
 
-  <form submit.delegate="create()">
+  <form class="create-product" submit.delegate="create()">
     <label>Name
-      <input type="text" value.bind="product.name & validate" />
+      <input type="text" value.bind="product.name & validate" ref="first"/>
     </label>
     <label>Url
       <input type="text" value.bind="product.url" />
@@ -64,16 +64,13 @@
         </div>
       </label>
     </div>
-    <label>Postage Fee
-      <input type="number" step="any" value.bind="product.postage | toNumber" />
-    </label>
-    <label>Courier Fee
-      <input type="number" step="any" value.bind="product.courier | toNumber" />
-    </label>
-    <label>Seed Order Count
+    <label>Sequence
       <input type="number" value.bind="product.order_count | toNumber" />
     </label>
-    <button click.delegate="add('sizes', 'size')">Add Size</button>
+    <button click.delegate="add('sizes', 'size')">
+      <i class="icon ion-tshirt"></i>
+      Add Size
+    </button>
       <div repeat.for="i of counter.size">
         <label>Size ${i + 1}
         <input placeholder="name" type="text" value.bind="product.sizes[$index].name" />
@@ -83,7 +80,10 @@
         <button click.delegate="remove($index, 'sizes', 'size')">Remove Size</button>
       </div>
     </label>
-    <button click.delegate="add('colors', 'color')">Add Color</button>
+    <button click.delegate="add('colors', 'color')">
+      <i class="icon ion-paintbrush"></i>
+      Add Color
+    </button>
     <div repeat.for="i of counter.color">
       <label>Color ${i + 1}
         <input placeholder="name" type="text" value.bind="product.colors[$index].name" />
@@ -95,7 +95,10 @@
         <button click.delegate="remove($index, 'colors', 'color')">Remove Color</button>
       </label>
     </div>
-    <button click.delegate="add('variations', 'variation')">Add Variation</button>
+    <button click.delegate="add('variations', 'variation')">
+      <i class="icon ion-network"></i>
+      Add Variation
+    </button>
     <div repeat.for="i of counter.variation">
       <label>Variation ${i + 1}
         <input placeholder="name" type="text" value.bind="product.variations[$index].name" />
@@ -108,7 +111,7 @@
       </label>
     </div>
 
-    <div>
+    <div class="create-product__submit">
       <button type="submit">Create</button>
     </div>
   </form>
