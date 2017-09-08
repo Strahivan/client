@@ -60,7 +60,7 @@ export class HomeView {
 
   getCollections() {
     this.api
-      .fetch('collections', {page: {size: 4, number: 0}, include: ['products', 'creator'], sort: '-sequence'})
+      .fetch('collections', {page: {size: 4, number: 0}, include: ['creator'], sort: '-sequence'})
       .then(response => {
         this.collections.data = response.results;
         this.selected.collection = response.results[0];
