@@ -44,6 +44,10 @@ export class ProductView {
           content: 'website'
         },
         {
+          property: 'og:description',
+          content: product.description
+        },
+        {
           property: 'og:url',
           content: window.location.href
         }
