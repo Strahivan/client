@@ -61,6 +61,10 @@
       {
         "src": "favicon.png",
         "dest": "dist/"
+      },
+      {
+        "src": "_redirects",
+        "dest": "dist/"
       }
     ]
   },
