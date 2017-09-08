@@ -2,7 +2,7 @@ export default {
   debug: false,
   testing: false,
   base: 'https://api.novelship.com/',
-  app: 'https://novelship.com/',
+  app: 'https://www.novelship.com/',
   stripe_key: 'pk_live_ZSoVkfqE1IhCf6OJP9HtScJ4',
   facebook: '2024958714406360',
   ga_tracking_id: 'UA-101140118-1',
