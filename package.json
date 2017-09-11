@@ -24,6 +24,7 @@
     "bluebird": "^3.5.0",
     "bourbon": "^5.0.0-beta.7",
     "bourbon-neat": "^2",
+    "fecha": "^2.3.1",
     "hammerjs": "^2.0.8",
     "humane-js": "^3.2.2",
     "humanize": "0.0.9",

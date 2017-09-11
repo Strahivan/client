@@ -1,4 +1,5 @@
 import 'humanize';
+import * as fecha from 'fecha';
 
 export class ToDateValueConverter {
   toView(dateValue, format) {
@@ -10,11 +11,11 @@ export class ToDateValueConverter {
     case 'human':
       return humanize.relativeTime(date.getTime() / 1000);
     case 'date':
-      return date.toDateString();
+      return fecha.format(date, 'dddd MMMM Do, YYYY');
     case 'datetime':
-      return date.toLocaleString();
+      return fecha.format(date, 'dddd MMMM Do, YYYY');
     default:
-      return date.toLocaleString();
+      return fecha.format(date, 'dddd MMMM Do, YYYY');
     }
   }
 }
