@@ -1,0 +1,40 @@
+<template bindable="request">
+  <require from="./bank-payment-instructions.css"></require>
+  <ol class="bank-payment-instructions">
+    <li class="bank-payment-instructions__step">
+      <i class="icon ion-checkmark-circled"></i>
+      Log in to internet banking
+    </li>
+    <li class="bank-payment__step">
+      <i class="icon ion-checkmark-circled"></i>
+      Add new Payee:
+      <div class="bank-payment-instructions__step__account">
+        <label>DBS Business Banking</label>
+        <div>
+          <label>Account Name:</label>
+          AthenaDesk Pte Ltd
+        </div>
+        <div>
+          <label>Account Number:</label>
+          003-949373-8
+        </div>
+        <div>
+          <label>Branch Code:</label>
+          003
+        </div>
+      </div>
+    </li>
+    <li class="bank-payment-instructions__step">
+      <i class="icon ion-checkmark-circled"></i>
+      Transfer ${request.currency} ${request.total_price | toCurrency} to the account
+    </li>
+    <li class="bank-payment-instructions__step">
+      <i class="icon ion-checkmark-circled"></i>
+      For Internet Banking, please put your full name into "Your Initials"
+    </li>
+    <li class="bank-payment-instructions__step">
+      <i class="icon ion-checkmark-circled"></i>
+      Take a picture of the receipt and submit the photo as proof
+    </li>
+  </ol>
+</template>

@@ -1,0 +1,15 @@
+.bank-payment-instructions {
+  &__step {
+    margin-bottom: .5rem;
+    &__account {
+      border: 1px solid;
+      padding: .5em;
+      div {
+        label {
+          display: inline-block;
+          min-width: 9rem;
+        }
+      }
+    }
+  }
+}
