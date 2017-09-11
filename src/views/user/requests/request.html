@@ -1,11 +1,9 @@
 <template>
   <require from="./request.css"></require>
+  <require from="../../../resources/fragments/order-details.html"></require>
+
   <section class="request-product-info">
-    <div class="request-product-info__image">
-      <a href.bind="'products/' + request.data.product.id">
-        <img src.bind="request.data.product.gallery[0] || request.data.product_details.picture || 'images/default_product.jpg'"/>
-      </a>
-    </div>
+    <order-details product.bind="request.data.product_details || request.data.product" request.bind="request.data"></order-details>
     <div class="request-product-info__progress">
       <ul class="step">
         <li class="step-item ${(request.data.status === 'approval' || request.data.status === 'confirmed' || request.data.status === 'pending' || request.data.status === 'verify') ? 'active': ''}">
@@ -22,62 +20,49 @@
         </li>
       </ul>
     </div>
-    <div class="request-product-info__title">
-      <label>Name</label>
-      <a if.bind="request.data.product" href.bind="'products/' + request.data.product.id">${request.data.product.name}</a>
-      <span if.bind="request.data.product_details">${request.data.product_details.name || 'Custom Product'}</span>
-    </div>
-    <div if.bind="request.data.product_details" class="request-info__url">
-      <label>URL</label>
-      <a href.bind="request.data.product_details.url" target="_blank">${request.data.product_details.url}</a>
-    </div>
-  </section>
-  <section if.bind="request.data.product_details && request.data.status === 'approval'">
-    <div>
-      <button click.delegate="confirm()">Accept and Pay</button>
-      <button class="button--red" click.delegate="reject()">Decline</button>
-    </div>
   </section>
   <section class="request-info">
     <div class="request-info__status">
       <label>Status</label>
       ${request.data.status}
     </div>
-    <div if.bind="request.data.size" class="request-info__size">
-      <label>Size</label>
-      ${request.data.size.name}
-    </div>
-    <div if.bind="request.data.color" class="request-info__color">
-      <label>Color</label>
-      ${request.data.color.name}
-    </div>
-    <div if.bind="request.data.variation" class="request-info__edition">
-      <label>Variation</label>
-      ${request.data.variation.name}
-    </div>
     <div class="request-info__quantity">
       <label>Quantity</label>
       ${request.data.count}
+    </div>
+    <div if.bind="request.data.collection_method" class="request-info__collection">
+      <label>Collection Method</label>
+      ${request.data.collection_method}
+    </div>
+    <div if.bind="request.data.shipping_address" class="request-info__shipping_address">
+      <label if.bind="request.data.collection_method === 'pickup'">Pickup Address</label>
+      <label if.bind="request.data.collection_method === 'courier'">Delivery Address</label>
+      <ul>
+        <li>
+          ${request.data.shipping_address.line_1}
+        </li>
+        <li>
+          ${request.data.shipping_address.line_2}
+        </li>
+        <li>
+          ${request.data.shipping_address.city}
+        </li>
+        <li>
+          ${request.data.shipping_address.zip}
+        </li>
+      </ul>
     </div>
     <div class="request-info__price">
       <label>Price</label>
       SGD ${request.data.total_price | toCurrency}
     </div>
-    <div if.bind="request.data.instructions" class="request-info__instructions">
-      <label>Instructions</label>
-      ${request.data.instructions}
-    </div>
     <div class="request-info__orderdate">
       <label>Date of Purchase:</label>
       ${request.data.created_at | toDate:'date'}
     </div>
-    <div if.bind="request.data.bank_reference" class="request-info__bank">
-      <label>Bank Reference</label>
-      ${request.data.bank_reference}
-    </div>
-    <div if.bind="request.data.delivery_date" class="request-info__deliverydate">
-      <label>Delivery Date:</label>
-      ${request.data.delivery_date | toDate:'date'}
-    </div>
+  </section>
+  <section class="cc-approval" if.bind="request.data.product_details && request.data.status === 'approval'">
+    <a class="button" route-href="route: customCheckout; params.bind: {request_id: request.data.id}">Approve and Pay</a>
+    <button class="button--red" click.delegate="reject()">Decline</button>
   </section>
 </template>

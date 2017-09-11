@@ -1,11 +1,11 @@
 import {inject} from 'aurelia-framework';
 import {Api} from '~/services/api';
 import {DialogService} from 'aurelia-dialog';
-import {CustomCheckoutDialog} from './custom-checkout';
 import {ConfirmationDialog} from '~/resources/dialogs/confirmation/confirmation';
 import {ErrorReporting} from '~/services/error-reporting';
+import {Router} from 'aurelia-router';
 
-@inject(Api, DialogService, ErrorReporting)
+@inject(Api, DialogService, ErrorReporting, Router)
 export class RequestVM {
   request = {
     params: {
@@ -13,17 +13,11 @@ export class RequestVM {
     }
   };
 
-  constructor(api, dialog, errorReporting) {
+  constructor(api, dialog, errorReporting, router) {
     this.api = api;
     this.dialog = dialog;
     this.errorReporting = errorReporting;
-  }
-
-  confirm() {
-    this.dialog.open({ viewModel: CustomCheckoutDialog, model: this.request.data })
-      .whenClosed(response => {
-
-      });
+    this.router = router;
   }
 
   currentStatus(status) {

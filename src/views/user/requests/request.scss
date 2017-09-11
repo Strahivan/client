@@ -25,3 +25,20 @@
     }
   }
 }
+
+.request-info {
+  @include grid-container;
+  & > div {
+    @include grid-column(4);
+    margin-bottom: 1rem;
+  }
+  // @media screen and (min-width: $medium-screen) {
+  //   // display: flex;
+  //   justify-content: space-between;
+  // }
+}
+
+.cc-approval {
+  margin-top: 1rem;
+  text-align: center;
+}
