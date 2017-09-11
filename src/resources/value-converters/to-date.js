@@ -11,11 +11,11 @@ export class ToDateValueConverter {
     case 'human':
       return humanize.relativeTime(date.getTime() / 1000);
     case 'date':
-      return fecha.format(date, 'dddd MMMM Do, YYYY');
+      return fecha.format(date, 'MMMM Do, YYYY (dddd)');
     case 'datetime':
-      return fecha.format(date, 'dddd MMMM Do, YYYY');
+      return fecha.format(date, 'MMMM Do, YYYY (dddd)');
     default:
-      return fecha.format(date, 'dddd MMMM Do, YYYY');
+      return fecha.format(date, 'MMMM Do, YYYY');
     }
   }
 }
