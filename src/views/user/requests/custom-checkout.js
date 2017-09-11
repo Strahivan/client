@@ -1,102 +1,131 @@
-import {inject} from 'aurelia-framework';
+import {inject, NewInstance} from 'aurelia-framework';
+import {Router} from 'aurelia-router';
 import {Api} from '~/services/api';
 import {UploadService} from '~/services/upload';
+import {ValidationController, ValidationRules} from 'aurelia-validation';
+import {ValidationRenderer} from '~/services/validation-renderer';
 import {UserStore} from '~/stores/user';
-import {DialogController} from 'aurelia-dialog';
-import {constants} from '~/services/constants';
 import {notify} from '~/services/notification';
 import {ErrorReporting} from '~/services/error-reporting';
 
-@inject(Api, DialogController, UploadService, UserStore, ErrorReporting)
-export class CustomCheckoutDialog {
+@inject(Api, UploadService, UserStore, ErrorReporting, NewInstance.of(ValidationController), Router)
+export class CustomCheckout {
   state = {};
-  constructor(api, controller, upload, userStore, errorReporting) {
+  userFragment = {};
+
+  constructor(api, upload, userStore, errorReporting, validationController, router) {
     this.api = api;
-    this.controller = controller;
     this.upload = upload;
     this.userStore = userStore;
     this.errorReporting = errorReporting;
+    this.validationController = validationController;
+    this.router = router;
+
+    this.validationController.addRenderer(new ValidationRenderer());
   }
 
-  activate(request) {
-    this.request = request;
+  getPrice() {
+    this.request.total_price = this.unitPrice * this.request.count;
+  }
+
+  activate(params) {
     this.updates = {};
+
+    this.api.fetch(`me/requests/${params.request_id}`)
+      .then(request => {
+        this.request = request;
+        this.unitPrice = this.request.total_price * this.request.count;
+        this.request.collection_method = 'courier';
+      })
+      .catch(err => notify().log('Successfully placed order. Waiting for verification.'));
+
     this.api.fetch('me/cards')
       .then(cards => {
         if (cards.data) {
           this.cards = cards.data;
         }
       })
-      .catch(err => errorReporting.report(new Error(err.message)));
+      .catch(err => this.errorReporting.report(new Error(err.message)));
+
+    setTimeout(() => {
+      ValidationRules
+        .ensure(user => user.phone)
+        .required()
+        .ensure(user => user.email)
+        .email()
+        .required()
+        .ensure(user => user.address)
+        .required()
+        .on(this.userStore.user);
+    }, 400);
   }
 
   saveProof() {
     this.request.status = 'verify';
     this.state.inflight = true;
-    this.upload.uploadImages(this.proof, 'proof')
-      .then(streams => {
-        this.updates.proof = streams.map(stream => stream.url.split('?')[0]);
-        this.updates.status = 'verify';
-        return this.api.edit(`me/requests/${this.request.id}`, this.updates);
-      })
-      .then(success => {
-        this.state.inflight = false;
-        notify().log('Successfully placed order. Waiting for verification.');
-        return this.controller.ok();
-      })
-      .catch(err => errorReporting.report(new Error(err.message)));
+    this.validationController.validate()
+      .then(result => {
+        if (result.valid) {
+          this.upload.uploadImages(this.proof, 'proof')
+            .then(streams => {
+              this.updates.proof = streams.map(stream => stream.url.split('?')[0]);
+              this.updates.status = 'verify';
+              return this.api.edit(`me/requests/${this.request.id}`, this.updates);
+            })
+            .then(success => {
+              this.state.inflight = false;
+              this.router.navigateToRoute('acknowledge', {request_id: this.request.id});
+            })
+            .catch(err => this.errorReporting.report(new Error(err.message)));
+        } else {
+          throw new Error('invalid request');
+        }
+      });
   }
 
   togglePaymentView(toggle) {
     this.currentPaymentMethod = this.currentPaymentMethod === toggle ? '' : toggle;
   }
 
-  saveAddress(address) {
-    if (address && address.line_1 === constants.defaultShippingAddress.line_1) {
-      return;
-    }
-
-    if (this.userStore.user && !this.userStore.user.address) {
-      this.userStore.user.address = address;
-      this.api.edit('me', { address: address })
-        .then(success => console.log(success))
-        .catch(err => errorReporting.report(new Error(err.message)));
-    }
+  saveUser() {
   }
 
-  saveCountry(countryId) {
-    if (!this.userStore.user.country_id) {
-      this.userStore.user.country_id = countryId;
-      this.api.edit('me', { country_id: countryId })
-        .then(success => console.log(success))
-        .catch(err => errorReporting.report(new Error(err.message)));
-    }
+  saveUserInfo(prop, value) {
+    this.userFragment[prop] = value;
   }
 
   charge(token) {
     this.state.inflight = true;
-    this.saveAddress(this.request.shipping_address);
-    // this.saveCountry(this.request.destination_id);
-    (token ? this.api.create('me/cards', {token}) : Promise.resolve())
-      .then(res => {
-        const cardId = (res && res.card_id) || this.card;
-        return this.api
-          .create('me/charge', {amount: this.request.total_price, currency: 'SGD', source: cardId});
-      })
-      .then(response => {
-        this.updates.stripe_charge_id = response.id;
-        this.updates.status = 'confirmed';
-        return this.api.edit(`me/requests/${this.request.id}`, this.updates);
-      })
-      .then(success => {
-        this.state.inflight = false;
-        notify().log('Successfully placed order');
-        return this.controller.ok();
-      })
-      .catch(error => {
-        this.state.inflight = false;
-        // send error to admin
-        errorReporting.report(new Error(err.message));
+    if (Object.keys(this.userFragment).length !== 0) {
+      this.api.edit('me', this.userFragment);
+    }
+
+    this.validationController.validate()
+      .then(result => {
+        if (result.valid) {
+          (token ? this.api.create('me/cards', {token}) : Promise.resolve())
+            .then(res => {
+              const cardId = (res && res.card_id) || this.card;
+              return this.api
+                .create('me/charge', {amount: this.request.total_price, currency: 'SGD', source: cardId});
+            })
+            .then(response => {
+              this.updates.stripe_charge_id = response.id;
+              this.updates.status = 'confirmed';
+              return this.api.edit(`me/requests/${this.request.id}`, this.updates);
+            })
+            .then(success => {
+              this.state.inflight = false;
+              this.router.navigateToRoute('acknowledge', {request_id: this.request.id});
+            })
+            .catch(error => {
+              // console.log(error);
+              this.state.inflight = false;
+              this.errorReporting.report(new Error(error.message));
+            });
+        } else {
+          throw new Error('invalid request');
+        }
       });
   }
 }

@@ -1,5 +1,27 @@
 @import '../../../style/base';
 
+.custom-checkout {
+  @include grid-media($desktop) {
+    @include grid-column(6);
+    @include grid-shift(3);
+  }
+}
+
+.rotate-icon {
+  transform: rotate(90deg);
+  transition: transform .2s ease;
+}
+.cc {
+  &__card-payment, &__bank-payment {
+    &__button {
+      padding: .5rem;
+      cursor: pointer;
+      border: 1px solid black;
+      margin-bottom: 0.5rem;
+    }
+  }
+}
+
 .bank-payment {
 
   &__account {

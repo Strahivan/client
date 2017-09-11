@@ -1,38 +1,43 @@
 <template>
   <require from="./custom-checkout.css"></require>
-  <div class="custom-checkout modal active">
-    <div class="modal-overlay"></div>
-    <div class="cc-container modal-container">
-      <section class="cc__order-info">
-        <div>
-          <a href.bind="request.product_details.url" target="_blank">${request.product_details.name || 'Custom Product'}</a>
-        </div>
-        <div>
-          ${request.instructions}
-        </div>
-        <div>
-          ${request.count}
-        </div>
-        <div>
-          ${request.delivery_date | toDate:'date'}
-        </div>
-      </section>
+  <require from="../../../resources/fragments/bank-payment-instructions.html"></require>
+  <require from="../../../resources/fragments/order-details.html"></require>
+  <div class="custom-checkout">
+    <div class="cc-container">
+      <order-details product.bind="request.product_details" request.bind="request"></order-details>
+      <hr>
       <section>
-        <div>
-          ${request.total_price | toCurrency}
-        </div>
+        <label>
+          Total Payable: ${request.total_price | toCurrency}
+        </label>
       </section>
+      <hr>
+      <div>
+        <label for="">Delivery</label>
+        <select value.bind="request.collection_method & validate">
+          <option value="courier">Courier (Free)</option>
+          <option value="pickup">Pickup</option>
+        </select>
+      </div>
       <section>
         <div if.bind="request.collection_method === 'courier'" class="shipping-address">
           <label>Address</label>
           Line 1
-          <input value.bind="request.shipping_address.line_1" type="text" />
+          <input change.delegate="saveUserInfo('address', userStore.user.address)" value.bind="userStore.user.address.line_1 & validate" type="text" />
           Line 2
-          <input value.bind="request.shipping_address.line_2" type="text" />
+          <input change.delegate="saveUserInfo('address', userStore.user.address)" value.bind="userStore.user.address.line_2 & validate" type="text" />
           City
-          <input value.bind="request.shipping_address.city" type="text" />
+          <input change.delegate="saveUserInfo('address', userStore.user.address)" value.bind="userStore.user.address.city & validate" type="text" />
           Zip
-          <input value.bind="request.shipping_address.zip" type="text" />
+          <input change.delegate="saveUserInfo('address', userStore.user.address)" value.bind="userStore.user.address.zip & validate" type="text" />
+        </div>
+        <div>
+          <label>Email
+            <input change.delegate="saveUserInfo('email', userStore.user.email)" value.bind="userStore.user.email & validate" type="text" />
+        </div>
+        <div>
+          <label>Phone
+            <input change.delegate="saveUserInfo('phone', userStore.user.phone)" value.bind="userStore.user.phone & validate" type="text" />
         </div>
       </section>
       <section class="cc__card-payment">
@@ -66,46 +71,13 @@
           <i class="icon ion-cash"></i>
           Bank Payment
         </div>
-        <div class="bank-payment" show.bind="currentPaymentMethod === 'bank-payment'">
-          <ol class="cc__bank-payment__content__instructions">
-            <li class="cc__bank-payment__content__instructions__step">
-              <i class="icon ion-checkmark-circled"></i>
-              Add new Payee
-              <div class="bank-payment__account">
-                <label>DBS Business Banking</label>
-                <table>
-                  <tr>
-                    <td>Name:</td>
-                    <td>Novelship</td>
-                  </tr>
-                  <tr>
-                    <td>Account No:</td>
-                    <td>003-949373-8</td>
-                  </tr>
-                  <tr>
-                    <td>Branch Code:</td>
-                    <td>003</td>
-                  </tr>
-                </table>
-              </div>
-            </li>
-            <li class="cc__bank-payment__content__instructions__step">
-              <i class="icon ion-checkmark-circled"></i>
-              Transfer ${request.currency} ${request.total_price | toCurrency} to the account
-            </li>
-            <li class="cc__bank-payment__content__instructions__step">
-              <i class="icon ion-checkmark-circled"></i>
-              Take a picture of the reciept and submit the photo as proof
-            </li>
-          </ol>
-          <div class="cc__bank-payment__ref">
-            <input type="file" files.bind="proof | toArray">
-            <button click.delegate="saveProof()">Submit Proof</button>
+          <div class="checkout-container__bank-payment__content" show.bind="currentPaymentMethod === 'bank-payment'">
+            <bank-payment-instructions request.bind="request"></bank-payment-instructions>
+            <div class="checkout-container__bank-payment__ref"><span if.bind="state.error.proofRequired" style="color:red">Proof is required</span>
+              <input type="file" files.bind="proof | toArray">
+              <button click.delegate="saveProof()">Submit Proof</button>
+            </div>
           </div>
-        </div>
-      </section>
-      <section class="modal-footer">
-        <button click.delegate="controller.cancel()">Cancel</button>
       </section>
     </div>
     <div if.bind="state.inflight" class="cc__loading">
