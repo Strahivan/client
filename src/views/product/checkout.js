@@ -119,11 +119,8 @@ export class CheckoutVM {
   }
 
   confirmPurchase() {
-    return this.api.edit(`products/${this.product.id}`, {order_count: this.product.order_count ? this.product.order_count + 1 : 1})
-      .then(response => {
-        this.adwords.reportSales(this.request.total_price);
-        this.router.navigateToRoute('acknowledge');
-      });
+    this.adwords.reportSales(this.request.total_price);
+    this.router.navigateToRoute('acknowledge');
   }
 
   validate() {

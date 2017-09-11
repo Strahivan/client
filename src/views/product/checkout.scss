@@ -1,15 +1,12 @@
 @import '../../style/base';
 
-.checkout-container-outer {
-  @include grid-container;
-}
-
 .checkout-container {
-    @include grid-column(12);
-    @include grid-media($desktop) {
-      @include grid-shift(3);
-      @include grid-column(6);
-    }
+  @include grid-column(12);
+  @include grid-media($desktop) {
+    @include grid-shift(3);
+    @include grid-column(6);
+  }
+
   &__order-info {
     &__image {
       display: inline-block;

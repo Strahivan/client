@@ -1,128 +1,103 @@
 <template>
   <require from="./checkout.css"></require>
   <require from="../../resources/fragments/bank-payment-instructions.html"></require>
-  <div class="checkout-container-outer">
-    <div class="checkout-container">
-      <div class="${state.inflight? 'checkout-container--blur': ''}">
-        <section class="checkout-container__order-info">
-          <div class="checkout-container__order-info__image">
-            <img src.bind="request.color.images[0] || product.gallery[0]" alt="">
-          </div>
-          <div class="checkout-container__order-details">
-            <div class="checkout-container__order-details__title">
-              ${product.name}
-            </div>
-            <div class="checkout-container__order-detail__size" if.bind="request.size">
-              Size: ${request.size.name}
-            </div>
-            <div class="checkout-container__order-details__color" if.bind="request.color">
-              Color: ${request.color.name}
-            </div>
-            <div class="checkout-container__order-details__variation" if.bind="request.variation">
-              Edition: ${request.variation.name}
-            </div>
-            <div class="checkout-container__order-details__count" if.bind="request.count">
-              <label>
-                Quantity:
-                <select value.bind="request.count" change.delegate="getPrice()">
-                  <option repeat.for="i of 9" model.bind="i+1">${i+1}</option>
-                </select>
-              </label>
-            </div>
-            <div class="checkout-container__order-details__arrival">
-              <label>Estimated Arrival</label>
-              ${request.delivery_date | toDate:'date'}
-            </div>
-          </div>
-          <hr>
-          <div class="checkout-container__order-info__total-price">
-            <label>Total Cost: SGD ${request.total_price | toCurrency}</label>
-          </div>
-          <hr>
-        </section>
-        <section class="checkout-container__shipping-info">
-          <div>
-            <label>Collection Method</label>
-            <select change.delegate="toggleAddress()" value.bind="request.collection_method">
-              <option value="pickup">Pickup</option>
-              <option value="courier">Courier (Free)</option>
-            </select>
-          </div>
-          <div if.bind="request.collection_method === 'pickup'">
-            <label></label>
-            <p>${request.shipping_address.line_1}</p>
-            <p>${request.shipping_address.line_2}</p>
-            <p>${request.shipping_address.zip}</p>
-            <p>${request.shipping_address.city}</p>
-          </div>
-          <div if.bind="request.collection_method === 'post' || request.collection_method === 'courier'" class="shipping-address">
-            <label>Address</label>
-            Line 1 * <span if.bind="state.error.addressRequired" style="color:red">Address is required</span>
-            <input value.bind="request.shipping_address.line_1" type="text" />
-            Line 2
-            <input value.bind="request.shipping_address.line_2" type="text" />
-            City
-            <input value.bind="request.shipping_address.city" type="text" />
-            Zip * <span if.bind="state.error.zipRequired" style="color:red">Zip is required</span>
-            <input value.bind="request.shipping_address.zip" type="text" />
-            Phone * <span if.bind="state.error.phoneRequired" style="color:red">Phone is required</span>
-            <input value.bind="userStore.user.phone" change.delegate="state.changedPhone = true" type="text" />
-          </div>
-          <div>
-            Email * <span if.bind="state.error.emailRequired" style="color:red">Email is required</span>
-            <input value.bind="userStore.user.email" change.delegate="state.changedEmail = true" type="email" />
-          </div>
-        </section>
-        <hr>
-        <section class="checkout-container__card-payment">
-          <div class="checkout-container__card-payment__button" click.trigger="togglePaymentView('card-payment')">
-            <i show.bind="currentPaymentMethod !== 'card-payment'" class="icon ion-arrow-right-b"></i>
-            <i show.bind="currentPaymentMethod === 'card-payment'" class="icon ion-arrow-down-b"></i>
-            <i class="icon ion-card"></i>
-            Card Payment
-          </div>
-          <div show.bind="currentPaymentMethod === 'card-payment'" class="checkout-container__card-payment__content">
-            <div if.bind="cards.length && !state.addcard">
-              <label>
-                Pay using:
-                <select value.bind="selectedCard">
-                  <option repeat.for="card of cards" model.bind="card.id">${card.brand} ending with ${card.last4}</option>
-                </select>
-              </label>
-              <button click.delegate="charge()">Pay $${request.total_price | toCurrency}</button>
-              <button if.bind="!state.addcard" click.delegate="state.addcard = true">Add New Card</button>
-            </div>
-            <div class="checkout-container__card-payment__content__add" if.bind="state.addcard || !cards.length">
-              <payment-form save.call="charge(token)" button-text="Pay"></payment-form>
-              <a href="#" if.bind="cards.length" click.delegate="state.addcard = false">Cancel</a>
-            </div>
-          </div>
-        </section>
-        <section class="checkout-container__bank-payment">
-          <div class="checkout-container__bank-payment__button" click.trigger="togglePaymentView('bank-payment')">
-            <i show.bind="currentPaymentMethod !== 'bank-payment'" class="icon ion-arrow-right-b"></i>
-            <i show.bind="currentPaymentMethod === 'bank-payment'" class="icon ion-arrow-down-b"></i>
-            <i class="icon ion-cash"></i>
-            Bank Payment
-          </div>
-          <div class="checkout-container__bank-payment__content" show.bind="currentPaymentMethod === 'bank-payment'">
-            <bank-payment-instructions request.bind="request"></bank-payment-instructions>
-            <div class="checkout-container__bank-payment__ref"><span if.bind="state.error.proofRequired" style="color:red">Proof is required</span>
-              <input type="file" files.bind="proof | toArray">
-              <button click.delegate="saveProof()">Submit Proof</button>
-            </div>
-          </div>
-        </section>
+  <require from="../../resources/fragments/order-details.html"></require>
+  <div class="checkout-container">
+    <order-details product.bind="product" request.bind="request"></order-details>
+    <section>
+      <div class="checkout-container__order-details__count" if.bind="request.count">
+        <label>
+          Quantity:
+          <select value.bind="request.count" change.delegate="getPrice()">
+            <option repeat.for="i of 9" model.bind="i+1">${i+1}</option>
+          </select>
+        </label>
       </div>
-      <section>
-        <div if.bind="state.inflight" class="checkout-container__loading">
-          Processing. Please do not navigate away from this page.
-          <div class="sk-wandering-cubes">
-            <div class="sk-cube sk-cube1"></div>
-            <div class="sk-cube sk-cube2"></div>
-          </div>
+      <div class="checkout-container__order-info__total-price">
+        <label>Total Cost: SGD ${request.total_price | toCurrency}</label>
+      </div>
+    </section>
+    <section class="checkout-container__shipping-info">
+      <div>
+        <label>Collection Method</label>
+        <select change.delegate="toggleAddress()" value.bind="request.collection_method">
+          <option value="pickup">Pickup</option>
+          <option value="courier">Courier (Free)</option>
+        </select>
+      </div>
+      <div if.bind="request.collection_method === 'pickup'">
+        <label></label>
+        <p>${request.shipping_address.line_1}</p>
+        <p>${request.shipping_address.line_2}</p>
+        <p>${request.shipping_address.zip}</p>
+        <p>${request.shipping_address.city}</p>
+      </div>
+      <div if.bind="request.collection_method === 'post' || request.collection_method === 'courier'" class="shipping-address">
+        <label>Address</label>
+        Line 1 * <span if.bind="state.error.addressRequired" style="color:red">Address is required</span>
+        <input value.bind="request.shipping_address.line_1" type="text" />
+        Line 2
+        <input value.bind="request.shipping_address.line_2" type="text" />
+        City
+        <input value.bind="request.shipping_address.city" type="text" />
+        Zip * <span if.bind="state.error.zipRequired" style="color:red">Zip is required</span>
+        <input value.bind="request.shipping_address.zip" type="text" />
+        Phone * <span if.bind="state.error.phoneRequired" style="color:red">Phone is required</span>
+        <input value.bind="userStore.user.phone" change.delegate="state.changedPhone = true" type="text" />
+      </div>
+      <div>
+        Email * <span if.bind="state.error.emailRequired" style="color:red">Email is required</span>
+        <input value.bind="userStore.user.email" change.delegate="state.changedEmail = true" type="email" />
+      </div>
+    </section>
+    <hr>
+    <section class="checkout-container__card-payment">
+      <div class="checkout-container__card-payment__button" click.trigger="togglePaymentView('card-payment')">
+        <i show.bind="currentPaymentMethod !== 'card-payment'" class="icon ion-arrow-right-b"></i>
+        <i show.bind="currentPaymentMethod === 'card-payment'" class="icon ion-arrow-down-b"></i>
+        <i class="icon ion-card"></i>
+        Card Payment
+      </div>
+      <div show.bind="currentPaymentMethod === 'card-payment'" class="checkout-container__card-payment__content">
+        <div if.bind="cards.length && !state.addcard">
+          <label>
+            Pay using:
+            <select value.bind="selectedCard">
+              <option repeat.for="card of cards" model.bind="card.id">${card.brand} ending with ${card.last4}</option>
+            </select>
+          </label>
+          <button click.delegate="charge()">Pay $${request.total_price | toCurrency}</button>
+          <button if.bind="!state.addcard" click.delegate="state.addcard = true">Add New Card</button>
         </div>
-      </section>
-    </div>
+        <div class="checkout-container__card-payment__content__add" if.bind="state.addcard || !cards.length">
+          <payment-form save.call="charge(token)" button-text="Pay"></payment-form>
+          <a href="#" if.bind="cards.length" click.delegate="state.addcard = false">Cancel</a>
+        </div>
+      </div>
+    </section>
+    <section class="checkout-container__bank-payment">
+      <div class="checkout-container__bank-payment__button" click.trigger="togglePaymentView('bank-payment')">
+        <i show.bind="currentPaymentMethod !== 'bank-payment'" class="icon ion-arrow-right-b"></i>
+        <i show.bind="currentPaymentMethod === 'bank-payment'" class="icon ion-arrow-down-b"></i>
+        <i class="icon ion-cash"></i>
+        Bank Payment
+      </div>
+      <div class="checkout-container__bank-payment__content" show.bind="currentPaymentMethod === 'bank-payment'">
+        <bank-payment-instructions request.bind="request"></bank-payment-instructions>
+        <div class="checkout-container__bank-payment__ref"><span if.bind="state.error.proofRequired" style="color:red">Proof is required</span>
+          <input type="file" files.bind="proof | toArray">
+          <button click.delegate="saveProof()">Submit Proof</button>
+        </div>
+      </div>
+    </section>
+    <section>
+      <div if.bind="state.inflight" class="checkout-container__loading">
+        Processing. Please do not navigate away from this page.
+        <div class="sk-wandering-cubes">
+          <div class="sk-cube sk-cube1"></div>
+          <div class="sk-cube sk-cube2"></div>
+        </div>
+      </div>
+    </section>
   </div>
 </template>
