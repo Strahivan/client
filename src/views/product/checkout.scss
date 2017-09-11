@@ -71,21 +71,6 @@
       margin-top: 1.5em;
     }
     &__content {
-      &__instructions {
-        &__step {
-          margin-bottom: 0.5rem;
-          &__account {
-            padding: .5em;
-            border: 1px solid;
-            div {
-              label {
-                display: inline-block;
-                min-width: 9rem;
-              }
-            }
-          }
-        }
-      }
     }
   }
 }

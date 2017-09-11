@@ -1,5 +1,6 @@
 <template>
   <require from="./checkout.css"></require>
+  <require from="../../resources/fragments/bank-payment-instructions.html"></require>
   <div class="checkout-container-outer">
     <div class="checkout-container">
       <div class="${state.inflight? 'checkout-container--blur': ''}">
@@ -105,43 +106,7 @@
             Bank Payment
           </div>
           <div class="checkout-container__bank-payment__content" show.bind="currentPaymentMethod === 'bank-payment'">
-            <ol class="checkout-container__bank-payment__content__instructions">
-              <li class="checkout-container__bank-payment__content__instructions__step">
-                <i class="icon ion-checkmark-circled"></i>
-                Log in to internet banking
-              </li>
-              <li class="checkout-container__bank-payment__content__instructions__step">
-                <i class="icon ion-checkmark-circled"></i>
-                Add new Payee:
-                <div class="checkout-container__bank-payment__content__instructions__step__account">
-                  <label>DBS Business Banking</label>
-                  <div>
-                    <label>Account Name:</label>
-                    AthenaDesk Pte Ltd
-                  </div>
-                  <div>
-                    <label>Account Number:</label>
-                    003-949373-8
-                  </div>
-                  <div>
-                    <label>Branch Code:</label>
-                    003
-                  </div>
-                </div>
-              </li>
-              <li class="checkout-container__bank-payment__content__instructions__step">
-                <i class="icon ion-checkmark-circled"></i>
-                Transfer ${request.currency} ${request.total_price | toCurrency} to the account
-              </li>
-              <li class="checkout-container__bank-payment__content__instructions__step">
-                <i class="icon ion-checkmark-circled"></i>
-                For Internet Banking, please put your full name into "Your Initials"
-              </li>
-              <li class="checkout-container__bank-payment__content__instructions__step">
-                <i class="icon ion-checkmark-circled"></i>
-                Take a picture of the receipt and submit the photo as proof
-              </li>
-            </ol>
+            <bank-payment-instructions request.bind="request"></bank-payment-instructions>
             <div class="checkout-container__bank-payment__ref"><span if.bind="state.error.proofRequired" style="color:red">Proof is required</span>
               <input type="file" files.bind="proof | toArray">
               <button click.delegate="saveProof()">Submit Proof</button>
