@@ -1,0 +1,37 @@
+<template bindable="product,request">
+  <require from="./order-details.css"></require>
+  <section class="order-details">
+    <div class="order-details__image">
+      <img src.bind="request.color.images[0] || product.gallery[0] || 'images/default_product.jpg'" alt="">
+    </div>
+    <div class="order-details__info">
+      <div class="order-details__title">
+        ${product.name || 'Custom Product'}
+      </div>
+      <div if.bind="request.product_details" class="checkout-container__order-details__title">
+        <a href.bind="product.url" target="_blank">${product.url}</a>
+      </div>
+      <div class="checkout-container__order-detail__size" if.bind="request.size">
+        Size: ${request.size.name}
+      </div>
+      <div class="checkout-container__order-details__color" if.bind="request.color">
+        Color: ${request.color.name}
+      </div>
+      <div class="checkout-container__order-details__variation" if.bind="request.variation">
+        Edition: ${request.variation.name}
+      </div>
+      <div if.bind="request.instructions">
+        <label>
+          Instructions:
+        </label>
+        ${request.instructions}
+      </div>
+      <div class="checkout-container__order-details__arrival">
+        <label>Estimated Delivery Date</label>
+        ${request.delivery_date | toDate:'date'}
+      </div>
+    </div>
+    <hr>
+    <hr>
+  </section>
+</template>

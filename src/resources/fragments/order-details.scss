@@ -1,0 +1,9 @@
+.order-details {
+  display: flex;
+  &__image {
+    margin-right: 1rem;
+    img {
+      height: 10rem;
+    }
+  }
+}
