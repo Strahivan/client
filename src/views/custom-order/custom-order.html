@@ -20,13 +20,6 @@
         <label for="">Quantity</label>
         <input value.bind="request.count | toNumber" placeholder="Please enter how many do you want" type="number" min="1">
       </div>
-      <div>
-        <label for="">Delivery</label>
-        <select value.bind="request.collection_method & validate">
-          <option value="courier">Courier (Free)</option>
-          <option value="pickup">Pickup</option>
-        </select>
-      </div>
       <div class="custom-order__form__submit">
         <a click.delegate="calculator()" class="button">Estimate Price</a>
         <button type="submit">Submit</button>

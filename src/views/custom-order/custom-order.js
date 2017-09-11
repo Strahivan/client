@@ -20,7 +20,6 @@ export class CustomOrderView {
     shop_id: 1,
     status: 'pending',
     destination_id: constants.defaultDestination,
-    collection_method: 'pickup',
     count: 1
   }
 
