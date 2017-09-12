@@ -1,43 +1,61 @@
 <template>
   <require from="./edit.css"></require>
   <form class="edit-product" submit.delegate="edit()">
-    <div>
-      <label>Cost
-        <input type="number" step="any" value.bind="newProduct.cost | toNumber" change.delegate="getPrice()" />
-      </label>
-      <label>Weight
-        <input type="number" step="any" value.bind="newProduct.weight | toNumber" change.delegate="getPrice()" />
-      </label>
-      <label>Local Delivery Fee
-        <input type="number" step="any" value.bind="newProduct.local_delivery_fee | toNumber" change.delegate="getPrice()" />
-      </label>
-      <label>Delta
-        <input type="number" step="any" value.bind="newProduct.price_override | toNumber" change.delegate="getPrice()" />
-      </label>
-      <label>
-        Suggested Price
-        <div>
-          ${newProduct.price}
-        </div>
-      </label>
-    </div>
-
+    <label>Name
+      <input type="text" value.bind="newProduct.name" ref="first"/>
+    </label>
+    <label>URL
+      <input type="text" value.bind="newProduct.url" />
+    </label>
+    <label>
+      Collection <span if.bind="newProduct.collections.length">
+        <span class="chip" repeat.for="collection of newProduct.collections">${collection.name}
+          <i class="icon ion-close-circled edit-product__remove-collection" click.delegate="removeFromCollection(collection.id)"></i>
+        </span>
+      </span>
+      <select value.bind="collectionId" change.delegate="updateCollection(collectionId)">
+        <option model.bind="null">Choose</option>
+        <option repeat.for="collection of collections" model.bind="collection.id">${collection.name}</option>
+      </select>
+    </label>
     <div class="edit-product__description">
-      <label>
-        Collection
-        <select value.bind="collectionId" change.delegate="updateCollection(collectionId)">
-          <option model.bind="null">Choose</option>
-          <option repeat.for="collection of collections" model.bind="collection.id">${collection.name}</option>
-        </select>
-      </label>
       <label>Description</label>
       <div class="edit-product__description__editor">
         <textarea value.bind="newProduct.description"></textarea>
-        <button click.delegate="cancel('description')">Cancel</button>
       </div>
       <div class="edit-product__description__preview" innerhtml.bind="newProduct.description | markdown">
       </div>
     </div>
+    <label>
+      Estimated Delivery(in days)
+      <input type="number" value.bind="newProduct.delivery_time | toNumber" />
+    </label>
+    <label>
+      Preorder
+      <input type="checkbox" value.bind="newProduct.preorder" />
+    </label>
+    <label>Sequence
+      <input type="number" value.bind="newProduct.order_count | toNumber" />
+    </label>
+    <label>Cost
+      <input type="number" step="any" value.bind="newProduct.cost | toNumber" change.delegate="getPrice()" />
+    </label>
+    <label>Weight
+      <input type="number" step="any" value.bind="newProduct.weight | toNumber" change.delegate="getPrice()" />
+    </label>
+    <label>Local Delivery Fee
+      <input type="number" step="any" value.bind="newProduct.local_delivery_fee | toNumber" change.delegate="getPrice()" />
+    </label>
+    <label>Delta
+      <input type="number" step="any" value.bind="newProduct.price_override | toNumber" change.delegate="getPrice()" />
+    </label>
+    <label>
+      Suggested Price
+      <div>
+        ${newProduct.price}
+      </div>
+    </label>
+
 
     <div class="edit-product__gallery">
       <label>Gallery</label>
