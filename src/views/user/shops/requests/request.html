@@ -1,5 +1,6 @@
 <template>
-  <section class="order-actions">
+  <require from="./request.css"></require>
+  <section class="shop-request">
     <form submit.delegate="update(editRequest)">
       <div>
         <label>Change Status</label>
@@ -8,6 +9,28 @@
         </select>
       </div>
       <div if.bind="request.data.product_details && request.data.status === 'pending'">
+        <div>
+          <label>Name</label>
+          <input type="text" value.bind="editRequest.product_details.name"/>
+        </div>
+        <div>
+          <label>Picture</label>
+          <input type="text" value.bind="editRequest.product_details.picture"/>
+        </div>
+        <div class="shop-request__choices">
+          <div>
+            <label>Color</label>
+            <input type="text" value.bind="editRequest.color.name"/>
+          </div>
+          <div>
+            <label>Size</label>
+            <input type="text" value.bind="editRequest.size.name"/>
+          </div>
+          <div>
+            <label>Variation</label>
+            <input type="text" value.bind="editRequest.variation.name"/>
+          </div>
+        </div>
         <div>
           <label>Price</label>
           <input type="number" step="0.01" value.bind="editRequest.total_price | toNumber"/>
@@ -18,7 +41,7 @@
         </div>
         <div>
           <label>Delivery Date</label>
-          <input type="date" value.bind="editRequest.delivery_date"/>
+          <input type="date" value.bind="editRequest.delivery_date | castToDate"/>
         </div>
       </div>
       <button type="submit">Save</button>

@@ -2,6 +2,7 @@ import {inject} from 'aurelia-framework';
 import {Api} from '~/services/api';
 import {notify} from '~/services/notification';
 import {constants} from '~/services/constants';
+import {utilities} from '~/services/utilities';
 
 @inject(Api)
 export class ShopRequestVM {
@@ -23,7 +24,7 @@ export class ShopRequestVM {
       .fetch(`me/shops/${params.shop_id}/requests/${params.request_id}`, this.request.params)
       .then(response => {
         this.request.data = response;
-        this.editRequest.status = response.status;
+        this.editRequest = (JSON.parse(JSON.stringify(response)));
       })
       .catch(err => {
         console.log(err);
@@ -31,13 +32,12 @@ export class ShopRequestVM {
   }
 
   update(fragment) {
-    if (fragment.delivery_date) {
-      fragment.delivery_date = (new Date(fragment.delivery_date)).toISOString();
-    }
+    const updateFragment = utilities.diff(JSON.parse(JSON.stringify(this.request.data)), this.editRequest);
+
     this.api
-      .edit(`me/shops/${this.params.shop_id}/requests/${this.params.request_id}`, fragment)
+      .edit(`me/shops/${this.params.shop_id}/requests/${this.params.request_id}`, updateFragment)
       .then(response => {
-        Object.assign(this.request.data, fragment);
+        Object.assign(this.request.data, updateFragment);
         notify().log('Successfully updated!');
       })
       .catch(err => {
