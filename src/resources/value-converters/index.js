@@ -1,4 +1,5 @@
 const valueConverters = [
+  'cast-to-date',
   'to-array',
   'to-number',
   'to-date',
