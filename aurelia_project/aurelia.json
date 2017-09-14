@@ -212,7 +212,12 @@
             "path": "../node_modules/raven-js/dist",
             "resources": []
           },
-          "fecha"
+          "fecha",
+          {
+            "name": "lodash-isequal",
+            "main": "index",
+            "path": "../node_modules/lodash.isequal"
+          }
         ]
       }
     ]
