@@ -51,45 +51,10 @@
     </section>
 
     <section class="home-page__most-popular">
-      <h3>Most Popular</h3>
+      <h2>Most Popular</h2>
       <div class="home-page__most-popular__cards">
         <div class="home-page__most-popular__cards__card" repeat.for="product of popular.data" >
           <product-card class="product-card" product.bind="product"></product-card>
-        </div>
-      </div>
-    </section>
-    <section class="home-page__categories">
-      <a class="home-page__categories__category" repeat.for="category of categories.data" route-href="route:filter; params.bind:{category: category.id}">
-        ${category.name}
-      </a>
-    </section>
-
-    <section class="home-page__valuescontainer">
-      <h3>International Shopping. Simplified</h3>
-      <div class="home-page__values">
-        <div class="home-page__values__section">
-          <img src="images/order.svg" alt=""/>
-          <div class="values__text">
-            Place order and get quote
-          </div>
-        </div>
-        <div class="home-page__values__section">
-          <img src="images/pay.svg" alt=""/>
-          <div class="values__text">
-            Approve order and pay
-          </div>
-        </div>
-        <div class="home-page__values__section">
-          <img src="images/track.svg" alt=""/>
-          <div class="values__text">
-            Track shipment
-          </div>
-        </div>
-        <div class="home-page__values__section">
-          <img src="images/delivery.svg" alt=""/>
-          <div class="values__text">
-            Get doorstep delivery
-          </div>
         </div>
       </div>
     </section>
