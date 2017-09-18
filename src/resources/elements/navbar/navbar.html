@@ -1,18 +1,68 @@
 <template>
   <require from="./navbar.css"></require>
-  <header role="banner">
-    <nav class="nav-container" role="navigation">
-      <a href.bind="'/home'" class="nav-container__logo">
-        <picture>
+  <nav class="navbar is-transparent is-warning">
+    <div class="navbar-brand">
+        <a href.bind="'/home'" class="navbar-item">
+          <picture>
           <source srcset="images/logo.png" media="(min-width: 900px)">
-          <img class="logo-image" src="images/monogram.png" alt=""/>
-        </picture>
-      </a>
-      <div class="nav-container__search">
-        <searchbar></searchbar>
+            <img class="logo-image" src="images/monogram.png" alt=""/>
+          </picture>
+        </a>
+        <div class="navbar-end-mobile is-hidden-desktop">
+          <a if.bind="auth.isAuthenticated()" class="navbar-item" href="/user/dashboard">
+            <span class="icon">
+              <i class="icon ion-person"></i>
+            </span>
+            Dashboard
+          </a>
+          <a if.bind="!auth.isAuthenticated()" class="navbar-item" href="/auth/login">
+            <span class="icon">
+              <i class="icon ion-log-in"></i>
+            </span>
+            Login
+          </a>
+          <div click.trigger="showMenu()" ref="menuButton" class="navbar-burger burger">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+    </div>
+
+    <div class="navbar-menu" ref="menu">
+      <div class="navbar-start">
+        <div class="navbar-item is-hidden-desktop">
+          <searchbar></searchbar>
+        </div>
+        <div repeat.for="category of categories" class="navbar-item ${category.subcategories.length ? 'has-dropdown is-hoverable': ''}">
+          <a class="${category.subcategories.length ? 'navbar-link' : ''} is-active" href="/filter?category=${category.id}">
+            ${category.name}
+          </a>
+          <div if.bind="category.subcategories.length" class="navbar-dropdown is-boxed">
+            <a repeat.for="subcategory of category.subcategories" class="navbar-item " href="/filter?category=${subcategory.id}">
+              ${subcategory.name}
+            </a>
+          </div>
+        </div>
       </div>
-      <a class="nav-container__item ${row.isActive ? 'nav-container__item--active': ''} " repeat.for="row of router.navigation | authFilter: auth.isAuthenticated()" href.bind="row.href">${row.title}</a>
+
+      <div class="navbar-end is-hidden-mobile">
+        <div class="navbar-item">
+          <searchbar><searchbar>
+        </div>
+        <a if.bind="auth.isAuthenticated()" class="navbar-item" href="/user/dashboard">
+          <span class="icon">
+            <i class="icon ion-person"></i>
+          </span>
+          Dashboard
+        </a>
+        <a if.bind="!auth.isAuthenticated()" class="navbar-item" href="/auth/login">
+          <span class="icon">
+            <i class="icon ion-log-in"></i>
+          </span>
+          Login
+        </a>
       </div>
-    </nav>
-  </header>
+    </div>
+  </nav>
 </template>

@@ -1,55 +1,9 @@
 @import "../../../style/base";
+$background-color: #ffdd57;
 
-.nav-container {
-  background-color: white;
-  display: flex;
-  height: $navbar-height;
-  box-shadow: 0 2px 6px 0 rgba(0,0,0,0.17);
-  font-size: 1.2em;
-  justify-content: space-around;
-  position: fixed;
-  width: 100%;
-  z-index: 500;
-
-  &__logo {
-    min-width: 3em;
-    padding-left: .3em;
-    padding-top: .4em;
-    text-align: center;
-
-    .logo-image {
-      height: 1.8em;
-      @media screen and (min-width: $medium-screen) {
-        height: 2.4rem;
-      }
-    }
-  }
-
-  &__search {
-    font-size: 1rem;
-  }
-
-  &__item {
-    color: $secondary-color;
-    padding: .7rem;
-    font-size: 1rem;
-
-    &:hover {
-      background-color: $primary-color;
-      color: white;
-    }
-
-    &:focus {
-      background-color: white;
-      color: $primary-color;
-    }
-
-    &--active {
-      // border-bottom-left-radius: 1rem;
-      // border-bottom-right-radius: 1rem;
-      border-bottom: 0.2em solid $primary-color;
-      color: $primary-color;
-    }
+.navbar {
+  &-end-mobile {
+    display: flex;
+    margin-left: auto;
   }
 }
-
