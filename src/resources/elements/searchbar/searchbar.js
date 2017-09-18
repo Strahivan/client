@@ -1,6 +1,7 @@
 import {inject} from 'aurelia-framework';
 import {Router} from 'aurelia-router';
 import {EventAggregator} from 'aurelia-event-aggregator';
+import {utilities} from '~/services/utilities';
 
 @inject(Router, EventAggregator)
 export class Searchbar {
@@ -11,15 +12,7 @@ export class Searchbar {
 
   showResults() {
     // close mobile menu if the menu is active
-    const menu = document.getElementsByClassName('navbar-menu')[0];
-    const burger = document.getElementsByClassName('navbar-burger')[0];
-    if (menu.classList.contains('is-active')) {
-      menu.classList.remove('is-active');
-    }
-    if (burger.classList.contains('is-active')) {
-      burger.classList.remove('is-active');
-    }
-
+    utilities.closeMobileMenu();
     // if you are already in filter
     // then publish an event with query
     // the filter page will read that query, update it's parameter value
