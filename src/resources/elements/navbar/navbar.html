@@ -34,12 +34,12 @@
         <div class="navbar-item is-hidden-desktop">
           <searchbar></searchbar>
         </div>
-        <div repeat.for="category of categories" class="navbar-item is-hoverable ${category.subcategories.length ? 'has-dropdown': ''}">
-          <a class="${category.subcategories.length ? 'navbar-link' : ''} is-active" href="/filter?category=${category.id}">
+        <div click.trigger="goToCategory(category)" repeat.for="category of categories" class="navbar-item is-hoverable ${category.subcategories.length ? 'has-dropdown': ''}">
+          <div class="${category.subcategories.length ? 'navbar-link' : ''}">
             ${category.name}
-          </a>
+          </div>
           <div if.bind="category.subcategories.length" class="navbar-dropdown is-boxed">
-            <a repeat.for="subcategory of category.subcategories" class="navbar-item " href="/filter?category=${subcategory.id}">
+            <a click.delegate="goToCategory(subcategory)" repeat.for="subcategory of category.subcategories" class="navbar-item " href="/filter?category=${subcategory.id}">
               ${subcategory.name}
             </a>
           </div>

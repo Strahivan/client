@@ -9,11 +9,8 @@ $background-color: #ffdd57;
 
   &-item {
     &:hover {
-      background: $primary-color;
+      background: $background-color;
       cursor: pointer;
-      a {
-        color: white;
-      }
     }
   }
   &-search-desktop {
