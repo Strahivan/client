@@ -3,18 +3,7 @@
 
   <div class="home-page">
     <section class="home-page__hero">
-      <div class="home-page__hero__title">
-        <animated-tag default="Wear " tags.bind="tags"></animated-tag><span class="home-page__hero__title__simple"> it.</span>
-      </div>
-      <div class="home-page__hero__subtitle">
-        Novelship is the number one destination in Singapore to get the latest streetwear and toys.
-      </div>
-      <div class="home-page__hero__cta">
-        Don't see what you are looking for?
-      </div>
-      <div class="home-page__hero__ctabutton">
-        <a class="button" route-href="route: custom-order">Place a Custom Order</a>
-      </div>
+      <hero-carousel gallery.bind="announcements.data"></hero-carousel>
     </section>
 
     <section class="home-page__brands-mobile">

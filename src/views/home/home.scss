@@ -16,16 +16,12 @@ $categories: (
   &__hero {
     @include grid-media($desktop) {
       @include grid-shift(-1);
-      height: 50vh;
       margin-left: -50px;
       width: calc(100vw - 15px);
     }
     align-items: center;
-    background-color: $primary-color;
-    color: white;
     display: flex;
     flex-direction: column;
-    height: calc(100vh - 3.5rem);
     justify-content: center;
     margin-left: -20px;
     margin-top: -1rem;
