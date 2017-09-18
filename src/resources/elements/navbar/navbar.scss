@@ -6,4 +6,25 @@ $background-color: #ffdd57;
     display: flex;
     margin-left: auto;
   }
+
+  &-item {
+    &:hover {
+      background: $primary-color;
+      cursor: pointer;
+      a {
+        color: white;
+      }
+    }
+  }
+  &-search-desktop {
+    form {
+      input {
+        border-radius: 1rem;
+      }
+    }
+
+    &:hover {
+      background: $background-color;
+    }
+  }
 }

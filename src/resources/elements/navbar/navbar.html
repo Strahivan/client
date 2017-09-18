@@ -34,7 +34,7 @@
         <div class="navbar-item is-hidden-desktop">
           <searchbar></searchbar>
         </div>
-        <div repeat.for="category of categories" class="navbar-item ${category.subcategories.length ? 'has-dropdown is-hoverable': ''}">
+        <div repeat.for="category of categories" class="navbar-item is-hoverable ${category.subcategories.length ? 'has-dropdown': ''}">
           <a class="${category.subcategories.length ? 'navbar-link' : ''} is-active" href="/filter?category=${category.id}">
             ${category.name}
           </a>
@@ -46,8 +46,8 @@
         </div>
       </div>
 
-      <div class="navbar-end is-hidden-mobile">
-        <div class="navbar-item">
+      <div class="navbar-end is-hidden-touch">
+        <div class="navbar-item navbar-search-desktop">
           <searchbar><searchbar>
         </div>
         <a if.bind="auth.isAuthenticated()" class="navbar-item" href="/user/dashboard">
