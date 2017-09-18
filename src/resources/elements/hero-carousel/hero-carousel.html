@@ -8,9 +8,13 @@
         </a>
       </li>
     </ul>
-  </div>
-  <div class='controls'>
-    <button click.delegate="prev()">Prev</button>
-    <button click.delegate="next()">Next</button>
+    <div class="controls">
+      <div click.delegate="prev() "class="left">
+        <i class="icon ion-chevron-left"></i>
+      </div>
+      <div click.delegate="next()" class="right">
+        <i class="icon ion-chevron-right"></i>
+      </div>
+    </div>
   </div>
 </template>
