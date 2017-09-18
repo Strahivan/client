@@ -4,6 +4,12 @@
 .page-container {
   @include grid-container;
 
+  &__navbar {
+    position: fixed;
+    width: 100%;
+    z-index: $zindex-4;
+  }
+
   &__page-host {
     @include grid-media($desktop) {
       @include grid-shift(1);
