@@ -31,7 +31,7 @@
 
   a {
     img {
-      max-height: 40vh;
+      max-height: 55vh;
       object-fit: cover;
       width: 100%;
     }
@@ -71,6 +71,12 @@ h2 {
     top: 50%;
     font-size: 2rem;
     color: white;
+
+    i {
+      padding: 1.5rem;
+      cursor: pointer;
+      background: rgba(40, 40, 40, 0.4);
+    }
 
     &:hover, &:focus {
       color: black;
