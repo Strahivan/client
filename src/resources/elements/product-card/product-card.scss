@@ -68,8 +68,11 @@ $padding-md: 0.5rem;
   &__image {
     text-align: center;
     img {
+      @media screen and (min-width: $medium-screen) {
+        height: 15rem;
+      }
       object-fit: cover;
-      height: 15rem;
+      height: 10rem;
       width: 100%;
       border-top-left-radius: $border-radius;
       border-top-right-radius: $border-radius;
