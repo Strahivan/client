@@ -283,14 +283,23 @@ $categories: (
     }
   }
 
+  $most-popular-grid-phone: (
+    columns: 2,
+    gutter: 10px
+  );
+
   &__most-popular {
     @include grid-container;
+    @media screen and (max-width: $small-screen) {
+      margin-left: -20px;
+      width: 100vw;
+    }
     margin-top: 3rem;
     text-align: center;
 
     &__cards {
       &__card {
-        @include grid-column(12);
+        @include grid-column(1, $most-popular-grid-phone);
         @include grid-media($tablet) {
           @include grid-column(2);
         }
