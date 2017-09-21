@@ -13,7 +13,7 @@ export class FilterView {
       filter: {},
       include: ['source', 'shop'],
       page: {
-        size: 12,
+        size: 16,
         number: 0
       },
       sort: '-id'

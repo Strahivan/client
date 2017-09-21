@@ -36,28 +36,9 @@
         </div>
         <a class="button" href="custom-order">Place custom order</a>
       </div>
-      <ul>
+      <ul class="filter-result-wrapper">
         <li class="filter-result" repeat.for="product of products.data">
-          <div class="filter-result__image">
-            <a route-href="route: product; params.bind: {product_id: product.id}"><img src.bind="product.gallery[0]" alt=""/></a>
-          </div>
-          <div class="filter-result__content">
-            <div class="filter-result__content__title">
-              <a route-href="route: product; params.bind: {product_id: product.id}">${product.name}</a>
-            </div>
-            <div class="filter-result__content__shop">
-              By ${product.shop.name}
-            </div>
-            <div class="filter-result__content__price ${product.discount? 'strikethrough': ''}">
-              SGD ${product.price | toCurrency}
-            </div>
-            <div if.bind="product.discount" class="filter-result__content__discounted">
-              SGD ${(product.price - product.discount) | toCurrency}
-            </div>
-            <div class="filter-result__content__from">
-              From ${product.source.name}
-            </div>
-          </div>
+          <product-card class="product-card" product.bind="product"></product-card>
         </li>
       </ul>
       <div if.bind="products.total" class="filter-result-container__pagination">
