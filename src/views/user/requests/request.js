@@ -47,6 +47,6 @@ export class RequestVM {
       .then(response => {
         this.request.data = response;
       })
-      .catch(err => errorReporting.report(new Error(err.message)));
+      .catch(err => this.errorReporting.report(new Error(err.message)));
   }
 }
