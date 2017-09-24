@@ -2,7 +2,7 @@
   <require from="./order-details.css"></require>
   <section class="order-details">
     <div class="order-details__image">
-      <img src.bind="request.color.images[0] || product.gallery[0] || 'images/default_product.jpg'" alt="">
+      <img src.bind="request.product_details.picture || product.gallery[0] || 'images/default_product.jpg'" alt="">
     </div>
     <div class="order-details__info">
       <div class="order-details__title">
