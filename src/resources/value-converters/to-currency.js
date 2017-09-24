@@ -3,6 +3,10 @@ import {PriceService} from '~/services/price';
 
 @inject(PriceService)
 export class ToCurrencyValueConverter {
+  constructor(priceService) {
+    this.priceService = priceService;
+  }
+
   toView(input) {
     if (!input) {
       return '';
@@ -17,7 +21,7 @@ export class ToCurrencyValueConverter {
     }
     if (postDecimal.length > 1 ) {
       const ceilValue = this.priceService.getCeiling(input, -1);
-      result = ceilValue.toString();
+      result = ceilValue.toString() + '0';
     }
     return result || 'not specified';
   }
