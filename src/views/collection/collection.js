@@ -1,7 +1,7 @@
 import {inject} from 'aurelia-framework';
 import {Api} from '~/services/api';
 import {activationStrategy} from 'aurelia-router';
-import {OpenGraphMetadataService} from '~/services/open-graph';
+import {setOpenGraphElements} from '~/services/metadata';
 
 @inject(Api)
 export class CollectionView {
@@ -38,29 +38,7 @@ export class CollectionView {
     this.api
       .fetch(`collections/${param.collection_id}`)
       .then(collection => {
-        OpenGraphMetadataService.setMeta([
-          {
-            property: 'og:title',
-            content: collection.name
-          },
-          {
-            property: 'og:image',
-            content: collection.picture
-          },
-          {
-            property: 'og:type',
-            content: 'website'
-          },
-          {
-            property: 'og:description',
-            content: collection.description
-          },
-          {
-            property: 'og:url',
-            content: window.location.href
-          }
-        ]);
-
+        setOpenGraphElements('collection', collection);
         this.collection.data = collection;
       })
       .catch(err => console.log(err));
