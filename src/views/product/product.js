@@ -5,13 +5,13 @@ import {PriceService} from '~/services/price';
 import {AdwordsService} from '~/services/adwords';
 import {UserStore} from '~/stores/user';
 import animateScrollTo from 'animated-scroll-to';
-import {setOpenGraphElements, setProductJsonLd} from '~/services/metadata';
+import {setOpenGraphElements, setProductJsonLd, setProductBreadCrumb} from '~/services/metadata';
 
 @inject(Router, Api, AdwordsService, UserStore, PriceService)
 export class ProductView {
   product = {
     params: {
-      include: ['source', 'shop', 'brand']
+      include: ['source', 'shop', 'brand', 'category']
     }
   };
   request = {};
@@ -32,6 +32,7 @@ export class ProductView {
     .then(product => {
       setOpenGraphElements('product', product);
       setProductJsonLd(product, this.productContainer);
+      setProductBreadCrumb(product, this.productContainer);
       this.product.data = product;
       this.product.data.calculated_price = this.priceService.calculatePrice(this.product.data);
       this.request = {
