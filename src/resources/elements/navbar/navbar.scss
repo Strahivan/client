@@ -7,12 +7,19 @@ $background-color: #ffdd57;
     margin-left: auto;
   }
 
+  &__customorder {
+    background: $red;
+    a {
+      color: white;
+    }
+  }
+
   &-item {
     &:hover {
       background: $primary-color;
       cursor: pointer;
 
-      div {
+      a {
         color: white;
       }
     }

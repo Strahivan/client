@@ -19,9 +19,9 @@ export class Navbar {
       });
   }
 
-  goToCategory(category) {
+  goToRoute(route) {
     utilities.closeMobileMenu();
-    this.approuter.navigate(`/filter?category=${category.id}`);
+    this.approuter.navigate(route);
   }
 
   showMenu() {

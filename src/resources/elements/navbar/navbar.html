@@ -34,15 +34,24 @@
         <div class="navbar-item is-hidden-desktop">
           <searchbar></searchbar>
         </div>
-        <div click.trigger="goToCategory(category)" repeat.for="category of categories" class="navbar-item is-hoverable ${category.subcategories.length ? 'has-dropdown': ''}">
+        <div click.trigger="goToRoute('custom-order')" class="navbar-item navbar__customorder is-hidden-desktop">
+          <a href="custom-order">Custom Order</a>
+        </div>
+        <div click.trigger="goToRoute('/filter?category=' + category.id)" repeat.for="category of categories" class="navbar-item is-hoverable ${category.subcategories.length ? 'has-dropdown': ''}">
           <div class="${category.subcategories.length ? 'navbar-link' : ''}">
-            ${category.name}
+            <a href="/filter?category=${category.id}">${category.name}</a>
           </div>
           <div if.bind="category.subcategories.length" class="navbar-dropdown is-boxed">
-            <a click.delegate="goToCategory(subcategory)" repeat.for="subcategory of category.subcategories" class="navbar-item " href="/filter?category=${subcategory.id}">
+            <a click.delegate="goToCategory(subcategory)" style="color: black" repeat.for="subcategory of category.subcategories" class="navbar-item " href="/filter?category=${subcategory.id}">
               ${subcategory.name}
             </a>
           </div>
+        </div>
+        <div click.trigger="goToRoute('info/refunds')" class="navbar-item is-hidden-desktop">
+          Refund & Return policy
+        </div>
+        <div click.trigger="goToRoute('info/contact')" class="navbar-item is-hidden-desktop">
+          Contact Us
         </div>
       </div>
 
