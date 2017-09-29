@@ -53,11 +53,6 @@
   }
 }
 
-  $most-popular-grid-phone: (
-    columns: 2,
-    gutter: 10px
-  );
-
 .filter-result-wrapper {
   @include grid-container;
   @media screen and (max-width: $small-screen) {
@@ -67,7 +62,7 @@
 }
 
 .filter-result {
-  @include grid-column(1, $most-popular-grid-phone);
+  @include grid-column(1, $mobile-product-grid);
   @include grid-media($tablet) {
     @include grid-column(3);
   }

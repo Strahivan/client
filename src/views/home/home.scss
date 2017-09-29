@@ -283,11 +283,6 @@ $categories: (
     }
   }
 
-  $most-popular-grid-phone: (
-    columns: 2,
-    gutter: 10px
-  );
-
   &__most-popular {
     @include grid-container;
     @media screen and (max-width: $small-screen) {
@@ -299,7 +294,7 @@ $categories: (
 
     &__cards {
       &__card {
-        @include grid-column(1, $most-popular-grid-phone);
+        @include grid-column(1, $mobile-product-grid);
         @include grid-media($tablet) {
           @include grid-column(2);
         }

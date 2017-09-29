@@ -24,9 +24,13 @@
   }
   &__products > ul {
     @include grid-container;
+    @media screen and (max-width: $small-screen) {
+      margin-left: -20px;
+      width: 100vw;
+    }
 
     li {
-      @include grid-column(12);
+      @include grid-column(1, $mobile-product-grid);
       @include grid-media($desktop) {
         @include grid-column(2);
       }
