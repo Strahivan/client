@@ -1,9 +1,16 @@
 .order-details {
-  display: flex;
+  // display: flex;
+  text-align: center;
   &__image {
     margin-right: 1rem;
     img {
       height: 10rem;
+      object-fit: cover;
     }
+  }
+  &__arrival {
+    display: flex;
+    white-space: nowrap;
+    justify-content: center;
   }
 }

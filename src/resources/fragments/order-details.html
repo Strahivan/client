@@ -26,12 +26,11 @@
         </label>
         ${request.instructions}
       </div>
-      <div class="checkout-container__order-details__arrival">
-        <label>Estimated Delivery Date</label>
+      <div class="order-details__arrival">
+        <label>Est. Delivery: &nbsp;</label>
         ${request.delivery_date | toDate:'date'}
       </div>
     </div>
-    <hr>
     <hr>
   </section>
 </template>
