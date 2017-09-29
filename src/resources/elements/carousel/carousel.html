@@ -3,10 +3,18 @@
 
   <div class="carousel-element" ref="carousel">
     <div class="carousel-element__image-container">
-      <img class="carousel-element__image-container__image" src.bind="images[activeImage]"/>
+      <img class="carousel-element__image-container__image" ref="imageElem" src.bind="images[activeImage]"/>
+      <div class="carousel-element__controls controls">
+        <div click.delegate="prev() "class="left">
+          <i class="icon ion-chevron-left"></i>
+        </div>
+        <div click.delegate="next()" class="right">
+          <i class="icon ion-chevron-right"></i>
+        </div>
+      </div>
     </div>
-    <div class="carousel-element__preview">
-      <img repeat.for="image of images" click.trigger="goTo($index)" src.bind="image" alt=""/>
+    <div class="carousel-element__nav">
+      <span repeat.for="i of images.length" class="carousel-element__nav-dot ${i === activeImage? 'carousel-element__nav-dot--active': ''}"></span>
     </div>
   </div>
 </template>

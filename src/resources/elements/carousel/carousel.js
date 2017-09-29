@@ -10,21 +10,27 @@ export class Carousel {
     this.hammer = new Hammer(this.carousel);
     this.hammer.on('swiperight', this.prev.bind(this));
     this.hammer.on('swipeleft', this.next.bind(this));
+    this.imageElement = new Hammer(this.imageElem);
+    this.imageElement.on('tap', this.invokeFullscreen.bind(this));
   }
 
-  detached() {
-
+  invokeFullscreen() {
+    this.carousel.webkitRequestFullscreen();
   }
 
   next() {
-    this.goTo(this.activeImage + 1);
+    let next = this.activeImage + 1;
+    if (next >= this.images.length) {
+      next = 0;
+    }
+    this.activeImage = next;
   }
 
   prev() {
-    this.goTo(this.activeImage - 1);
-  }
-
-  goTo(index) {
-    this.activeImage = (index >= 0 && index < this.images.length) ? index : 0;
+    let prev = this.activeImage - 1;
+    if (prev < 0) {
+      prev = (this.images.length - 1);
+    }
+    this.activeImage = prev;
   }
 }
