@@ -82,7 +82,6 @@ export class HomeView {
       })
       .catch(error => {
         console.log(error);
-        container.error = error;
       });
   }
 
