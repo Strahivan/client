@@ -6,65 +6,39 @@
   </section>
 
   <section class="product-info" ref="productContainer">
-    <h1 class="product-info__header">${product.data.name}</h1>
-    <h3 class="product-info__price">
+    <span class="product-info__header">${product.data.name}</span>
+    <div class="product-info__price">
       SGD ${request.total_price | toCurrency}
-    </h3>
+    </div>
     <div if.bind="product.data.discount" class="product-info__discounted">Retail: $${(request.total_price + product.data.discount) | toCurrency}</div>
-    <div class="product-info__source">
-      <i class="icon ion-location"></i>
-      From ${product.data.source.name}
-    </div>
-    <div class="product-info__url" if.bind="userStore.user.id === product.data.shop.owner_id">
-      <a href.bind="product.data.url" target="_blank">Product URL</a>
-    </div>
-    <div class="product-info__cta">
-      <button type="submit" if.bind="!product.data.sold_out" click.delegate="confirm()">Buy Now</button>
-      <div class="product-info__cta__soldout" if.bind="product.data.sold_out === true">Sold Out</div>
-    </div>
-  </section>
+    <div class="product-actions-container">
+      <div if.bind="product.data.sizes.length || product.data.colors.length || product.data.variations.length" class="product-variations" name="product-variations">
+        <div class="product-selection" ref="selection">
+          <div if.bind="product.data.colors.length" class="product-color">
+            <select name="color" value.bind="request.color" change.delegate="getPrice()">
+              <option model.bind="null">Choose Color</option>
+              <option disabled.bind="color.out_of_stock" repeat.for="color of product.data.colors" model.bind="color">${color.name} ${color.out_of_stock ? '(Out of stock)': ''}</option>
+            </select>
+          </div>
+          <div if.bind="product.data.sizes.length" class="product-size">
+            <select for="size" value.bind="request.size" change.delegate="getPrice()">
+              <option model.bind="null">Choose Size</option>
+              <option disabled.bind="size.out_of_stock" repeat.for="size of product.data.sizes" model.bind="size">${size.name} ${size.out_of_stock? '(Out of stock)': ''}</option>
+            </select>
+          </div>
+          <div if.bind="product.data.variations.length" class="product-variation">
+            <label for="Variation">Variations</label>
+            <select for="variations" value.bind="request.variation" change.delegate="getPrice()">
+              <option model.bind="null">Choose</option>
+              <option disabled.bind="variation.out_of_stock" repeat.for="variation of product.data.variations" model.bind="variation">${variation.name} ${variation.out_of_stock? '(Out of stock)' : ''}</option>
+            </select>
+          </div>
+        </div>
+      </div>
 
-  <section if.bind="product.data.sizes.length || product.data.colors.length || product.data.variations.length" class="product-variations" name="product-variations">
-    <!-- variations -->
-    <div class="product-selection" ref="selection">
-      <h2>Selection</h2>
-      <div if.bind="state.showSelectionError" class="product-selection__validation-error animated shake">
-        Please make your selection
-      </div>
-      <div if.bind="product.data.colors.length" class="product-color">
-        <label for="color">Color</label>
-        <select name="color" value.bind="request.color" change.delegate="getPrice()">
-          <option model.bind="null">Choose</option>
-          <option disabled.bind="color.out_of_stock" repeat.for="color of product.data.colors" model.bind="color">${color.name} ${color.out_of_stock ? '(Out of stock)': ''}</option>
-        </select>
-      </div>
-      <div if.bind="product.data.sizes.length" class="product-size">
-        <label for="size">Size</label>
-        <select for="size" value.bind="request.size" change.delegate="getPrice()">
-          <option model.bind="null">Choose</option>
-          <option disabled.bind="size.out_of_stock" repeat.for="size of product.data.sizes" model.bind="size">${size.name} ${size.out_of_stock? '(Out of stock)': ''}</option>
-        </select>
-      </div>
-      <div if.bind="product.data.variations.length" class="product-variation">
-        <label for="Variation">Variations</label>
-        <select for="variations" value.bind="request.variation" change.delegate="getPrice()">
-          <option model.bind="null">Choose</option>
-          <option disabled.bind="variation.out_of_stock" repeat.for="variation of product.data.variations" model.bind="variation">${variation.name} ${variation.out_of_stock? '(Out of stock)' : ''}</option>
-        </select>
-      </div>
-    </div>
-  </section>
-  <section class="product-details">
-    <div class="product-description">
-      <h2>Description</h2>
-      <div innerhtml.bind="product.data.description | markdown" class="product-description-content">
-      </div>
-    </div>
-
-    <div class="product-delivery">
-      <h2>Delivery</h2>
-      <div class="product-delivery-content">
-        The product will be available within ${product.data.delivery_time} working days of ordering the item.
+      <div class="product-info__cta">
+        <button type="submit" if.bind="!product.data.sold_out" click.delegate="confirm()">Buy Now</button>
+        <div class="product-info__cta__soldout" if.bind="product.data.sold_out === true">Sold Out</div>
       </div>
     </div>
   </section>

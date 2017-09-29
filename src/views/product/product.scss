@@ -1,17 +1,19 @@
 @import '../../style/base';
 
-.product-info, .product-variations, .product-details{
-  background: darken(white, 2%);
-  border-radius: 0.2rem;
-  box-shadow: 0 1px 3px rgba(0,0,0,.1);
-  margin: 0.5rem;
-  padding: 1rem;
-}
-
 .product-info {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  width: 100%;
+  background: rgba(0,0,0,0.4);
+  color: white;
+  padding: .5rem;
 
-  &__header {
-    font-size: 1.5rem;
+  @media screen and (min-width: $medium-screen) {
+    position: relative;
+    background: white;
+    color: black;
+    text-align: center;
   }
 
   &__source {
@@ -40,8 +42,6 @@
   }
 
   &__cta {
-    margin-top: 1rem;
-
     label {
       align-items: baseline;
       display: flex;
@@ -70,6 +70,32 @@
 
 .product-gallery {
   text-align: center;
+}
+
+.product-actions-container {
+  display: flex;
+  justify-content:space-between;
+  .product-variations {
+    order: 2;
+  }
+  @media screen and (min-width: $medium-screen) {
+    display: block;
+    .product-variations {
+      margin-bottom: .5rem;
+    }
+  }
+
+}
+
+.product-size {
+  select {
+    background: $primary-color url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='%23667189' d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E") no-repeat right .75rem center / .8rem 1rem;
+    border-radius: .2rem;
+    border: 0.1rem solid $primary-color;
+    color: white;
+    margin: auto;
+    width: 10rem;
+  }
 }
 
 .product-description {
