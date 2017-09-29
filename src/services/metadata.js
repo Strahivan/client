@@ -81,6 +81,44 @@ function getProductJsonLd(product) {
   };
 }
 
+export function setProductBreadCrumb(data, container) {
+  const jsonLdData = getProductBreadCrumb(data);
+  setJsonLd(jsonLdData, 'productBreadCrumb', container);
+}
+
+function getProductBreadCrumb(product, container) {
+  return {
+    '@context': 'http://schema.org',
+    '@type': 'BreadcrumbList',
+    'itemListElement': [
+      {
+        '@type': 'ListItem',
+        'position': 1,
+        'item': {
+          '@id': `https://www.novelship.com/categories/${product.category_id}`,
+          'name': product.category.name
+        }
+      }, {
+        '@type': 'ListItem',
+        'position': 2,
+        'item': {
+          '@id': `https://www.novelship.com/brands/${product.brand_id}`,
+          'name': product.brand.name,
+          'image': product.brand.logo
+        }
+      }, {
+        '@type': 'ListItem',
+        'position': 3,
+        'item': {
+          '@id': `https://www.novelship.com/products/${product.id}`,
+          'name': product.name,
+          'image': product.gallery[0]
+        }
+      }
+    ]
+  };
+}
+
 function setJsonLd(content, jsonldId, container) {
   let jsonldElement = document.getElementById(jsonldId);
   if (!jsonldElement) {
