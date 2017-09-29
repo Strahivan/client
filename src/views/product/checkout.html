@@ -17,7 +17,6 @@
         <label>Total Cost: SGD ${request.total_price | toCurrency}</label>
       </div>
     </section>
-    <hr>
     <section class="checkout-container__shipping-info">
       <div>
         <label>Collection Method</label>
@@ -68,7 +67,7 @@
             </select>
           </label>
           <button click.delegate="charge()">Pay $${request.total_price | toCurrency}</button>
-          <button if.bind="!state.addcard" click.delegate="state.addcard = true">Add New Card</button>
+          <button if.bind="!state.addcard" click.delegate="state.addcard = true">Add Card</button>
         </div>
         <div class="checkout-container__card-payment__content__add" if.bind="state.addcard || !cards.length">
           <payment-form save.call="charge(token)" button-text="Pay"></payment-form>
