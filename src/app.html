@@ -1,5 +1,6 @@
 <template>
   <require from="resources/elements/navbar/navbar"></require>
+  <require from="resources/fragments/footer.html"></require>
   <require from="./app.css"></require>
   <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1486395141441068&ev=PageView&noscript=1"/>
 
@@ -11,29 +12,10 @@
       <div class="page-container__page-host__page">
         <router-view></router-view>
       </div>
-      <div class="page-container__page-host__footer">
-        <hr>
-        <div class="page-container__page-host__footer__left">
-          <div>
-            <a href="http://blog.novelship.com" target="_blank">Blog</a>
-          </div>
-          <div>
-            <a href="auth/signup">Signup</a>
-          </div>
-          <div>
-            <a href="custom-order">Make a Custom Purchase</a>
-          </div>
-          <div>
-            <a href="info/refunds">Refund & Return policy</a>
-          </div>
-          <div>
-            <a href="info/contact">Contact Us</a>
-          </div>
-        </div>
-        <div class="page-container__page-host__footer__copyright">
-          &copy; novelship
-        </div>
-      </div>
       <intercom></intercom>
+      <div class="page-container__page-host__footer">
+        <footer></footer>
+      </div>
     </div>
+  </div>
 </template>

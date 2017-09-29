@@ -25,11 +25,9 @@
     }
 
     &__footer {
-      padding-bottom: 1rem;
-      padding-top: 1rem;
-
-      &__copyright {
-        text-align: center;
+      display: none;
+      @media screen and (min-width: $medium-screen) {
+        display: block;
       }
     }
 
