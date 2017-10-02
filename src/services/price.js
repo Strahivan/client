@@ -78,7 +78,7 @@ export class PriceService {
   }
 
   getPrice(request, product) {
-    return request.count * (this.calculatePrice(product) + this.getDelta(request) - (product.discount || 0));
+    return request.count * (product.price + this.getDelta(request) - (product.discount || 0));
   }
 }
 
