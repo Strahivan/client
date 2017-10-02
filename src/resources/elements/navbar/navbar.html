@@ -37,12 +37,12 @@
         <div click.trigger="goToRoute('custom-order')" class="navbar-item navbar__customorder is-hidden-desktop">
           <a href="custom-order">Custom Order</a>
         </div>
-        <div click.trigger="goToRoute('/filter?category=' + category.id)" repeat.for="category of categories" class="navbar-item is-hoverable ${category.subcategories.length ? 'has-dropdown': ''}">
+        <div click.trigger="category.subcategories.length? null : goToRoute('/filter?category=' + category.id)" repeat.for="category of categories" class="navbar-item is-hoverable ${category.subcategories.length ? 'has-dropdown': ''}">
           <div class="${category.subcategories.length ? 'navbar-link' : ''}">
             <a href="/filter?category=${category.id}">${category.name}</a>
           </div>
           <div if.bind="category.subcategories.length" class="navbar-dropdown is-boxed">
-            <a click.delegate="goToCategory(subcategory)" style="color: black" repeat.for="subcategory of category.subcategories" class="navbar-item " href="/filter?category=${subcategory.id}">
+            <a click.delegate="goToRoute('filter?category=' + subcategory.id)" style="color: black" repeat.for="subcategory of category.subcategories" class="navbar-item " href="/filter?category=${subcategory.id}">
               ${subcategory.name}
             </a>
           </div>
