@@ -45,28 +45,13 @@
       <input type="checkbox" value.bind="product.preorder" />
     </label>
     <div>
-      <label>Cost
-        <input type="number" step="any" value.bind="product.cost | toNumber" change.delegate="getPrice()" />
+      <label>Price
+        <input type="number" step="any" value.bind="product.price | toNumber"/>
       </label>
       <label>Weight
-        <input type="number" step="any" value.bind="product.weight | toNumber" change.delegate="getPrice()" />
-      </label>
-      <label>Local Delivery Fee
-        <input type="number" step="any" value.bind="product.local_delivery_fee | toNumber" change.delegate="getPrice()" />
-      </label>
-      <label>Delta
-        <input type="number" step="any" value.bind="product.price_override | toNumber" change.delegate="getPrice()" />
-      </label>
-      <label>
-        Suggested Price
-        <div>
-          ${product.price}
-        </div>
+        <input type="number" step="any" value.bind="product.weight | toNumber"/>
       </label>
     </div>
-    <label>Sequence
-      <input type="number" value.bind="product.order_count | toNumber" />
-    </label>
     <button click.delegate="add('sizes', 'size')">
       <i class="icon ion-tshirt"></i>
       Add Size
@@ -74,8 +59,6 @@
       <div repeat.for="i of counter.size">
         <label>Size ${i + 1}
         <input placeholder="name" type="text" value.bind="product.sizes[$index].name" />
-        <input placeholder="size" type="text" value.bind="product.sizes[$index].size" />
-        <input placeholder="height, weight, length" type="text" value.bind="product.sizes[$index].dimensions | toList" />
         <input placeholder="delta" step="any" type="number" value.bind="product.sizes[$index].delta | toNumber" />
         <button click.delegate="remove($index, 'sizes', 'size')">Remove Size</button>
       </div>

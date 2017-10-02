@@ -2,15 +2,10 @@
 
 .edit-product {
   &__description {
-    @include grid-container;
     &__editor {
-      @include grid-column(6);
       textarea {
         min-height: 20rem;
       }
-    }
-    &__preview {
-      @include grid-column(6);
     }
   }
 

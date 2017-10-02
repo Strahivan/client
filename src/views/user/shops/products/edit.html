@@ -23,8 +23,6 @@
       <div class="edit-product__description__editor">
         <textarea value.bind="newProduct.description"></textarea>
       </div>
-      <div class="edit-product__description__preview" innerhtml.bind="newProduct.description | markdown">
-      </div>
     </div>
     <label>
       Estimated Delivery(in days)
@@ -34,28 +32,12 @@
       Preorder
       <input type="checkbox" value.bind="newProduct.preorder" />
     </label>
-    <label>Sequence
-      <input type="number" value.bind="newProduct.order_count | toNumber" />
-    </label>
-    <label>Cost
-      <input type="number" step="any" value.bind="newProduct.cost | toNumber" change.delegate="getPrice()" />
+    <label>Price
+      <input type="number" step="any" value.bind="newProduct.price | toNumber"/>
     </label>
     <label>Weight
-      <input type="number" step="any" value.bind="newProduct.weight | toNumber" change.delegate="getPrice()" />
+      <input type="number" step="any" value.bind="newProduct.weight | toNumber" />
     </label>
-    <label>Local Delivery Fee
-      <input type="number" step="any" value.bind="newProduct.local_delivery_fee | toNumber" change.delegate="getPrice()" />
-    </label>
-    <label>Delta
-      <input type="number" step="any" value.bind="newProduct.price_override | toNumber" change.delegate="getPrice()" />
-    </label>
-    <label>
-      Suggested Price
-      <div>
-        ${newProduct.price}
-      </div>
-    </label>
-
 
     <div class="edit-product__gallery">
       <label>Gallery</label>

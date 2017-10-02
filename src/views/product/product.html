@@ -20,7 +20,7 @@
               <option disabled.bind="color.out_of_stock" repeat.for="color of product.data.colors" model.bind="color">${color.name} ${color.out_of_stock ? '(Out of stock)': ''}</option>
             </select>
           </div>
-          <div if.bind="product.data.sizes.length" class="product-size">
+          <div if.bind="product.data.sizes.length" class="product-size" required>
             <select for="size" value.bind="request.size" change.delegate="getPrice()">
               <option model.bind="null">Choose Size</option>
               <option disabled.bind="size.out_of_stock" repeat.for="size of product.data.sizes" model.bind="size">${size.name} ${size.out_of_stock? '(Out of stock)': ''}</option>

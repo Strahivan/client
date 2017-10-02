@@ -46,7 +46,7 @@
           </td>
           <td><a href="${'products/' + product.id}" target="_blank">novelship link</a></td>
           <td><a href.bind="product.url" target="_blank">link</a></td>
-          <td>${priceService.calculatePrice(product) | toCurrency}</td>
+          <td>${product.price | toCurrency}</td>
         </tr>
       </table>
     <div>

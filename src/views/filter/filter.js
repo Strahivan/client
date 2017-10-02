@@ -1,11 +1,10 @@
 import {inject} from 'aurelia-framework';
 import {Api} from '~/services/api';
 import {EventAggregator} from 'aurelia-event-aggregator';
-import {PriceService} from '~/services/price';
 import {Router} from 'aurelia-router';
 import {activationStrategy} from 'aurelia-router';
 
-@inject(Api, EventAggregator, Router, PriceService)
+@inject(Api, EventAggregator, Router)
 export class FilterView {
   errors = {};
   products = {
@@ -24,10 +23,9 @@ export class FilterView {
     return activationStrategy.replace;
   }
 
-  constructor(api, ea, router, priceService) {
+  constructor(api, ea, router) {
     this.api = api;
     this.router = router;
-    this.priceService = priceService;
     ea.subscribe('filter__search', payload => {
       this.products.params.filter['tsv:search'] = payload;
       this.reload(this.products.params);
@@ -57,7 +55,6 @@ export class FilterView {
       .fetch('products', this.products.params)
       .then(items => {
         this.products.data = items.results.map(product => {
-          product.price = this.priceService.calculatePrice(product);
           return product;
         });
         this.products.total = items.total;

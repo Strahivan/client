@@ -7,9 +7,8 @@ import {ValidationRenderer} from '~/services/validation-renderer';
 import {Product} from './create.model';
 import {constants} from '~/services/constants';
 import animateScrollTo from 'animated-scroll-to';
-import {PriceService} from '~/services/price';
 
-@inject(Api, UploadService, PriceService, NewInstance.of(ValidationController))
+@inject(Api, UploadService, NewInstance.of(ValidationController))
 export class CreateProduct {
   counter = {
     size: 0,
@@ -20,11 +19,10 @@ export class CreateProduct {
   status = {};
   product = new Product();
 
-  constructor(api, upload, priceService, controller) {
+  constructor(api, upload, controller) {
     this.controller = controller;
     this.api = api;
     this.upload = upload;
-    this.priceService = priceService;
     this.controller.addRenderer(new ValidationRenderer());
   }
 
@@ -73,10 +71,6 @@ export class CreateProduct {
     };
 
     this.gallery = null;
-  }
-
-  getPrice() {
-    this.product.price = this.priceService.calculatePrice(this.product);
   }
 
   add(property, counter) {

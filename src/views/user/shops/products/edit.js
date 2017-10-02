@@ -2,13 +2,11 @@ import {inject} from 'aurelia-framework';
 import {Api} from '~/services/api';
 import {notify, ajaxErrorHandler} from '~/services/notification';
 import {utilities} from '~/services/utilities';
-import {PriceService} from '~/services/price';
 
-@inject(Api, PriceService)
+@inject(Api)
 export class EditProductView {
-  constructor(api, priceService) {
+  constructor(api) {
     this.api = api;
-    this.priceService = priceService;
   }
 
   activate(params) {
@@ -45,10 +43,6 @@ export class EditProductView {
         this.newProduct.collections = this.newProduct.collections.filter(collection => collection.id !== collectionId);
       })
       .catch(ajaxErrorHandler);
-  }
-
-  getPrice() {
-    this.newProduct.price = this.priceService.calculatePrice(this.newProduct);
   }
 
   edit() {
