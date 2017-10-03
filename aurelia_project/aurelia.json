@@ -59,7 +59,7 @@
         "dest": "dist/images/"
       },
       {
-        "src": "favicon.png",
+        "src": "favicon_new.png",
         "dest": "dist/"
       },
       {

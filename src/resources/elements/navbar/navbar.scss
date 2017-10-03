@@ -14,6 +14,22 @@ $background-color: #ffdd57;
     }
   }
 
+  &__logo {
+    padding: 0;
+    padding-left: .2rem;
+    padding-top: .2rem;
+    margin-right: 1rem;
+
+    @media screen and (min-width: $medium-screen) {
+      padding-left: 1rem;
+    }
+
+    img {
+      max-height: 3rem;
+      margin-bottom: -.2rem;
+    }
+  }
+
   &-item {
     &:hover {
       background: $primary-color;
