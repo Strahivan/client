@@ -5,7 +5,7 @@ $categories: (
   gutter: 5px,
 );
 
-.home-page {
+.home {
   @include grid-container;
 
   &__section-header {
@@ -26,103 +26,48 @@ $categories: (
     margin-left: -20px;
     margin-top: -1rem;
     width: 100vw;
-
-    &__title {
-      @include grid-media($desktop) {
-        font-size: 6em;
-      }
-      animation: fadein 2s ease 1;
-      font-size: 3rem;
-      text-align: center;
-
-      &__shipping {
-        color: crimson;
-      }
-
-      &__simple {
-        color: #0E9B74;
-      }
-    }
-    &__subtitle {
-      @include grid-media($desktop) {
-        font-size: $subheader-font-size;
-      }
-      text-align: center;
-    }
-
-    &__cta {
-      @include grid-media($desktop) {
-        font-size: $subheader-font-size;
-      }
-      margin-top: 1rem;
-    }
-
-    &__ctabutton {
-      margin-top: 1rem;
-      a {
-        border: 1px solid white;
-        &:hover {
-          background: white;
-          color: $primary-color;
-        }
-      }
-    }
-
-    &__announcement {
-      border-bottom: 1px solid white;
-      margin-top: 3rem;
-      padding: 1rem;
-      text-align: center;
-    }
-  }
-
-  &__brands-mobile {
-    @include grid-media($desktop) {
-      display: none;
-    }
-    text-align: center;
-    background-color: $primary-color;
-    margin-left: -20px;
-    width: calc(100% + 40px);
-    padding-top: .5rem;
-    padding-bottom: .5rem;
-    margin-top: 1rem;
-    a {
-      color: white;
-      padding: 1rem;
-    }
   }
 
   &__brands {
-    display: none;
-    @include grid-media($desktop) {
-      background-color: $primary-color;
-      padding-top: .5rem;
-      padding-bottom: .5rem;
-      color: white;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      margin-top: 1rem;
-      text-align: center;
-      align-items: baseline;
+    align-items: baseline;
+    margin-top: 1rem;
+    padding-bottom: .5rem;
+    padding-top: .5rem;
+    text-align: center;
 
-      &__item {
-        border-bottom: 1px solid white;
-        margin: .4rem;
-
-        a {
-          color: white;
-        }
+    &__item {
+      @include grid-container;
+      @media screen and (max-width: $small-screen) {
+        margin-left: -20px;
+        width: 100vw;
       }
 
-      &__all {
-        padding: .5rem;
-        border-radius: .2rem;
-        border: 1px solid white;
-        a {
-          color: white;
-        }
+      @include grid-media($desktop) {
+        display: flex;
+        flex-basis: 0;
+        justify-content: space-between;
+      }
+    }
+
+    &__content {
+      border: 2px solid;
+      border-color: white;
+      @include grid-column(3, $mobile-brands-grid);
+      @include grid-media($tablet) {
+        @include grid-column(2);
+      }
+      &:hover {
+        border-bottom: 1px solid $primary-color;
+      }
+      // height: 3rem;
+      // width: 100%;
+    }
+
+    &__logo {
+      width: auto;
+      height: 4rem;
+      @media screen and (min-width: $medium-screen) {
+        height: 6rem;
       }
     }
   }
@@ -174,7 +119,7 @@ $categories: (
   }
 
   &__collections {
-    margin-top: 3rem;
+    margin-top: 1rem;
 
     &__selected {
       @include grid-container;

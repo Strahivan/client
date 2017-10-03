@@ -9,47 +9,39 @@
 }
   </script>
 
-  <div class="home-page">
-    <section class="home-page__hero">
+  <div class="home">
+    <section class="home__hero">
       <hero-carousel gallery.bind="announcements.data"></hero-carousel>
     </section>
 
-    <section class="home-page__brands-mobile">
-      <a href="brands">Shop by Brands</a>
-    </section>
-
-    <section class="home-page__brands">
-      <span class="home-page__section-header">
-        Shop By Brands:
-      </span>
-      <div class="home-page__brands__item" repeat.for="brand of brands.data">
-        <a class="content" href.bind="'brands/' + brand.id">${brand.name}</a>
-      </div>
-      <div class="home-page__brands__all">
-        <a href="brands">Show All</a>
-      </div>
-    </section>
-
-
-    <section class="home-page__collections">
-      <h2>Featured Collections</h2>
-      <div class="home-page__collections__selected">
-        <a href.bind="'collections/' + selected.collection.id">
-          <img class="home-page__collections__selected__image" src.bind="selected.collection.picture" alt=""/>
+    <section class="home__brands">
+      <div class="home__brands__item">
+        <a class="home__brands__content" repeat.for="brand of brands.data" href.bind="'brands/' + brand.id">
+          <img class="home__brands__logo" src.bind="brand.logo">
         </a>
-        <div class="home-page__collections__selected__body">
-          <a href.bind="'collections/' + selected.collection.id" class="home-page__collections__selected__body__title">
+      </div>
+    </section>
+
+
+    <section class="home__collections">
+      <h2>Featured Collections</h2>
+      <div class="home__collections__selected">
+        <a href.bind="'collections/' + selected.collection.id">
+          <img class="home__collections__selected__image" src.bind="selected.collection.picture" alt=""/>
+        </a>
+        <div class="home__collections__selected__body">
+          <a href.bind="'collections/' + selected.collection.id" class="home__collections__selected__body__title">
             ${selected.collection.name}
           </a>
-          <div class="home-page__collections__selected__body__creator">
+          <div class="home__collections__selected__body__creator">
             by ${selected.collection.creator.name}
           </div>
-          <div class="home-page__collections__selected__body__description">
+          <div class="home__collections__selected__body__description">
             ${selected.collection.description}
           </div>
         </div>
       </div>
-      <div class="home-page__collections__preview">
+      <div class="home__collections__preview">
         <ul class="slider">
           <li click.delegate="selected.collection = collection" class="slide ${collection.id === selected.collection.id ? 'slide--active': ''}" repeat.for="collection of collections.data">
             <img src.bind="collection.picture" alt=""/>
@@ -58,10 +50,10 @@
       </div>
     </section>
 
-    <section class="home-page__most-popular">
+    <section class="home__most-popular">
       <h2>Most Popular</h2>
-      <div class="home-page__most-popular__cards">
-        <div class="home-page__most-popular__cards__card" repeat.for="product of popular.data" >
+      <div class="home__most-popular__cards">
+        <div class="home__most-popular__cards__card" repeat.for="product of popular.data" >
           <product-card class="product-card" product.bind="product"></product-card>
         </div>
       </div>
