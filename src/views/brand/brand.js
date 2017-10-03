@@ -7,7 +7,7 @@ export class BrandView {
   products = {
     params: {
       page: {
-        size: 12,
+        size: 20,
         number: 0
       }
     }
@@ -25,6 +25,11 @@ export class BrandView {
     this.products.params.page.number = (params.page && Number(params.page)) || 0;
     this.params = Object.assign({}, params);
     this.params.page = this.params.page || 0;
+    this.api
+      .fetch(`brands/${params.brand_id}`)
+      .then(brand => {
+        this.brand = brand;
+      })
 
     this.api
       .fetch(`brands/${params.brand_id}/products`, this.products.params)

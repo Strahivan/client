@@ -1,9 +1,15 @@
 <template>
   <require from="./brand.css"></require>
   <div class="brand-container">
+    <div class="brand-container__header">
+      <img src.bind="brand.logo" alt.bind="brand.name">
+      <span>
+        ${brand.name}(${products.total})
+      </span>
+    </div>
     <product-card repeat.for="product of products.data" class="brand-product" product.bind="product"></product-card>
   </div>
-  <section>
+  <section class="brand__pagination">
     <pagination total.bind="products.total" path.bind="'brands/' + params.brand_id" params.bind="params" size.bind="products.params.page.size"></pagination>
   </section>
 </template>
