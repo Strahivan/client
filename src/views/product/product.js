@@ -34,9 +34,8 @@ export class ProductView {
       setProductJsonLd(product, this.productContainer);
       setProductBreadCrumb(product, this.productContainer);
       this.product.data = product;
-      this.product.data.calculated_price = this.priceService.calculatePrice(this.product.data);
       this.request = {
-        total_price: (this.product.data.calculated_price || product.price) - (product.discount ? product.discount : 0),
+        total_price: (product.price) - (product.discount ? product.discount : 0),
         count: 1
       };
     })
