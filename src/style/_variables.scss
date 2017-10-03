@@ -19,6 +19,11 @@ $mobile-product-grid: (
   gutter: 10px
 );
 
+$mobile-brands-grid: (
+  columns: 12,
+  gutter: 10px
+);
+
 // Typography
 $base-font-family: $font-stack-system;
 $heading-font-family: $base-font-family;
