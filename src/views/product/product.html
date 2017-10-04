@@ -37,8 +37,8 @@
       </div>
 
       <div class="product-info__cta">
-        <button type="submit" if.bind="!product.data.sold_out" click.delegate="confirm()">Buy Now</button>
-        <div class="product-info__cta__soldout" if.bind="product.data.sold_out === true">Sold Out</div>
+        <button type="submit" if.bind="!product.data.out_of_stock" click.delegate="confirm()">Buy Now</button>
+        <div class="product-info__cta__soldout" if.bind="product.data.out_of_stock === true">Sold Out</div>
       </div>
     </div>
   </section>
