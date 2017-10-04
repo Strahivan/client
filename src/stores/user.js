@@ -10,9 +10,9 @@ export class UserStore {
     if (typeof intercom === 'function') {
       intercom('reattach_activator');
       intercom('update', {
-        email: this.userStore.user && this.userStore.user.email,
-        user_id: this.userStore.user && this.userStore.user.id,
-        name: this.userStore.user && this.userStore.user.name
+        email: val && val.email,
+        user_id: val && val.id,
+        name: val && val.name
       });
     }
   }
