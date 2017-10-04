@@ -2,11 +2,10 @@
   <require from="./product-card.css"></require>
 
   <div class="card-element">
-    <div class="card-element__image">
-      <a route-href="route: product; params.bind: {product_id: product.id}">
-        <img class="animated" animate-on-change.bind="imgUrl" mouseover.delegate="showImage(1)" mouseout.delegate="showImage(0)" src.bind="imgUrl || product.gallery[0]" alt="">
-      </a>
-    </div>
+    <a class="card-element__image" route-href="route: product; params.bind: {product_id: product.id}">
+      <img class="animated ${product.sold_out? 'card-element--sold-out': ''}" animate-on-change.bind="imgUrl" mouseover.delegate="showImage(1)" mouseout.delegate="showImage(0)" src.bind="imgUrl || product.gallery[0]" alt="">
+      <span if.bind="product.sold_out" class="card-element__sold-out-sticker">Sold out</span>
+    </a>
     <div if.bind="product.discount" class="card-element__ribbon">
       <i class="icon ion-flame"></i>
       $${product.discount | toCurrency} off

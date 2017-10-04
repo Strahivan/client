@@ -20,6 +20,27 @@ $padding-md: 0.5rem;
   overflow: hidden;
   text-align: center;
 
+  &--sold-out {
+    filter: blur(2px);
+  }
+
+  &__sold-out-sticker {
+    background: $primary-color;
+    color: white;
+    height: 5rem;
+    width: 5rem;
+    border-radius: 50%;
+    position: absolute;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+  }
+
   &__header,
   &__body {
     padding-left: $layout-padding-lg;
