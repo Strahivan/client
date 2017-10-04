@@ -21,10 +21,10 @@ export class HomeView {
     this.popular = {
       params: {
         filter: {
-          'order_count:gt': 0
+          'sequence:gt': 0
         },
         include: ['source'],
-        sort: '-order_count',
+        sort: '-sequence',
         page: {
           size: 12,
           number: 0

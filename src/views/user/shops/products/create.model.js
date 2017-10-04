@@ -15,7 +15,7 @@ export class Product {
   gallery;
   local_delivery_fee;
   name;
-  order_count;
+  sequence;
   platform_charge;
   postage;
   price;
