@@ -10,8 +10,10 @@ import {DialogService} from 'aurelia-dialog';
 import {PriceEstimatorDialog} from '~/views/custom-order/price-estimator';
 import {ValidationController} from 'aurelia-validation';
 import {ValidationRenderer} from '~/services/validation-renderer';
+import {UserStore} from '~/stores/user';
+import {ErrorReporting} from '~/services/error-reporting';
 
-@inject(Api, Router, UrlExtraction, CountryStore, NewInstance.of(ValidationController), DialogService)
+@inject(Api, Router, UrlExtraction, CountryStore, NewInstance.of(ValidationController), DialogService, UserStore, ErrorReporting)
 export class CustomOrderView {
   request = new CustomOrder();
 
@@ -23,13 +25,17 @@ export class CustomOrderView {
     count: 1
   }
 
-  constructor(api, router, extractor, countryStore, controller, dialog) {
+  userdata = {};
+
+  constructor(api, router, extractor, countryStore, controller, dialog, userStore, errorReporting) {
     this.api = api;
     this.router = router;
     this.dialog = dialog;
     this.extractor = extractor;
     this.controller = controller;
     this.countryStore = countryStore;
+    this.userStore = userStore;
+    this.errorReporting = errorReporting;
 
     Object.assign(this.request, this.init);
     this.controller.addRenderer(new ValidationRenderer());
@@ -48,7 +54,7 @@ export class CustomOrderView {
       this.request.product_details.name = data.meta && data.meta.title;
       this.request.product_details.picture = data.links && data.links.thumbnail && data.links.thumbnail[0] && data.links.thumbnail[0].href;
     })
-    .catch(err => errorReporting.report(new Error(err.message)));
+    .catch(err => this.errorReporting.report(new Error(err.message)));
   }
 
   createOrder() {
@@ -56,6 +62,11 @@ export class CustomOrderView {
     .then(result => {
       if (result.valid) {
         this.request.product_details.url = this.request.url;
+        if (this.userdata.phone || this.userdata.email) {
+          this.api
+            .edit('me', userdata);
+        }
+
         return this.api
           .create('requests', this.request);
       }
@@ -65,6 +76,6 @@ export class CustomOrderView {
       notify().log('Successfully placed order');
       return this.router.navigateToRoute('confirm');
     })
-    .catch(err => errorReporting.report(new Error(err.message)));
+    .catch(err => this.errorReporting.report(new Error(err.message)));
   }
 }
