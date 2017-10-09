@@ -7,6 +7,8 @@ import {ErrorReporting} from '~/services/error-reporting';
 export class PaymentForm {
   @bindable save;
   @bindable buttonText;
+  @bindable isDisabled;
+
   stripe = Stripe(environment.stripe_key);
 
   constructor(api, errorReporting) {
