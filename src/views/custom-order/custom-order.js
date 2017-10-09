@@ -25,6 +25,10 @@ export class CustomOrderView {
     count: 1
   }
 
+  state = {
+    inflight: false
+  };
+
   userdata = {};
 
   constructor(api, router, extractor, countryStore, controller, dialog, userStore, errorReporting) {
@@ -58,6 +62,7 @@ export class CustomOrderView {
   }
 
   createOrder() {
+    this.state.inflight = true;
     this.controller.validate()
     .then(result => {
       if (result.valid) {
@@ -73,9 +78,13 @@ export class CustomOrderView {
       throw new Error('invalid custom order');
     })
     .then((response) => {
+      this.state.inflight = false;
       notify().log('Successfully placed order');
       return this.router.navigateToRoute('confirm');
     })
-    .catch(err => this.errorReporting.report(new Error(err.message)));
+    .catch(err => {
+      this.state.inflight = false;
+      this.errorReporting.report(new Error(err.message));
+    });
   }
 }

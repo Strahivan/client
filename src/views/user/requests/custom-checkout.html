@@ -55,11 +55,11 @@
                 <option repeat.for="card of cards" model.bind="card.id">${card.brand} ending with ${card.last4}</option>
               </select>
             </label>
-            <button click.delegate="charge()">Pay $${request.total_price | toCurrency}</button>
+            <button disabled.bind="state.inflight" click.delegate="charge()">Pay $${request.total_price | toCurrency}</button>
             <button if.bind="!state.addcard" click.delegate="state.addcard = true">Add New Card</button>
           </div>
           <div class="cc__card-payment__content__add" if.bind="state.addcard || !cards.length">
-            <payment-form save.call="charge(token)" button-text="Pay"></payment-form>
+            <payment-form save.call="charge(token)" button-text="Pay" isDisabled.bind="state.inflight"></payment-form>
             <a href="#" if.bind="cards.length" click.delegate="state.addcard = false">Cancel</a>
           </div>
         </div>
@@ -75,7 +75,7 @@
             <bank-payment-instructions request.bind="request"></bank-payment-instructions>
             <div class="checkout-container__bank-payment__ref"><span if.bind="state.error.proofRequired" style="color:red">Proof is required</span>
               <input type="file" files.bind="proof | toArray">
-              <button click.delegate="saveProof()">Submit Proof</button>
+              <button disabled.bind="state.inflight" click.delegate="saveProof()">Submit Proof</button>
             </div>
           </div>
       </section>
