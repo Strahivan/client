@@ -64,7 +64,7 @@ export class CustomOrderView {
         this.request.product_details.url = this.request.url;
         if (this.userdata.phone || this.userdata.email) {
           this.api
-            .edit('me', userdata);
+            .edit('me', this.userdata);
         }
 
         return this.api
