@@ -6,7 +6,7 @@ import * as sourcemaps from 'gulp-sourcemaps';
 
 export default function processCSS() {
   return gulp.src(project.cssProcessor.source)
-    .pipe(sass().on('error', sass.logError))
+    .pipe(sass({includePaths: ['src/style']}).on('error', sass.logError))
     .pipe(sourcemaps.init())
     .pipe(build.bundle());
 }
