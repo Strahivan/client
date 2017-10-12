@@ -2,6 +2,7 @@ import {Api} from '~/services/api';
 import {inject} from 'aurelia-framework';
 import {activationStrategy} from 'aurelia-router';
 import {Router} from 'aurelia-router';
+import environment from '~/environment';
 
 @inject(Api, Router)
 export class ShopProductListVM {
@@ -73,6 +74,8 @@ export class ShopProductListVM {
     this.api.fetch(`me/shops/${params.shop_id}`)
       .then(shop => this.shop.data = shop)
       .catch(err => console.log(err));
+
+    this.stripeURL = `https://connect.stripe.com/oauth/authorize?response_type=code&client_id=${environment.stripe_client_id}&scope=read_write&state=${params.shop_id}`;
 
     this.api
       .fetch('countries')

@@ -4,6 +4,7 @@ export default {
   base: 'http://localhost:3000/',
   app: 'http://localhost:9000/',
   stripe_key: 'pk_test_y6c6G7emK6M5t1tfURhHiWQz',
+  stripe_client_id: 'ca_BRh5VX37bGKEjOi6azcQHHukXHOnfCPl',
   facebook: '116846465638888',
   ga_tracking_id: 'UA-101140118-1',
   ga_tracking_enabled: false,

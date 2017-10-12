@@ -8,6 +8,7 @@ export class UserRouter {
       {route: 'profile', name: 'profile', title: 'Edit Profile', nav: true, moduleId: './profile/profile'},
       {route: 'trips', name: '', moduleId: './trips/index'},
       {route: 'requests', moduleId: './requests/index'},
+      {route: 'shops/create', moduleId: './shops/create/create'},
       {route: 'shops/:shop_id', moduleId: './shops/index'}
     ]);
 

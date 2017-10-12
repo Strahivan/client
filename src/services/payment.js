@@ -16,8 +16,8 @@ export class Payment {
     return this.api.fetch('me/cards');
   }
 
-  charge(amount, currency, source) {
-    return this.api.create('me/charge', {amount, currency, source})
+  charge(amount, currency, source, shop_stripe_id) {
+    return this.api.create('me/charge', {amount, currency, source, shop_stripe_id})
       .then(response => response.json());
   }
 

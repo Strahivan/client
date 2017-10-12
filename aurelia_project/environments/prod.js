@@ -4,6 +4,7 @@ export default {
   base: 'https://api.novelship.com/',
   app: 'https://www.novelship.com/',
   stripe_key: 'pk_live_ZSoVkfqE1IhCf6OJP9HtScJ4',
+  stripe_client_id: 'ca_BRh5tSfNfsnz2HWvwnjwlWa40fpJu5Fi',
   facebook: '2024958714406360',
   ga_tracking_id: 'UA-101140118-1',
   ga_tracking_enabled: true,

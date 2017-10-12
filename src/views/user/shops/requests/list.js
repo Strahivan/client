@@ -4,6 +4,7 @@ import {constants} from '~/services/constants';
 import {activationStrategy} from 'aurelia-router';
 import {Router} from 'aurelia-router';
 import {CountryStore} from '~/stores/country';
+import environment from '~/environment';
 
 @inject(Api, Router, CountryStore)
 export class ShopRequestListVM {
@@ -17,6 +18,7 @@ export class ShopRequestListVM {
       }
     }
   }
+  stripeOauthUrL = `https://connect.stripe.com/oauth/authorize?response_type=code&client_id=${environment.stripe_client_id}&scope=read_write`;
   shop = {};
   products = {};
 

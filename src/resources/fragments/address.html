@@ -1,0 +1,13 @@
+<template bindable="address,error">
+  <div class="address-template">
+    <label>Address</label>
+    Line 1 * <span if.bind="error.addressRequired" style="color:red">Address is required</span>
+    <input value.bind="address.line_1" type="text" />
+    Line 2
+    <input value.bind="address.line_2" type="text" />
+    City
+    <input value.bind="address.city" type="text" />
+    Zip * <span if.bind="error.zipRequired" style="color:red">Zip is required</span>
+    <input value.bind="address.zip" type="text" />
+  </div>
+</template>

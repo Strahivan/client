@@ -59,7 +59,7 @@ export class CheckoutVM {
 
   getProduct(id, selections) {
     this.api
-      .fetch(`products/${id}`, {include: ['source']})
+      .fetch(`products/${id}`, {include: ['source', 'shop']})
       .then(product => {
         this.product = product;
         const currentDay = new Date();
@@ -105,7 +105,7 @@ export class CheckoutVM {
       .then(res => {
         const cardId = (res && res.card_id) || this.card;
         return this.api
-          .create('me/charge', {amount: this.request.total_price, currency: 'SGD', source: cardId});
+          .create('me/charge', {amount: this.request.total_price, currency: 'SGD', source: cardId, shop_stripe_id: this.product.shop.shop_stripe_id});
       })
       .then(response => {
         this.request.stripe_charge_id = response.id;

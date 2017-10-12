@@ -1,0 +1,24 @@
+<template>
+  <require from="./create.css"></require>
+  <require from="../../../../resources/fragments/address.html"></require>
+
+  <form class="create-shop" submit.delegate="create()">
+    <label>Name
+      <input type="text" value.bind="shop.name"/>
+    </label>
+    <label>Logo
+      <input type="file" files.bind="gallery | toArray" accept="image/*" multiple/>
+    </label>
+    <address address.bind="userStore.user.address" error.bind="error"></address>
+    <label if.bind="!userStore.user.phone">Phone
+      <input type="text" value.bind="tempUser.phone"/>
+    </label>
+    <label if.bind="!userStore.user.phone">Email
+      <input type="email" value.bind="tempUser.email"/>
+    </label>
+    <a href.bind="stripeURL" class="stripe-connect"><span>Connect with Stripe</span></a>
+    <div class="create-product__submit">
+      <button type="submit">Create</button>
+    </div>
+  </form>
+</template>
