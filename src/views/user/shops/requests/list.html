@@ -3,7 +3,7 @@
   <section class="shop-orders-filter">
     <div class="shop-orders-filter__status">
       <label>Status</label>
-      <select value.bind="requests.params.filter['status:eq']" change.delegate="resetPageAndFetch()">
+      <select multiple value.bind="requests.params.filter['status:in']" change.delegate="resetPageAndFetch()">
         <option model.bind="null">Choose</option>
         <option repeat.for="status of statuses" model.bind="status">${status}</option>
       </select>
