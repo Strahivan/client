@@ -17,7 +17,15 @@
     }
     &__total-price {
       font-size: $subheader-font-size;
+      sub {
+        font-size: .9rem;
+        text-decoration: underline;
+      }
     }
+  }
+
+  &__shipping-info {
+    margin-top: 1rem;
   }
 
   &__order-details {

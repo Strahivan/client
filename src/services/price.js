@@ -78,7 +78,11 @@ export class PriceService {
   }
 
   getPrice(request, product) {
-    return request.count * (product.price + this.getDelta(request) - (product.discount || 0));
+    let totalPrice = request.count * (product.price + this.getDelta(request) - (product.discount || 0));
+    if (product.preorder) {
+      totalPrice = totalPrice / 2;
+    }
+    return totalPrice;
   }
 }
 

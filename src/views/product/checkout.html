@@ -14,7 +14,8 @@
         </label>
       </div>
       <div class="checkout-container__order-info__total-price">
-        <label>Total Cost: SGD ${request.total_price | toCurrency}</label>
+        <label>${product.preorder? 'Deposit': 'Total Cost'}: SGD ${request.total_price | toCurrency}</label>
+        <sub>An amount of SGD ${request.total_price | toCurrency} is payable after the item reaches our Singapore office</sub>
       </div>
     </section>
     <section class="checkout-container__shipping-info">
