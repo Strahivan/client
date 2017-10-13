@@ -188,6 +188,8 @@ export class CheckoutVM {
     }
     this.request.status = 'verify';
     this.state.inflight = true;
+    this.saveAddress(this.request.shipping_address);
+    this.saveContact(tempUser);
     this.upload.uploadImages(this.proof, 'proof')
       .then(streams => {
         this.request.proof = streams.map(stream => stream.url.split('?')[0]);
