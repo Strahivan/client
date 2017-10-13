@@ -125,14 +125,6 @@ export class CheckoutVM {
 
   validate() {
     if (this.request.collection_method === 'courier') {
-      if (!this.userStore.user.phone && !this.tempUser.phone) {
-        this.state.error.phoneRequired = true;
-        throw new Error('Phone required');
-      }
-      if (!this.userStore.user.email && !this.tempUser.email) {
-        this.state.error.emailRequired = true;
-        throw new Error('Email required');
-      }
       if (!this.request.shipping_address.line_1) {
         this.state.error.addressRequired = true;
         throw new Error('Address required');
@@ -143,9 +135,13 @@ export class CheckoutVM {
       }
     }
 
-    if (!this.userStore.user.email) {
+    if (!this.userStore.user.email && !this.tempUser.email) {
       this.state.error.emailRequired = true;
       throw new Error('Email required');
+    }
+    if (!this.userStore.user.phone && !this.tempUser.phone) {
+      this.state.error.phoneRequired = true;
+      throw new Error('Phone required');
     }
 
     if (this.currentPaymentMethod === 'bank-payment') {
