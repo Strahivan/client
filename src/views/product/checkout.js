@@ -99,7 +99,7 @@ export class CheckoutVM {
     }
     this.state.inflight = true;
     this.saveAddress(this.request.shipping_address);
-    this.saveContact(tempUser);
+    this.saveContact(this.tempUser);
 
     (token ? this.api.create('me/cards', {token}) : Promise.resolve())
       .then(res => {
@@ -189,7 +189,7 @@ export class CheckoutVM {
     this.request.status = 'verify';
     this.state.inflight = true;
     this.saveAddress(this.request.shipping_address);
-    this.saveContact(tempUser);
+    this.saveContact(this.tempUser);
     this.upload.uploadImages(this.proof, 'proof')
       .then(streams => {
         this.request.proof = streams.map(stream => stream.url.split('?')[0]);
