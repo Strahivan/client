@@ -43,12 +43,14 @@
         <input value.bind="request.shipping_address.city" type="text" />
         Zip * <span if.bind="state.error.zipRequired" style="color:red">Zip is required</span>
         <input value.bind="request.shipping_address.zip" type="text" />
-        Phone * <span if.bind="state.error.phoneRequired" style="color:red">Phone is required</span>
-        <input value.bind="userStore.user.phone" change.delegate="state.changedPhone = true" type="text" />
       </div>
-      <div>
+      <div if.bind="!userStore.user.phone">
+        Phone * <span if.bind="state.error.phoneRequired" style="color:red">Phone is required</span>
+        <input value.bind="tempUser.phone" type="text" />
+      </div>
+      <div if.bind="!userStore.user.email">
         Email * <span if.bind="state.error.emailRequired" style="color:red">Email is required</span>
-        <input value.bind="userStore.user.email" change.delegate="state.changedEmail = true" type="email" />
+        <input value.bind="tempUser.phone" type="email" />
       </div>
     </section>
     <hr>
