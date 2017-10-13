@@ -17,7 +17,7 @@
     }
 
     @include grid-column(12);
-    margin-top: $navbar-height + 1rem;
+    margin-top: $navbar-height;
 
     &__page {
       min-height: 65vh;
