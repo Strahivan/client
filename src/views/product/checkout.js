@@ -159,10 +159,8 @@ export class CheckoutVM {
       return;
     }
 
-    if (this.userStore.user && !this.userStore.user.address) {
-      this.api.edit('me', { address: address })
-        .then(success => this.userStore.user.address = address);
-    }
+    this.api.edit('me', { address: address })
+      .then(success => this.userStore.user.address = address);
   }
 
   saveContact(tempUser) {
