@@ -50,7 +50,7 @@
       </div>
       <div if.bind="!userStore.user.email">
         Email * <span if.bind="state.error.emailRequired" style="color:red">Email is required</span>
-        <input value.bind="tempUser.phone" type="email" />
+        <input value.bind="tempUser.email" type="email" />
       </div>
     </section>
     <hr>
