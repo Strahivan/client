@@ -14,13 +14,13 @@
     <div class="product-actions-container">
       <div if.bind="product.data.sizes.length || product.data.colors.length || product.data.variations.length" class="product-variations" name="product-variations">
         <div class="product-selection" ref="selection">
-          <div if.bind="product.data.colors.length" class="product-color">
+          <div if.bind="product.data.colors.length" class="product-property product-property--color">
             <select name="color" value.bind="request.color" change.delegate="getPrice()">
               <option model.bind="null">Choose Color</option>
               <option disabled.bind="color.out_of_stock" repeat.for="color of product.data.colors" model.bind="color">${color.name} ${color.out_of_stock ? '(Out of stock)': ''}</option>
             </select>
           </div>
-          <div if.bind="product.data.sizes.length" class="product-size" required>
+          <div if.bind="product.data.sizes.length" class="product-property" required>
             <select for="size" value.bind="request.size" change.delegate="getPrice()">
               <option model.bind="null">Choose Size</option>
               <option disabled.bind="size.out_of_stock" repeat.for="size of product.data.sizes" model.bind="size">${size.name} ${size.out_of_stock? '(Out of stock)': ''}</option>
