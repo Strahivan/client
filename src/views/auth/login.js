@@ -19,7 +19,7 @@ export class Login {
 
   getFacebookAuthWithRedirect() {
     // servers redirect /facebook/auth
-    return `https://www.facebook.com/v2.10/dialog/oauth?client_id=${environment.facebook}&redirect_uri=${environment.base}auth/facebook?state=${this.auth.auth.initialUrl || environment.app}`;
+    return `https://www.facebook.com/v2.10/dialog/oauth?client_id=${environment.facebook}&scope=email&redirect_uri=${environment.base}auth/facebook?state=${this.auth.auth.initialUrl || environment.app}`;
   }
 
   login() {
