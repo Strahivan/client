@@ -67,7 +67,9 @@ export class CreateProduct {
       postage: constants.defaultPostage,
       courier: constants.defaultCourier,
       delivery_time: this.product.delivery_time,
-      local_delivery_fee: this.product.local_delivery_fee
+      local_delivery_fee: this.product.local_delivery_fee,
+      sizes: this.product.sizes,
+      colors: this.product.colors
     };
 
     this.gallery = null;
