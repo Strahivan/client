@@ -65,6 +65,10 @@
       {
         "src": "_redirects",
         "dest": "dist/"
+      },
+      {
+        "src": "google88e82412c99748b7.html",
+        "dest": "dist/"
       }
     ]
   },
