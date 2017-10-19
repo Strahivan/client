@@ -1,0 +1,18 @@
+<template>
+  <require from="./bank-payment.css"></require>
+  <require from="../../fragments/bank-payment-instructions.html"></require>
+    <section class="bank-payment">
+      <div class="bank-payment__button" click.trigger="parent.paymentMethod = (parent.paymentMethod === 'bankpayment' ? null: 'bankpayment')">
+        <i show.bind="parent.paymentMethod !== 'bankpayment'" class="icon ion-arrow-right-b"></i>
+        <i show.bind="parent.paymentMethod === 'bankpayment'" class="icon ion-arrow-down-b"></i>
+        <i class="icon ion-cash"></i>
+        Bank Payment
+      </div>
+      <div class="bank-payment__content ${parent.paymentMethod === 'bankpayment' ? 'card-payment__content--active': ''}">
+        <bank-payment-instructions amount="amount"></bank-payment-instructions>
+        <span if.bind="parent.state.proofRequired" style="color:red">Proof is required</span>
+        <input type="file" files.bind="proof | toArray">
+        <button disabled.bind="state.inflight" click.delegate="saveProof()">Submit Proof</button>
+      </div>
+    </section>
+</template>
