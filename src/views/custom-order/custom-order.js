@@ -20,6 +20,7 @@ export class CustomOrderView {
   init = {
     product_details: {},
     shop_id: 1,
+    collection_method: 'courier',
     status: 'pending',
     destination_id: constants.defaultDestination,
     count: 1
