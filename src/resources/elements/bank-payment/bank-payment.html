@@ -8,7 +8,7 @@
         <i class="icon ion-cash"></i>
         Bank Payment
       </div>
-      <div class="bank-payment__content ${parent.paymentMethod === 'bankpayment' ? 'card-payment__content--active': ''}">
+      <div class="slide-down ${parent.paymentMethod === 'bankpayment' ? 'slide-down--active': ''}">
         <bank-payment-instructions amount="amount"></bank-payment-instructions>
         <span if.bind="parent.state.proofRequired" style="color:red">Proof is required</span>
         <input type="file" files.bind="proof | toArray">

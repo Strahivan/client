@@ -1,13 +1,13 @@
 <template>
   <require from="./card-payment.css"></require>
   <section class="card-payment">
-    <div class="card-payment__toggle" click.trigger="parent.paymentMethod = (parent.paymentMethod === 'cardpayment' ? null: 'cardpayment')">
+    <div class="card-payment__button" click.trigger="parent.paymentMethod = (parent.paymentMethod === 'cardpayment' ? null: 'cardpayment')">
       <i show.bind="parent.paymentMethod !== 'cardpayment'" class="icon ion-arrow-right-b"></i>
       <i show.bind="parent.paymentMethod === 'cardpayment'" class="icon ion-arrow-down-b"></i>
       <i class="icon ion-card"></i>
       Card Payment
     </div>
-    <div class="card-payment__content ${parent.paymentMethod === 'cardpayment' ? 'card-payment__content--active': ''}">
+    <div class="slide-down ${parent.paymentMethod === 'cardpayment' ? 'slide-down--active': ''}">
       <div if.bind="cards.length && !state.addcard">
         <label>
           Pay using:
