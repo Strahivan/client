@@ -55,13 +55,13 @@
     </section>
     <hr>
     <section class="checkout-container__card-payment">
-      <div class="checkout-container__card-payment__button" click.trigger="togglePaymentView('card-payment')">
-        <i show.bind="currentPaymentMethod !== 'card-payment'" class="icon ion-arrow-right-b"></i>
-        <i show.bind="currentPaymentMethod === 'card-payment'" class="icon ion-arrow-down-b"></i>
+      <div class="checkout-container__card-payment__button" click.trigger="togglePaymentView('cardpayment')" ref="cardpayment">
+        <i show.bind="currentPaymentMethod !== 'cardpayment'" class="icon ion-arrow-right-b"></i>
+        <i show.bind="currentPaymentMethod === 'cardpayment'" class="icon ion-arrow-down-b"></i>
         <i class="icon ion-card"></i>
         Card Payment
       </div>
-      <div show.bind="currentPaymentMethod === 'card-payment'" class="checkout-container__card-payment__content">
+      <div class="slide-down ${currentPaymentMethod === 'cardpayment' ? 'slide-down--active': ''}">
         <div if.bind="cards.length && !state.addcard">
           <label>
             Pay using:
@@ -78,15 +78,15 @@
         </div>
       </div>
     </section>
-    <section class="checkout-container__bank-payment">
-      <div class="checkout-container__bank-payment__button" click.trigger="togglePaymentView('bank-payment')">
-        <i show.bind="currentPaymentMethod !== 'bank-payment'" class="icon ion-arrow-right-b"></i>
-        <i show.bind="currentPaymentMethod === 'bank-payment'" class="icon ion-arrow-down-b"></i>
+    <section class="checkout-container__bank-payment" ref="bankpayment">
+      <div class="checkout-container__bank-payment__button" click.trigger="togglePaymentView('bankpayment')" ref="bankpayment">
+        <i show.bind="currentPaymentMethod !== 'bankpayment'" class="icon ion-arrow-right-b"></i>
+        <i show.bind="currentPaymentMethod === 'bankpayment'" class="icon ion-arrow-down-b"></i>
         <i class="icon ion-cash"></i>
         Bank Payment
       </div>
-      <div class="checkout-container__bank-payment__content" show.bind="currentPaymentMethod === 'bank-payment'">
-        <bank-payment-instructions request.bind="request"></bank-payment-instructions>
+      <div class="slide-down ${currentPaymentMethod === 'bankpayment' ? 'slide-down--active': ''}">
+        <bank-payment-instructions amount.bind="request.total_price"></bank-payment-instructions>
         <div class="checkout-container__bank-payment__ref"><span if.bind="state.error.proofRequired" style="color:red">Proof is required</span>
           <input type="file" files.bind="proof | toArray">
           <button disabled.bind="state.inflight" click.delegate="saveProof()">Submit Proof</button>

@@ -48,6 +48,14 @@
   }
 
   &__card-payment, &__bank-payment {
+    &__content {
+      &__add {
+        a {
+          display: inline-block;
+          padding-top: 0.5em;
+        }
+      }
+    }
     &__button {
       padding: .5rem;
       cursor: pointer;
@@ -57,14 +65,6 @@
   }
 
   &__card-payment {
-    &__content {
-      &__add {
-        a {
-          display: inline-block;
-          padding-top: 0.5em;
-        }
-      }
-    }
   }
 
   &__bank-payment {

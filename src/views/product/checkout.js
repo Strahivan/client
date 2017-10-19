@@ -7,6 +7,7 @@ import {UploadService} from '~/services/upload';
 import {PriceService} from '~/services/price';
 import {AdwordsService} from '~/services/adwords';
 import {ErrorReporting} from '~/services/error-reporting';
+import animateScrollTo from 'animated-scroll-to';
 
 @inject(Router, Api, UserStore, UploadService, AdwordsService, ErrorReporting, PriceService)
 export class CheckoutVM {
@@ -79,14 +80,14 @@ export class CheckoutVM {
           postage: product.courier || constants.defaultCourier,
           destination_id: this.userStore.user && this.userStore.user.country_id || constants.defaultDestination,
           collection_method: 'courier',
-          count: Number(selections.count),
+          count: 1,
           shipping_address: (this.userStore.user && this.userStore.user.address) || {line_1: '', line_2: '', zip: '', city: ''},
           delivery_date: deliveryDate.toISOString()
         };
         this.selectOptions(selections);
         this.request.total_price = this.priceService.getPrice(this.request, this.product);
       })
-      .catch(err => errorReporting.report(new Error(err.message)));
+      .catch(err => this.errorReporting.report(new Error(err.message)));
   }
 
   getPrice() {
@@ -103,7 +104,7 @@ export class CheckoutVM {
 
     (token ? this.api.create('me/cards', {token}) : Promise.resolve())
       .then(res => {
-        const cardId = (res && res.card_id) || this.card;
+        const cardId = (res && res.card_id) || this.selectedCard;
         return this.api
           .create('me/charge', {amount: this.request.total_price, currency: 'SGD', source: cardId});
       })
@@ -114,7 +115,7 @@ export class CheckoutVM {
       .then(this.confirmPurchase.bind(this))
       .catch(err => {
         this.state.inflight = false;
-        return errorReporting.report(new Error(err.message));
+        return this.errorReporting.report(new Error(err.message));
       });
   }
 
@@ -144,7 +145,7 @@ export class CheckoutVM {
       throw new Error('Phone required');
     }
 
-    if (this.currentPaymentMethod === 'bank-payment') {
+    if (this.currentPaymentMethod === 'bankpayment') {
       if (!this.proof) {
         this.state.error.proofRequired = true;
         throw new Error('Proof required');
@@ -179,6 +180,7 @@ export class CheckoutVM {
   }
 
   togglePaymentView(toggle) {
+    animateScrollTo(this[toggle]);
     this.currentPaymentMethod = this.currentPaymentMethod === toggle ? '' : toggle;
   }
 
@@ -196,7 +198,7 @@ export class CheckoutVM {
         return this.api.create(`products/${this.product.id}/requests`, this.request);
       })
       .then(this.confirmPurchase.bind(this))
-      .catch(err => errorReporting.report(new Error(err.message)));
+      .catch(err => this.errorReporting.report(new Error(err.message)));
   }
 
   selectOptions(selections) {
