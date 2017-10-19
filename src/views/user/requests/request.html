@@ -16,7 +16,7 @@
         <li class="step-item ${request.data.status === 'shipping' ? 'active' : '' }">
           <a class="tooltip" data-tooltip="Step 3">Shipping</a>
         </li>
-        <li class="step-item ${(request.data.status === 'ready' || request.data.status === 'delivering') ? 'active' : '' }">
+        <li class="step-item ${(['ready', 'delivering', 'pending_payment', 'verify_pending_payment', 'ready_for_delivery'].includes(request.data.status)) ? 'active' : '' }">
           <a class="tooltip" data-tooltip="Step 4">${request.data.collection_method === 'pickup' ? 'Ready for Pickup': 'Delivery'}</a>
         </li>
       </ul>
