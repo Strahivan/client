@@ -1,19 +1,21 @@
 const elements = [
-  'navbar/navbar',
-  'product-card/product-card',
-  'searchbar/searchbar',
+  'animated-tag/animated-tag',
+  'bank-payment/bank-payment',
   'carousel/carousel',
-  'payment/payment',
-  'editable-text/editable-text',
+  'card-payment/card-payment',
   'editable-address/editable-address',
   'editable-selection/editable-selection',
+  'editable-text/editable-text',
   'gallery/gallery',
-  'pagination/pagination',
-  'shipping-estimator/shipping-estimator',
-  'intercom/intercom',
-  'animated-tag/animated-tag',
+  'hero-carousel/hero-carousel',
   'hotjar/hotjar',
-  'hero-carousel/hero-carousel'
+  'intercom/intercom',
+  'navbar/navbar',
+  'pagination/pagination',
+  'payment/payment',
+  'product-card/product-card',
+  'searchbar/searchbar',
+  'shipping-estimator/shipping-estimator'
 ];
 
 export default elements.map(elem => `./elements/${elem}`);
