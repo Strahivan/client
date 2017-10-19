@@ -7,6 +7,8 @@ import {Router} from 'aurelia-router';
 
 @inject(Api, DialogService, ErrorReporting, Router)
 export class RequestVM {
+  paymentMethod = null;
+  state = {};
   request = {
     params: {
       include: ['product', 'source', 'destination']
@@ -39,6 +41,26 @@ export class RequestVM {
           this.api.edit(`me/requests/${this.params.request_id}`, {status: 'rejected'});
         }
       });
+  }
+
+  updateOrder(stripeChargeId) {
+    this.api
+      .edit(`me/requests/${this.request.data.id}`, {status: 'delivering', second_installment: stripeChargeId})
+      .then(success => {
+        this.state.inflight = false;
+        this.state.showSuccess = true;
+      })
+      .catch(error => console.log(error));
+  }
+
+  updateOrderWithBankPayment(proofUrls) {
+    this.api
+      .edit(`me/requests/${this.request.data.id}`, {status: 'verify', second_installment_proof: proofUrls})
+      .then(success => {
+        this.state.inflight = false;
+        this.state.showBankPaymentSuccess = true;
+      })
+      .catch(error => console.log(error));
   }
 
   activate(params) {

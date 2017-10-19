@@ -2,6 +2,7 @@
   <require from="./request.css"></require>
   <require from="../../../resources/fragments/order-details.html"></require>
 
+  <div class="user-request-container">
   <section class="request-product-info">
     <order-details product.bind="request.data.product_details || request.data.product" request.bind="request.data"></order-details>
     <div class="request-product-info__progress">
@@ -21,48 +22,75 @@
       </ul>
     </div>
   </section>
-  <section class="request-info">
-    <div class="request-info__status">
-      <label>Status</label>
-      ${request.data.status}
+  <section if.bind="request.data.status === 'ready' && request.data.preorder && !(request.data.second_installment || request.data.second_installment_proof)">
+    <div if.bind="!(state.inflight || state.showSuccess || state.showBankPaymentSuccess)" class="user-request-prompt">
+      Your product has reached our warehouse. Please complete purchase of your item so that we can deliver the item to your address.
     </div>
-    <div class="request-info__quantity">
-      <label>Quantity</label>
-      ${request.data.count}
+    <div if.bind="state.inflight" class="user-request-prompt">
+      Submitting data...
     </div>
-    <div if.bind="request.data.collection_method" class="request-info__collection">
-      <label>Collection Method</label>
-      ${request.data.collection_method}
+    <div if.bind="state.showSuccess" class="user-request-prompt">
+      Thank you for confirming your purchase. We will ship your items immediately.
     </div>
-    <div if.bind="request.data.shipping_address" class="request-info__shipping_address">
-      <label if.bind="request.data.collection_method === 'pickup'">Pickup Address</label>
-      <label if.bind="request.data.collection_method === 'courier'">Delivery Address</label>
-      <ul>
-        <li>
-          ${request.data.shipping_address.line_1}
-        </li>
-        <li>
-          ${request.data.shipping_address.line_2}
-        </li>
-        <li>
-          ${request.data.shipping_address.city}
-        </li>
-        <li>
-          ${request.data.shipping_address.zip}
-        </li>
-      </ul>
+    <div if.bind="state.showBankPaymentSuccess" class="user-request-prompt">
+      Thank you for confirming your purchase. We will validate reciept of the bank transfer and then will ship the item immediately.
     </div>
-    <div class="request-info__price">
-      <label>Price</label>
-      SGD ${request.data.total_price | toCurrency}
-    </div>
-    <div class="request-info__orderdate">
-      <label>Date of Purchase:</label>
-      ${request.data.created_at | toDate:'date'}
-    </div>
+    <card-payment show.bind="!(state.inflight || state.showSuccess || state.showBankPaymentSuccess)" amount.bind="request.data.total_price" on-success.call="updateOrder(stripeChargeId)"></card-payment>
+    <bank-payment show.bind="!(state.inflight || state.showSuccess || state.showBankPaymentSuccess)" class="bank-payment-element" amount.bind="request.data.total_price" on-success.call="updateOrderWithBankPayment(proofUrls)"></bank-payment>
+  </section>
+  <section>
+    <table class="request-info">
+      <tr>
+        <td><label>Status</label></td>
+        <td>${request.data.status}</td>
+      </tr>
+      <tr if.bind="request.data.count > 1">
+        <td><label>Quantity</label></td>
+        <td>${request.data.count}</td>
+      </tr>
+      <tr>
+        <td>
+          <label if.bind="request.data.collection_method === 'pickup'">Pickup Address</label>
+          <label if.bind="request.data.collection_method === 'courier'">Delivery Address</label>
+        </td>
+        <td>
+          <ul>
+            <li>
+              ${request.data.shipping_address.line_1}
+            </li>
+            <li>
+              ${request.data.shipping_address.line_2}
+            </li>
+            <li>
+              ${request.data.shipping_address.city}
+            </li>
+            <li>
+              ${request.data.shipping_address.zip}
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label>Price</label>
+        </td>
+        <td>
+          SGD ${request.data.total_price | toCurrency}
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label>Date of Purchase</label>
+        </td>
+        <td>
+          ${request.data.created_at | toDate:'date'}
+        </td>
+      </tr>
+    </table>
   </section>
   <section class="cc-approval" if.bind="request.data.product_details && request.data.status === 'approval'">
     <a class="button" route-href="route: customCheckout; params.bind: {request_id: request.data.id}">Approve and Pay</a>
     <button class="button--red" click.delegate="reject()">Decline</button>
   </section>
+  </div>
 </template>

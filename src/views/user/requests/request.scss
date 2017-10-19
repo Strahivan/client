@@ -1,4 +1,18 @@
-@import '../../../style/base';
+@import 'base';
+
+.user-request-container {
+  @include grid-column(12);
+  @include grid-media($desktop) {
+    @include grid-shift(3);
+    @include grid-column(6);
+  }
+}
+
+.user-request-prompt {
+  padding: 1rem;
+  margin: 1rem;
+  background-color: lighten($primary-color, 40%);
+}
 
 .request-product-info {
   margin-top: 1rem;
@@ -24,18 +38,6 @@
       font-size: 1.3rem;
     }
   }
-}
-
-.request-info {
-  @include grid-container;
-  & > div {
-    @include grid-column(4);
-    margin-bottom: 1rem;
-  }
-  // @media screen and (min-width: $medium-screen) {
-  //   // display: flex;
-  //   justify-content: space-between;
-  // }
 }
 
 .cc-approval {
