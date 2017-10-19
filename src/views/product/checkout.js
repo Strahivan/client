@@ -77,6 +77,7 @@ export class CheckoutVM {
           discount: product.discount,
           ems_fee: product.source.ems_fee,
           weight: product.weight,
+          preorder: product.preorder,
           postage: product.courier || constants.defaultCourier,
           destination_id: this.userStore.user && this.userStore.user.country_id || constants.defaultDestination,
           collection_method: 'courier',
