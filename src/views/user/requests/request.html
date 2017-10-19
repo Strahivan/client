@@ -8,7 +8,7 @@
     <div class="request-product-info__progress">
       <ul class="step">
         <li class="step-item ${(request.data.status === 'approval' || request.data.status === 'confirmed' || request.data.status === 'pending' || request.data.status === 'verify') ? 'active': ''}">
-          <a class="tooltip" data-tooltip="Step 1">${currentStatus(request.data.status)}</a>
+          <a class="tooltip" data-tooltip="Step 1">${currentStatus(request.data.status) || 'Confirmed'}</a>
         </li>
         <li class="step-item ${request.data.status === 'processing' ? 'active' : '' }">
           <a class="tooltip" data-tooltip="Step 2">Processing</a>
