@@ -72,7 +72,7 @@
           Bank Payment
         </div>
           <div class="checkout-container__bank-payment__content" show.bind="currentPaymentMethod === 'bank-payment'">
-            <bank-payment-instructions request.bind="request"></bank-payment-instructions>
+            <bank-payment-instructions amount.bind="request.total_price"></bank-payment-instructions>
             <div class="checkout-container__bank-payment__ref"><span if.bind="state.error.proofRequired" style="color:red">Proof is required</span>
               <input type="file" files.bind="proof | toArray">
               <button disabled.bind="state.inflight" click.delegate="saveProof()">Submit Proof</button>

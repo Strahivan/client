@@ -1,4 +1,4 @@
-<template bindable="request">
+<template bindable="amount">
   <require from="./bank-payment-instructions.css"></require>
   <ol class="bank-payment-instructions">
     <li class="bank-payment-instructions__step">
@@ -26,7 +26,7 @@
     </li>
     <li class="bank-payment-instructions__step">
       <i class="icon ion-checkmark-circled"></i>
-      Transfer ${request.currency} ${request.total_price | toCurrency} to the account
+      Transfer SGD ${amount | toCurrency} to the account
     </li>
     <li class="bank-payment-instructions__step">
       <i class="icon ion-checkmark-circled"></i>
