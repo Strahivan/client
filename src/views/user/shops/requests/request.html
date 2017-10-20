@@ -114,7 +114,7 @@
           <label>Product</label>
         </td>
         <td>
-          <a href.bind="'products/' + request.data.product.id">${request.data.product.name}
+          <a href.bind="'products/' + request.data.product.id">${request.data.product.name || request.data.product_details.name}
 </a>
         </td>
       </tr>
