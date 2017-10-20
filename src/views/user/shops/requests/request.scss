@@ -1,7 +1,15 @@
+@import 'base';
+
 .shop-request {
   &__choices {
     display: flex;
     justify-content: space-between;
   }
+}
 
+.shop-request-container {
+  @include grid-media($desktop) {
+    @include grid-shift(3);
+    @include grid-column(6);
+  }
 }

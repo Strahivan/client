@@ -1,5 +1,6 @@
 <template>
   <require from="./request.css"></require>
+  <div class="shop-request-container">
   <section class="shop-request">
     <form submit.delegate="update(editRequest)">
       <div>
@@ -48,100 +49,175 @@
     </form>
   </section>
   <section class="order-user">
-    <h3>
+    <h2>
       User Information
-    </h3>
-    <div>
-      <label>Ordered By</label>
-      ${request.data.customer.name}
-    </div>
-    <div>
-      <label>Email</label>
-      ${request.data.customer.email}
-    </div>
-    <div>
-      <label>Phone</label>
-      ${request.data.customer.phone}
-    </div>
-    <div>
-      <label>Shipping Address</label>
-      <div>
-        ${request.data.shipping_address.line_1}
-      </div>
-      <div>
-        ${request.data.shipping_address.line_2}
-      </div>
-      <div>
-        ${request.data.shipping_address.zip}
-      </div>
-      <div>
-        ${request.data.shipping_address.city}
-      </div>
-      <div>
-        ${request.data.destination.name}
-      </div>
-    </div>
+    </h2>
+    <table>
+      <tr if.bind="request.data.customer.name">
+        <td>
+          <label>Ordered By</label>
+        </td>
+        <td>
+          ${request.data.customer.name}
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label>Customer Email</label>
+        </td>
+        <td>
+          ${request.data.customer.email}
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label>Customer Phone</label>
+        </td>
+        <td>
+          ${request.data.customer.phone}
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label>Customer Address</label>
+        </td>
+        <td>
+          <ul>
+            <li>
+              ${request.data.shipping_address.line_1}
+            </li>
+            <li>
+              ${request.data.shipping_address.line_2}
+            </li>
+            <li>
+              ${request.data.shipping_address.zip}
+            </li>
+            <li>
+              ${request.data.shipping_address.city}
+            </li>
+            <li>
+              ${request.data.destination.name}
+            </li>
+          </ul>
+        </td>
+      </tr>
+    </table>
   </section>
 
   <section class="shop-order-details">
-    <h3>
+    <h2>
       Order Details
-    </h3>
-    <div>
-      <label>Product</label>
-      ${request.data.product.name}
-    </div>
-    <div>
-      <label>URL</label>
+    </h2>
+    <table>
+      <tr>
+        <td>
+          <label>Product</label>
+        </td>
+        <td>
+          <a href.bind="'products/' + request.data.product.id">${request.data.product.name}
+</a>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label>URL</label>
+        </td>
+        <td>
       <a href.bind="request.data.product.url || request.data.product_details.url" target="_blank">${request.data.product.url || request.data.product_details.url}</a>
-    </div>
-    <div>
-      <label>Current Status</label>
-      ${request.data.status}
-    </div>
-    <div>
-      <label>Ordered At</label>
-      ${request.data.created_at | toDate:'date'}
-    </div>
-    <div>
-      <label>Delivery Date</label>
-      ${request.data.delivery_date | toDate:'date'}
-    </div>
-    <div>
-      <label>Collection Method</label>
-      ${request.data.collection_method}
-    </div>
-    <div if.bind="request.data.bank_reference" class="request-info__bank">
-      <label>Bank Reference</label>
-      ${request.data.bank_reference}
-    </div>
-    <div if.bind="request.data.color">
-      <label>Color</label>
-      ${request.data.color.name}
-    </div>
-    <div if.bind="request.data.size">
-      <label>Size</label>
-      ${request.data.size.name}
-    </div>
-    <div if.bind="request.data.edition">
-      <label>Edition</label>
-      ${request.data.edition.name}
-    </div>
-    <div class="request-info__quantity">
-      <label>Quantity</label>
-      ${request.data.quantity}
-    </div>
-    <div class="request-info__price">
-      <label>Price</label>
-      ${request.data.currency} ${request.data.total_price}
-    </div>
+        </td>
+      </tr>
+      <tr if.bind="request.data.total_price">
+        <td>
+          <label>Price Paid</label>
+        </td>
+        <td>
+          ${request.data.currency} ${request.data.total_price | toCurrency}
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label>Pre Order</label>
+        </td>
+        <td>
+          ${request.data.preorder ? 'Yes': 'No'}
+        </td>
+      </tr>
+      <tr if.bind="request.data.status">
+        <td>
+          <label>Status</label>
+        </td>
+        <td>
+          ${request.data.status}
+        </td>
+      </tr>
+      <tr if.bind="request.data.quantity > 1">
+        <td>
+          Quantity
+        </td>
+        <td>
+          ${request.data.quantity}
+        </td>
+      </tr>
+      <tr if.bind="request.data.color">
+        <td>
+          Color
+        </td>
+        <td>
+          ${request.data.color.name}
+        </td>
+      </tr>
+      <tr if.bind="request.data.size">
+        <td>
+          Color
+        </td>
+        <td>
+          ${request.data.size.name}
+        </td>
+      </tr>
+      <tr if.bind="request.data.variation">
+        <td>
+          Variation
+        </td>
+        <td>
+          ${request.data.variation.name}
+        </td>
+      </tr>
+      <tr if.bind="request.data.instructions">
+        <td>
+          <label>Instructions</label>
+        </td>
+        <td>
+          ${request.data.instructions}
+        </td>
+      </tr>
+      <tr if.bind="request.data.collection_method">
+        <td>
+          <label>Collection Method</label>
+        </td>
+        <td>
+          ${request.data.collection_method}
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label>Ordered At</label>
+        </td>
+        <td>
+          ${request.data.created_at | toDate:'date'}
+        </td>
+      </tr>
+        <td>
+          <label>Delivery Date</label>
+        </td>
+        <td>
+          ${request.data.delivery_date | toDate:'date'}
+        </td>
+      </tr>
+    </table>
     <div if.bind="request.data.proof.length" class="request-info__proof">
       <label>Proof</label>
       <img src.bind="request.data.proof[0]" alt="">
     </div>
-    <div if.bind="request.data.instructions">
-      <label>Additional Notes</label>
-      ${request.data.instructions}
-    </div>
   </section>
+  </div>
 </template>
