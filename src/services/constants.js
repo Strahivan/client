@@ -1,7 +1,7 @@
 export const constants = {
   requestStatus: [
     'pending', 'confirmed', 'processing', 'ready', 'completed', 'verify', 'approval', 'canceled', 'delivering', 'failed', 'rejected', 'shipping', 'pending_payment', 'verify_pending_payment', 'ready_for_delivery'
-  ],
+  ].sort(),
   deliveryOptions: [
     'pickup', 'courier'
   ],
