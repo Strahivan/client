@@ -38,11 +38,11 @@
 
       <div class="product-info__cta">
         <button type="submit" if.bind="!product.data.out_of_stock" click.delegate="confirm()">${product.data.preorder ? 'Preorder': 'Buy Now'}</button>
-        <div if.bind="product.data.preorder">
-          <sub>Preorder requires 50% deposit of the actual price.</sub>
-        </div>
         <div class="product-info__cta__soldout" if.bind="product.data.out_of_stock === true">Sold Out</div>
       </div>
+    </div>
+    <div if.bind="product.data.preorder">
+      <sub>Preorder requires 50% deposit of the actual price.</sub>
     </div>
   </section>
 </template>
