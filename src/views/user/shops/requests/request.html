@@ -79,7 +79,7 @@
       </tr>
       <tr>
         <td>
-          <label>Customer Address</label>
+          <label>${requset.data.collection_method === 'pickup'? 'Pickup Address': 'Shipping Address'}</label>
         </td>
         <td>
           <ul>
@@ -160,7 +160,7 @@
       </tr>
       <tr if.bind="request.data.color">
         <td>
-          Color
+          <label>Color</label>
         </td>
         <td>
           ${request.data.color.name}
@@ -168,7 +168,7 @@
       </tr>
       <tr if.bind="request.data.size">
         <td>
-          Color
+          <label>Size</label>
         </td>
         <td>
           ${request.data.size.name}
