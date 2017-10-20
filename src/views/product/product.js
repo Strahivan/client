@@ -26,24 +26,6 @@ export class ProductView {
     this.priceService = priceService;
   }
 
-  getProduct(id) {
-    this.api
-    .fetch(`products/${id}`, this.product.params)
-    .then(product => {
-      setOpenGraphElements('product', product);
-      setProductJsonLd(product, this.productContainer);
-      setProductBreadCrumb(product, this.productContainer);
-      this.product.data = product;
-      this.request = {
-        total_price: (product.price) - (product.discount ? product.discount : 0),
-        count: 1
-      };
-    })
-    .catch(error => {
-      console.log(error);
-    });
-  }
-
   getParameters(product, request) {
     const params = {};
     if ((product.colors && !request.color) || (product.sizes && !request.size) || (product.variations && !request.variation)) {
@@ -61,7 +43,6 @@ export class ProductView {
     if (product.variations) {
       params.variation = product.variations.map(variation => variation.name).indexOf(request.variation.name);
     }
-    params.count = this.request.count;
     return params;
   }
 
@@ -80,7 +61,20 @@ export class ProductView {
   }
 
   activate(params) {
-    this.getProduct(params.product_id);
+    this.api
+    .fetch(`products/${params.product_id}`, this.product.params)
+    .then(product => {
+      this.product.data = product;
+      this.request.total_price = product.price - (product.discount || 0);
+      const d = document.getElementById('product-container');
+      setOpenGraphElements('product', this.product.data);
+      setProductJsonLd(this.product.data, d);
+      setProductBreadCrumb(this.product.data, d);
+    })
+    .catch(error => {
+      console.log(error);
+    });
+
     if (params.gclid) {
       this.adwords.gclid = params.gclid;
     }

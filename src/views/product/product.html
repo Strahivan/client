@@ -5,7 +5,7 @@
     <carousel images.bind="product.data.gallery"></carousel>
   </section>
 
-  <section class="product-info" ref="productContainer">
+  <section id="product-container" class="product-info">
     <span class="product-info__header">${product.data.name}</span>
     <div class="product-info__price">
       SGD ${request.total_price | toCurrency}
