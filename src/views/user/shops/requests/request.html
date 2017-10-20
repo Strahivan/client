@@ -118,6 +118,10 @@
 </a>
         </td>
       </tr>
+      <tr if.bind="request.data.product.gallery || request.data.product_details.picture">
+        <td> <label>Picture</label></td>
+        <td><a href.bind="'products/' + request.data.product.id"> <img src.bind="request.data.product.gallery[0] || request.data.product_details.picture"></a></td>
+      </tr>
       <tr>
         <td>
           <label>URL</label>
