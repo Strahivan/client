@@ -7,6 +7,9 @@ export class UserStore {
   set user(val) {
     this._user = val;
     const intercom = window.Intercom;
+    if (ga) {
+      ga('set', 'userId', val.id);
+    }
     if (typeof intercom === 'function') {
       intercom('reattach_activator');
       intercom('update', {
