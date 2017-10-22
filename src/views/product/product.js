@@ -14,7 +14,9 @@ export class ProductView {
       include: ['source', 'shop', 'brand', 'category']
     }
   };
-  request = {};
+  request = {
+    count: 1
+  };
   selections = {};
   state = {};
 
