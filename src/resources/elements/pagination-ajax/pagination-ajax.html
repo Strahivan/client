@@ -1,0 +1,7 @@
+<template>
+  <require from="./pagination-ajax.css"></require>
+  <div>
+    <button disabled.bind="state.disablePrev" click.delegate="prev()">Prev</button>
+    <button disabled.bind="state.disableNext" click.delegate="next()">Next</button>
+  </div>
+</template>

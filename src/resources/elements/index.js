@@ -12,6 +12,7 @@ const elements = [
   'intercom/intercom',
   'navbar/navbar',
   'pagination/pagination',
+  'pagination-ajax/pagination-ajax',
   'payment/payment',
   'product-card/product-card',
   'searchbar/searchbar',
