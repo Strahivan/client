@@ -1,14 +1,22 @@
-@import "../../../../style/base";
+@import 'base';
 
 .shop-orders-filter {
-  @include grid-container;
-  &__status, &__product, &__email, &__created-before {
-    @include grid-column(3);
+  display: flex;
+  justify-content: space-between;
+  &__option {
+    flex-grow: 1;
+    margin-right: 1rem;
   }
 }
 
 .shop-orders-list {
   &__row--red {
     background: lighten($red, 20);
+  }
+  &__unassigned {
+    a {
+      color: brown;
+    }
+    font-weight: 800;
   }
 }

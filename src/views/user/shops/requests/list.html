@@ -1,32 +1,46 @@
 <template>
   <require from="./list.css"></require>
   <section class="shop-orders-filter">
-    <div class="shop-orders-filter__status">
+    <div class="shop-orders-filter__option">
       <label>Status</label>
       <select value.bind="requests.params.filter['status:eq']" change.delegate="resetPageAndFetch()">
         <option model.bind="null">Choose</option>
         <option repeat.for="status of statuses" model.bind="status">${status}</option>
       </select>
     </div>
-    <div class="shop-orders-filter__created-before">
+    <div class="shop-orders-filter__option">
       <label>Source Country</label>
       <select value.bind="requests.params.filter['source_id:eq']" change.delegate="resetPageAndFetch()">
         <option model.bind="null">Choose</option>
         <option repeat.for="country of countryStore.countries" model.bind="country.id">${country.name}</option>
       </select>
     </div>
-    <div class="shop-orders-filter__product">
+    <div class="shop-orders-filter__option">
+      <label>Batch</label>
+      <select value.bind="requests.params.filter['batch_id:eq']" change.delegate="resetPageAndFetch()">
+        <option model.bind="null">Choose</option>
+        <option repeat.for="batch of batches.data" model.bind="batch.id">${batch.name}</option>
+      </select>
+    </div>
+    <div class="shop-orders-filter__option">
       <label>Search by Product</label>
       <input type="text" value.bind="requests.params.filter['product.name:search']" change.delegate="resetPageAndFetch()"/>
     </div>
-    <div class="shop-orders-filter__email">
+    <div class="shop-orders-filter__option">
       <label>Search by Email</label>
       <input type="email" change.delegate="resetPageAndFetch()" value.bind="requests.params.filter['customer.email:eq']" />
     </div>
   </section>
   <section>
+    <div if.bind="selectedRequests.length">
+      <select value.bind="batchId" change.delegate="addToBatch(batchId)">
+        <option model.bind="null">Choose</option>
+        <option repeat.for="batch of batches.data" model.bind="batch.id">${batch.name}</option>
+      </select>
+    </div>
     <table class="shop-orders-list">
       <tr>
+        <th style="width:2rem"></th>
         <th>Name</th>
         <th>Customer Info</th>
         <th if.bind="!requests.params.filter['status:eq']">Status</th>
@@ -34,7 +48,8 @@
         <th>Created At</th>
       </tr>
       <tr class="shop-orders-list__row ${request.status === 'pending' || request.status === 'verify'? 'shop-orders-list__row--red': ''}" repeat.for="request of requests.data">
-        <td><a href.bind="'user/shops/' + shop.data.id + '/requests/' + request.id">${request.product.name || request.product_details.name || 'Custom Order'}</a></td>
+        <td><input style="width:1rem;height:1rem" type="checkbox" value.bind="request.id" checked.bind="selectedRequests"></td>
+        <td class="${!request.batch_id ? 'shop-orders-list__unassigned' : ''}"><a href.bind="'user/shops/' + shop.data.id + '/requests/' + request.id">${request.product.name || request.product_details.name || 'Custom Order'}</a></td>
         <td>${request.customer.email}</td>
         <td if.bind="!requests.params.filter['status:eq']"><span class="chip ${request.status === 'pending' || request.status === 'verify'? 'animated shake': ''}">${request.status}</span></td>
         <td>${request.delivery_date | toDate: 'date'}</td>

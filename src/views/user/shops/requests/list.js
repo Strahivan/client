@@ -3,6 +3,7 @@ import {Api} from '~/services/api';
 import {constants} from '~/services/constants';
 import {Router} from 'aurelia-router';
 import {CountryStore} from '~/stores/country';
+import {notify} from '~/services/notification';
 
 @inject(Api, Router, CountryStore)
 export class ShopRequestListVM {
@@ -16,9 +17,17 @@ export class ShopRequestListVM {
       }
     }
   }
+
+  batches = {
+    params: {
+      filter: {
+        'closed:eq': false
+      }
+    }
+  }
   shop = {};
-  products = {};
   state = {};
+  selectedRequests = [];
 
   constructor(api, router, countryStore) {
     this.api = api;
@@ -41,8 +50,20 @@ export class ShopRequestListVM {
       .catch(err => console.log(err));
   }
 
+  addToBatch(batchId) {
+    this.selectedRequests.forEach(requestId => {
+      this.api.edit(`shops/${this.params.shop_id}/requests/${requestId}`, {batch_id: Number(batchId)});
+    });
+    this.selectedRequests = [];
+    this.getOrders();
+    notify().log('Successfully added');
+  }
+
   activate(params) {
     this.requests.params.filter['shop_id:eq'] = params.shop_id && Number(params.shop_id);
+    this.batches.params.filter['shop_id:eq'] = params.shop_id && Number(params.shop_id);
+    this.requests.params.filter['batch_id:eq'] = params.batch_id && Number(params.batch_id);
+
 
     this.params = params;
 
@@ -50,8 +71,11 @@ export class ShopRequestListVM {
     this.api.fetch(`me/shops/${params.shop_id}`)
       .then(shop => this.shop.data = shop)
       .catch(err => console.log(err));
-    this.api.fetch(`me/shops/${params.shop_id}/products`, {page: {size: 1000}})
-      .then(products => this.products.data = products.results)
-      .catch(err => console.log(err));
+
+    this.api
+      .fetch(`me/shops/${params.shop_id}/batches`, this.batches.params)
+      .then(batches => {
+        this.batches.data = batches.results;
+      });
   }
 }
