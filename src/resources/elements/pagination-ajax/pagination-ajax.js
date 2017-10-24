@@ -1,4 +1,5 @@
 import {bindable} from 'aurelia-framework';
+import animatedScrollTo from 'animated-scroll-to';
 
 export class PaginationAjax {
   @bindable total;
@@ -7,40 +8,23 @@ export class PaginationAjax {
 
   state = {};
 
-  totalChanged(old, newval) {
-    if (this.currentMax > this.total) {
-      this.state.disableNext = true;
-    }
-  }
-
-  attached() {
-    this.currentMax = (this.page.number + 1) * this.page.size;
-    this.currentMin = (this.page.number - 1) * this.page.size;
-
-    if (this.currentMax > this.total) {
-      this.state.disableNext = true;
-    }
-
-    if (this.currentMin < 0) {
-      this.state.disablePrev = true;
-    }
-  }
-
   next() {
     const currentMax = (this.page.number + 1) * this.page.size;
 
     if (currentMax < this.total) {
-      this.page.number = page.number + 1;
+      this.page.number = this.page.number + 1;
       this.getData();
+      animatedScrollTo(0);
     }
   }
 
   prev() {
     const currentMin = (this.page.number - 1) * this.page.size;
 
-    if (currentMin > 0) {
-      this.page.number = page.number - 1;
+    if (currentMin >= 0) {
+      this.page.number = this.page.number - 1;
       this.getData();
+      animatedScrollTo(0);
     }
   }
 }
