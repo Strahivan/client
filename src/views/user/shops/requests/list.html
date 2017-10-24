@@ -16,20 +16,13 @@
       </select>
     </div>
     <div class="shop-orders-filter__product">
-      <label>Product</label>
-      <select value.bind="requests.params.filter['product_id:eq']" change.delegate="resetPageAndFetch()">
-        <option model.bind="null">Choose</option>
-        <option repeat.for="product of products.data" model.bind="product.id">${product.name}</option>
-      </select>
+      <label>Search by Product</label>
+      <input type="text" value.bind="requests.params.filter['product.name:search']" change.delegate="resetPageAndFetch()"/>
     </div>
     <div class="shop-orders-filter__email">
-      <label>Customer Email</label>
+      <label>Search by Email</label>
       <input type="email" change.delegate="resetPageAndFetch()" value.bind="requests.params.filter['customer.email:eq']" />
     </div>
-    <!-- <div class="shop&#45;orders&#45;filter__created&#45;before"> -->
-    <!--   <label>Created After</label> -->
-    <!--   <input type="date" change.delegate="resetPageAndFetch()" value.bind="requests.params.filter['created_at:gt']" /> -->
-    <!-- </div> -->
   </section>
   <section>
     <table class="shop-orders-list">
@@ -49,7 +42,7 @@
       </tr>
     </table>
     <div>
-      <pagination size.bind="requests.params.page.size" total.bind="requests.total" path.bind="path" params.bind="query"></pagination>
+      <pagination-ajax total.bind="requests.total" get-data.call="getOrders()" page.bind="requests.params.page"></pagination-ajax>
     </div>
   </section>
 </template>
