@@ -1,0 +1,20 @@
+<template>
+  <require from="./create.css"></require>
+  <form submit.delegate="create()">
+    <label>
+      Source Country
+      <select value.bind="batch.source_id">
+        <option model.bind="null">Choose</option>
+        <option repeat.for="country of countries" model.bind="country.id">${country.name}</option>
+      </select>
+    </label>
+    <label>
+      Destination Country
+      <select value.bind="batch.destination_id">
+        <option model.bind="null">Choose</option>
+        <option repeat.for="country of countries" model.bind="country.id">${country.name}</option>
+      </select>
+    </label>
+    <button type="submit">Save</button>
+  </form>
+</template>

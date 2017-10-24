@@ -1,0 +1,16 @@
+<template>
+  <require from="./list.css"></require>
+  <div>
+    <a class="button" route-href="route: batchCreate">Create Batch</a>
+  </div>
+  <table>
+    <th>Batch #</th>
+    <th>Updated At</th>
+    <th>Created At</th>
+    <tr repeat.for="batch of batches.data">
+      <td><a href.bind="'user/shops/' + params.shop_id + '/requests?batch_id=' + batch.id">Batch #${batch.id}</a></td>
+      <td>${batch.updated_at | toDate}</td>
+      <td>${batch.created_at | toDate}</td>
+    </tr>
+  </table>
+</template>
