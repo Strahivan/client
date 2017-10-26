@@ -5,12 +5,27 @@
   </div>
   <table>
     <th>Batch #</th>
+    <th>Tracking</th>
     <th>Updated At</th>
     <th>Created At</th>
     <tr repeat.for="batch of batches.data">
       <td><a href.bind="'user/shops/' + params.shop_id + '/requests?batch_id=' + batch.id">Batch #${batch.id}</a></td>
+      <td>
+        <a if.bind="batch.tracking_code" href.bind="'https://novelship.aftership.com/' + batch.tracking_code" target="_blank">https://novelship.aftership.com/${batch.tracking_code}</a>
+        <div if.bind="!batch.tracking_code" class="field has-addons">
+          <div class="control">
+            <input class="input" type="text" value.bind="batch.temp_tracking_code" placeholder="Place Tracking Code">
+          </div>
+          <div class="control">
+            <button click.delegate="saveTrackingInfo(batch)" class="button is-info">
+              Assign
+            </button>
+          </div>
+        </div>
+      </td>
       <td>${batch.updated_at | toDate}</td>
       <td>${batch.created_at | toDate}</td>
     </tr>
   </table>
+  <loading if.bind="saving"></loading>
 </template>
