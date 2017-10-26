@@ -10,6 +10,7 @@ const elements = [
   'hero-carousel/hero-carousel',
   'hotjar/hotjar',
   'intercom/intercom',
+  'loading/loading',
   'navbar/navbar',
   'pagination/pagination',
   'pagination-ajax/pagination-ajax',
