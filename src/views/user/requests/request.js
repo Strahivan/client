@@ -11,7 +11,7 @@ export class RequestVM {
   state = {};
   request = {
     params: {
-      include: ['product', 'source', 'destination']
+      include: ['product', 'source', 'destination', 'batch']
     }
   };
 

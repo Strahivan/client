@@ -44,6 +44,14 @@
         <td><label>Status</label></td>
         <td>${request.data.status}</td>
       </tr>
+      <tr if.bind="request.data.batch.tracking_code">
+        <td><label>International Shipping Tracker</label></td>
+        <td><a href.bind="'https://novelship.aftership.com/' + request.data.batch.tracking_code" target="_blank">https://novelship.aftership.com/${request.data.batch.tracking_code}</a></td>
+      </tr>
+      <tr if.bind="request.data.tracking_code">
+        <td><label>Local Shipping Tracker</label></td>
+        <td><a href.bind="'https://www.easyship.com/' + request.data.tracking_code" target="_blank">https://www.easyship.com/${request.data.tracking_code}</a>${request.data.status}</td>
+      </tr>
       <tr if.bind="request.data.count > 1">
         <td><label>Quantity</label></td>
         <td>${request.data.count}</td>
