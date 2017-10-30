@@ -9,7 +9,7 @@
         Bank Payment
       </div>
       <div class="slide-down ${parent.paymentMethod === 'bankpayment' ? 'slide-down--active': ''}">
-        <bank-payment-instructions amount="amount"></bank-payment-instructions>
+        <bank-payment-instructions amount.bind="amount"></bank-payment-instructions>
         <span if.bind="parent.state.proofRequired" style="color:red">Proof is required</span>
         <input type="file" files.bind="proof | toArray">
         <button disabled.bind="state.inflight" click.delegate="saveProof()">Submit Proof</button>
