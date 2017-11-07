@@ -73,7 +73,7 @@ export class HomeView {
 
   getAnnouncements() {
     this.api
-      .fetch('announcements')
+      .fetch('announcements', {sort: '-sequence'})
       .then(response => {
         // push the last element of the array to the beginning
         // for hero-carousel element
