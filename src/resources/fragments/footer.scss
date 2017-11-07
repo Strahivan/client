@@ -1,7 +1,24 @@
+@import 'base';
+
 .footer {
   background-color: white;
   padding: 1rem 1.5rem 1rem ;
+
+  &__content {
+    display: flex;
+    justify-content: space-between;
+    max-width: 800px;
+    margin: auto;
+    font-family: $title-font-family;
+  }
+
+  &__copylogo {
+    height: 1rem;
+    width: 1rem;
+    margin-right: .2rem;
+  }
   &__copyright {
+    margin-top: 1rem;
     text-align: center;
   }
 }
