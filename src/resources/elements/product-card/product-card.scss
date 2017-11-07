@@ -65,11 +65,16 @@ $padding-md: 0.5rem;
     text-decoration: line-through;
   }
 
+  .discount-highlight {
+    font-weight: 600;
+    color: $red;
+  }
+
   &__ribbon {
     position: absolute;
     top: 2rem;
-    color: $primary-color;
-    background: $red;
+    color: white;
+    background: darken(grey, 30);
     border-radius: $border-radius;
     left: -2rem;
     opacity: $base-transparency;

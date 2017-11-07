@@ -7,7 +7,7 @@
       <span if.bind="product.out_of_stock" class="card-element__sold-out-sticker">Sold out</span>
     </a>
     <div if.bind="product.discount" class="card-element__ribbon">
-      <i class="icon ion-flame"></i>
+      <!-- <i class="icon ion&#45;flame"></i> -->
       $${product.discount | toCurrency} off
     </div>
     <div class="card-element__header">
@@ -18,12 +18,9 @@
       </div>
     </div>
     <div class="card-element__body">
-      <div class="card-element__body__price ${product.discount? 'strikethrough': ''}">
+      <div class="card-element__body__price ${product.discount? 'discount-highlight': ''}">
         SGD ${product.price | toCurrency}
       </div>
-      <span if.bind="product.discount" class="card-element__body__price--discounted">
-        SGD ${(product.price - product.discount) | toCurrency}
-      </span>
     </div>
   </div>
 </template>
