@@ -10,25 +10,25 @@
     <div class="product-info__price">
       SGD ${request.total_price | toCurrency}
     </div>
-    <div if.bind="product.data.discount" class="product-info__discounted">Retail: $${(request.total_price + product.data.discount) | toCurrency}</div>
+    <div if.bind="product.data.discount" class="product-info__discounted">Retail: $${(product.price + product.data.discount) | toCurrency}</div>
     <div class="product-actions-container">
       <div if.bind="product.data.sizes.length || product.data.colors.length || product.data.variations.length" class="product-variations" name="product-variations">
         <div class="product-selection" ref="selection">
           <div if.bind="product.data.colors.length" class="product-property product-property--color">
-            <select name="color" value.bind="request.color" change.delegate="getPrice()">
+            <select name="color" value.bind="request.color">
               <option model.bind="null">Choose Color</option>
               <option disabled.bind="color.out_of_stock" repeat.for="color of product.data.colors" model.bind="color">${color.name} ${color.out_of_stock ? '(Out of stock)': ''}</option>
             </select>
           </div>
           <div if.bind="product.data.sizes.length" class="product-property" required>
-            <select for="size" value.bind="request.size" change.delegate="getPrice()">
+            <select for="size" value.bind="request.size">
               <option model.bind="null">Choose Size</option>
               <option disabled.bind="size.out_of_stock" repeat.for="size of product.data.sizes" model.bind="size">${size.name} ${size.out_of_stock? '(Out of stock)': ''}</option>
             </select>
           </div>
           <div if.bind="product.data.variations.length" class="product-variation">
             <label for="Variation">Variations</label>
-            <select for="variations" value.bind="request.variation" change.delegate="getPrice()">
+            <select for="variations" value.bind="request.variation">
               <option model.bind="null">Choose</option>
               <option disabled.bind="variation.out_of_stock" repeat.for="variation of product.data.variations" model.bind="variation">${variation.name} ${variation.out_of_stock? '(Out of stock)' : ''}</option>
             </select>
