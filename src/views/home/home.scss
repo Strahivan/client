@@ -8,9 +8,10 @@ $categories: (
 .home {
   @include grid-container;
 
-  &__section-header {
-    text-align: left;
-    font-size: 1.3rem;
+  .section-header {
+    font-family: $title-font-family;
+    color: black;
+    font-size: $subheader-font-size;
   }
 
   &__hero {

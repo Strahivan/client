@@ -1,8 +1,8 @@
 @import "../../../style/base";
-$background-color: #ffdd57;
 
 .navbar {
   box-shadow: 0 0 3px 0 rgba(0,0,0,.3);
+  font-family: $title-font-family;
   &-end-mobile {
     display: flex;
     margin-left: auto;
