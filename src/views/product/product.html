@@ -10,7 +10,7 @@
     <div class="product-info__price">
       SGD ${request.total_price | toCurrency}
     </div>
-    <div if.bind="product.data.discount" class="product-info__discounted">Retail: $${(product.data.price + product.data.discount) | toCurrency}</div>
+    <div if.bind="product.data.discount" class="product-info__discounted">Retail: $${product.data.price | toCurrency}</div>
     <div class="product-actions-container">
       <div if.bind="product.data.sizes.length || product.data.colors.length || product.data.variations.length" class="product-variations" name="product-variations">
         <div class="product-selection" ref="selection">
