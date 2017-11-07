@@ -2,16 +2,10 @@
 $background-color: #ffdd57;
 
 .navbar {
+  box-shadow: 0 0 3px 0 rgba(0,0,0,.3);
   &-end-mobile {
     display: flex;
     margin-left: auto;
-  }
-
-  &__customorder {
-    background: $red;
-    a {
-      color: white;
-    }
   }
 
   &__logo {
@@ -41,14 +35,8 @@ $background-color: #ffdd57;
     }
   }
   &-search-desktop {
-    form {
-      input {
-        border-radius: 1rem;
-      }
-    }
-
     &:hover {
-      background: $background-color;
+      background: none;
     }
   }
 }
