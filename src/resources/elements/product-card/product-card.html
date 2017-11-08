@@ -19,7 +19,7 @@
     </div>
     <div class="card-element__body">
       <div class="card-element__body__price ${product.discount? 'discount-highlight': ''}">
-        SGD ${product.price | toCurrency}
+        SGD ${(product.price - (product.discount || 0)) | toCurrency}
       </div>
     </div>
   </div>
