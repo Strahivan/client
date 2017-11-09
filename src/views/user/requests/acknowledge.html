@@ -1,9 +1,12 @@
 <template>
   <require from="./acknowledge.css"></require>
-  <div>
-    Your order has been placed. Please check your <a href="user/">account page</a> to track the progress.
+  <div class="${loading ? 'blur': ''}">
+    <div>
+      Your order has been placed. Please check your <a href="user/">account page</a> to track the progress.
+    </div>
+    <div>
+      Need help? Shoot us a mail at <a href="mailto:support@novelship.com?subject=Need help on">support@novelship.com</a>
+    </div>
   </div>
-  <div>
-    Need help? Shoot us a mail at <a href="mailto:support@novelship.com?subject=Need help on">support@novelship.com</a>
-  </div>
+  <loading if.bind="loading"></loading>
 </template>
