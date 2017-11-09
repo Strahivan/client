@@ -2,7 +2,7 @@
   <require from="./checkout.css"></require>
   <require from="../../resources/fragments/bank-payment-instructions.html"></require>
   <require from="../../resources/fragments/order-details.html"></require>
-  <div class="checkout-container">
+  <div class="checkout-container ${state.inflight ? 'blur': ''}">
     <order-details product.bind="product" request.bind="request"></order-details>
     <section>
       <div class="checkout-container__order-details__count" if.bind="request.count">
@@ -54,6 +54,12 @@
       </div>
     </section>
     <hr>
+    <section class="checkout-container__paypal">
+      <button class="paypal-button" click.delegate="payWithPaypal()">${product.preorder ? 'Book Now' : 'Buy Now'}</button>
+      <span class="paypal-button-callout">
+        Secure PayPal Checkout
+      </span>
+    </section>
     <section class="checkout-container__card-payment">
       <div class="checkout-container__card-payment__button" click.trigger="togglePaymentView('cardpayment')" ref="cardpayment">
         <i show.bind="currentPaymentMethod !== 'cardpayment'" class="icon ion-arrow-right-b"></i>
@@ -93,14 +99,6 @@
         </div>
       </div>
     </section>
-    <section>
-      <div if.bind="state.inflight" class="checkout-container__loading">
-        Processing. Please do not navigate away from this page.
-        <div class="sk-wandering-cubes">
-          <div class="sk-cube sk-cube1"></div>
-          <div class="sk-cube sk-cube2"></div>
-        </div>
-      </div>
-    </section>
   </div>
+  <loading if.bind="state.inflight"></loading>
 </template>

@@ -35,6 +35,10 @@ export class CheckoutVM {
   }
 
   activate(params) {
+    // if the
+    // try creating an order first
+    // then try getting paid for the order
+
     this.api.fetch('countries')
       .then(countries => this.countries = countries.results)
       .catch(err => errorReporting.report(new Error(err.message)));
@@ -67,6 +71,7 @@ export class CheckoutVM {
         const currentDay = new Date();
         const deliveryDate = new Date(currentDay.setDate(currentDay.getDate() + (product.delivery_time || 10) + this.getBufferDays(product.source_id)));
         this.request = {
+          product_id: product.id,
           source_id: product.source_id,
           shop_id: product.shop_id,
           base_price: product.price,
@@ -183,6 +188,31 @@ export class CheckoutVM {
   togglePaymentView(toggle) {
     animateScrollTo(this[toggle]);
     this.currentPaymentMethod = this.currentPaymentMethod === toggle ? '' : toggle;
+  }
+
+  payWithPaypal() {
+    this.state.inflight = true;
+    this.api
+      .create('me/requests', this.request)
+      .then(request => {
+        return this.api
+          .create('integrations/paypal/payment', {
+            intent: this.product.preorder ? 'authorize' : 'sale',
+            urls: {
+              return_url: `${window.location.origin}/user/requests/${request.id}/acknowledge`,
+              cancel_url: `${window.location.origin}/user/requests/${request.id}/canceled`
+            },
+            payment_method: 'paypal',
+            request: this.request
+          });
+      })
+      .then(payment => {
+        window.location.replace(payment.links[1].href);
+      })
+      .catch(err => {
+        this.state.inflight = false;
+        console.log(err);
+      });
   }
 
   saveProof() {

@@ -1,5 +1,9 @@
 @import '../../style/base';
 
+.blur {
+  filter: blur(5px);
+}
+
 .checkout-container {
   @include grid-column(12);
   @include grid-media($desktop) {
@@ -22,6 +26,31 @@
         text-decoration: underline;
       }
     }
+  }
+
+  .paypal-button {
+    display: block;
+    background: hsla(37, 91%, 58%, 1);
+    color: white;
+    font-size: 1rem;
+    margin: .5rem auto;
+    padding: 1rem 5rem;
+    border-radius: .25rem;
+    border-bottom: .25rem solid hsla(37, 91%, 50%, 1);
+    transition: all .25s ease-in-out;
+
+    &:hover {
+      cursor: pointer;
+      background: hsla(37, 91%, 50%, 1);
+    }
+  }
+
+  .paypal-button-callout {
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+    font-size: .65rem;
+    color: hsla(0, 0%, 0%, 0.7);
   }
 
   &__shipping-info {
