@@ -14,8 +14,8 @@
         </label>
       </div>
       <div class="checkout-container__order-info__total-price">
-        <label>${product.preorder? 'Deposit': 'Total Cost'}: SGD ${request.total_price | toCurrency}</label>
-        <sub if.bind="product.preorder">An amount of SGD ${request.total_price | toCurrency} is payable after the item reaches our Singapore office</sub>
+        <label>Total Cost: SGD ${request.total_price | toCurrency}</label>
+        <sub if.bind="product.preorder">If paid using Paypal, we only charge when the item is obtained.</sub>
       </div>
     </section>
     <section class="checkout-container__shipping-info">
