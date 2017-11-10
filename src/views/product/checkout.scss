@@ -28,8 +28,13 @@
     }
   }
 
+  .paypal-logo {
+    width: 2rem;
+  }
+
   .paypal-button {
-    display: block;
+    display: flex;
+    align-items: center;
     background: hsla(37, 91%, 58%, 1);
     color: white;
     font-size: 1rem;

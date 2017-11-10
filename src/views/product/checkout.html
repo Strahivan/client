@@ -55,7 +55,9 @@
     </section>
     <hr>
     <section class="checkout-container__paypal">
-      <button class="paypal-button" click.delegate="payWithPaypal()">${product.preorder ? 'Book Now' : 'Buy Now'}</button>
+      <button class="paypal-button" click.delegate="payWithPaypal()">
+       <img class="paypal-logo" src="/images/paypal.png" alt=""> ${product.preorder ? 'Book Now' : 'Buy Now'} with PayPal
+      </button>
       <span class="paypal-button-callout">
         Secure PayPal Checkout
       </span>
