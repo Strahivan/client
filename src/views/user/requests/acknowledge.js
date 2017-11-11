@@ -11,7 +11,7 @@ export class Acknowledge {
     if (params.paymentId && params.PayerID) {
       this.loading = true;
       this.api
-      .create('integrations/paypal/execute', {payer_id: params.PayerID, payment_id: params.paymentId})
+      .fetch(`integrations/paypal/execute?payer_id=${params.PayerID}&payment_id=${params.paymentId}`)
       .then((approved) => {
         // if authorization then preorder
         const updates = {};
