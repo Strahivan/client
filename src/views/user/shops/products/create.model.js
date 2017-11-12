@@ -44,9 +44,6 @@ ValidationRules
   .ensure(product => product.delivery_time)
     .displayName('Delivery time')
     .required()
-  .ensure(product => product.description)
-    .minLength(100)
-    .required()
   .ensure(product => product.currency)
     .required()
   .on(Product);
