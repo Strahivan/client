@@ -1,0 +1,33 @@
+<template>
+  <require from="./liveshopping.css"></require>
+  <section class="liveshopping">
+    <h1 class="liveshopping__header">Novelship Live Shopping</h1>
+    <div>
+      <h1>Product pricing calculator (All prices in SGD and inclusive of shipping):</h1>
+      <ul class="liveshopping__instructions">
+        <li>Tees / Shirts: Cost price + 8% tax + $40 mark up</li>
+        <li>Crewnecks: Cost price + 8% tax + $80 mark up</li>
+        <li>Hoodies / Sweaters / Jackets: Cost price + 8% tax + $100 mark up</li>
+        <li>Pants: Cost price + 8% tax + $85 mark up</li>
+        <li>Others: Cost price + 8% tax + $40 mark up </li>
+      </ul>
+      <sub>** Conversion rate - 1sgd = 83.4yen (JPY price divided by 83.4 = SGD)</sub>
+      <h3 class="liveshopping__followup">All payments to be made through paypal by Nov 13, 2017 23:59pm.</h3>
+    </div>
+    <!-- <div> -->
+    <!--   <label>Item</label> -->
+    <!--   <input type="text" value.bind="name" placeholder="Item name, color and size"> -->
+    <!-- </div> -->
+    <!-- <div> -->
+    <!--   <label>Quantity</label> -->
+    <!--   <input type="number" value.bind="quantity"> -->
+    <!-- </div> -->
+    <div>
+      <label>Price</label>
+      <input type="text" value.bind="price" placeholder="Item price in SGD (1 SGD = 83.4 JPY) + tax + markup">
+    </div>
+    <div class="liveshopping__paypal">
+      <div id="paypal-button-container"></div>
+    </div>
+  </section>
+</template>
