@@ -5,7 +5,7 @@ import {UserStore} from '~/stores/user';
 export class LiveShopping {
   constructor(userStore) {
     this.quantity = 1;
-    this.user = userStore.user;
+    this.userStore = userStore;
   }
   attached() {
     paypal.Button.render({
@@ -31,7 +31,7 @@ export class LiveShopping {
             transactions: [
               {
                 amount: { total: this.price, currency: 'SGD' },
-                description: this.user.id,
+                description: this.userStore.user.id,
                 item_list: {
                   items: [{
                     name: this.name,
