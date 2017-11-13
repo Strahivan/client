@@ -35,7 +35,9 @@ export class LiveShopping {
                 item_list: {
                   items: [{
                     name: this.name,
-                    quantity: this.quantity
+                    quantity: this.quantity,
+                    price: this.price,
+                    currency: 'SGD'
                   }]
                 }
               }
