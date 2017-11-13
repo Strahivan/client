@@ -1,6 +1,11 @@
+import {inject} from 'aurelia-framework';
+import {UserStore} from '~/stores/user';
+
+@inject(UserStore)
 export class LiveShopping {
-  constructor() {
+  constructor(userStore) {
     this.quantity = 1;
+    this.user = userStore.user;
   }
   attached() {
     paypal.Button.render({
@@ -26,6 +31,13 @@ export class LiveShopping {
             transactions: [
               {
                 amount: { total: this.price, currency: 'SGD' }
+              },
+              description: this.user.id,
+              item_list: {
+                items: [{
+                  name: this.name,
+                  quantity: this.quantity
+                }]
               }
             ]
           }
