@@ -30,14 +30,14 @@ export class LiveShopping {
           payment: {
             transactions: [
               {
-                amount: { total: this.price, currency: 'SGD' }
-              },
-              description: this.user.id,
-              item_list: {
-                items: [{
-                  name: this.name,
-                  quantity: this.quantity
-                }]
+                amount: { total: this.price, currency: 'SGD' },
+                description: this.user.id,
+                item_list: {
+                  items: [{
+                    name: this.name,
+                    quantity: this.quantity
+                  }]
+                }
               }
             ]
           }
