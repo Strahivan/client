@@ -22,7 +22,7 @@ export class App {
     ValidationRules.customRule(...customRules.numberRange);
   }
 
-  async activate() {
+  activate() {
     this.fetchConfig.configure();
     try {
       this.api

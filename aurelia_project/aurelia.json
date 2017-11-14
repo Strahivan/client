@@ -182,8 +182,18 @@
               "themes/flatty.css"
             ]
           },
-          "hammerjs",
-          "humanize",
+          {
+            "name": "hammerjs",
+            "main": "hammer",
+            "path": "../node_modules/hammerjs",
+            "resources": []
+          },
+          {
+            "name": "humanize",
+            "main": "humanize",
+            "path": "../node_modules/humanize",
+            "resources": []
+          },
           {
             "name": "aurelia-validation",
             "main": "aurelia-validation",
@@ -198,7 +208,7 @@
           },
           {
             "name": "markdown-it",
-            "main": "markdown-it.min.js",
+            "main": "markdown-it.min",
             "path": "../node_modules/markdown-it/dist/"
           },
           "whatwg-fetch",
@@ -209,14 +219,24 @@
             "path": "../node_modules/aurelia-google-analytics/dist/amd",
             "resources": []
           },
-          "animated-scroll-to",
+          {
+            "name": "animated-scroll-to",
+            "main": "animated-scroll-to",
+            "path": "../node_modules/animated-scroll-to",
+            "resources": []
+          },
           {
             "name": "raven-js",
-            "main": "raven.js",
+            "main": "raven",
             "path": "../node_modules/raven-js/dist",
             "resources": []
           },
-          "fecha",
+          {
+            "name": "fecha",
+            "main": "fecha",
+            "path": "../node_modules/fecha",
+            "resources": []
+          },
           {
             "name": "lodash-isequal",
             "main": "index",
