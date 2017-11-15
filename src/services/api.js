@@ -22,15 +22,10 @@ export class Api {
     if (params.filter) {
       params.filter['active:eq'] = params.filter['active:eq'] === false ? false : true;
     } else {
-      if (!path.startsWith('integrations')) {
-        params.filter = {'active:eq': true};
-      }
+      params.filter = {'active:eq': true};
     }
 
-    let query = path;
-    if (!path.startsWith('integrations')) {
-      query = path + '?';
-    }
+    let query = path + '?';
 
     if (params.filter && Object.keys(params.filter).length) {
       query = `${query}${buildQueryString(Api.formatFilters(params.filter, 'where'))}`;
