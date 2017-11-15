@@ -191,6 +191,9 @@ export class CheckoutVM {
   }
 
   payWithPaypal() {
+    if (!this.validate()) {
+      return;
+    }
     this.state.inflight = true;
     this.api
       .create('me/requests', this.request)
