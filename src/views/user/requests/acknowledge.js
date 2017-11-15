@@ -1,17 +1,20 @@
 import {inject} from 'aurelia-framework';
 import {Api} from '~/services/api';
+import {HttpClient} from 'aurelia-fetch-client';
 
-@inject(Api)
+@inject(Api, HttpClient)
 export class Acknowledge {
-  constructor(api) {
+  constructor(api, http) {
     this.api = api;
+    this.http = http;
   }
 
   activate(params) {
     if (params.paymentId && params.PayerID) {
       this.loading = true;
-      this.api
+      this.http
       .fetch(`integrations/paypal/execute?payer_id=${params.PayerID}&payment_id=${params.paymentId}`)
+      .then(response => response.json())
       .then((approved) => {
         // if authorization then preorder
         const updates = {};
