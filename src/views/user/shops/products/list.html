@@ -21,10 +21,6 @@
           <option repeat.for="country of countries.data" model.bind="country.id">${country.name}</option>
         </select>
       </div>
-      <div class="shop-products-list__filter__source">
-        <label>Requires Price Breakdown</label>
-        <input type="checkbox" checked.bind="products.params.filter['cost:isNull']" change.delegate="resetPageAndFetch()"/>
-      </div>
       <div class="shop-products-list__filter__create">
         <a href.bind="'user/shops/' + shop.data.id + '/products/create'">
           <i class="icon ion-plus"></i>
@@ -33,25 +29,27 @@
       </div>
     </section>
     <section>
-      <table>
-        <tr>
-          <th>Name</th>
-          <th>Novelship URL</th>
-          <th>Store URL</th>
-          <th>Price</th>
-        </tr>
-        <tr repeat.for="product of products.data">
-          <td>
-            <a href.bind="'user/shops/' + shop.data.id + '/products/' + product.id + '/edit'" >${product.name}</a>
-          </td>
-          <td><a href="${'products/' + product.id}" target="_blank">novelship link</a></td>
-          <td><a href.bind="product.url" target="_blank">link</a></td>
-          <td>${product.price | toCurrency}</td>
-        </tr>
-      </table>
-    <div>
-      <pagination size.bind="products.params.page.size" total.bind="products.total" path.bind="path" params.bind="query"></pagination>
-    </div>
+      <div class="responsive-table">
+        <table>
+          <thead>
+            <th>Name</th>
+            <th>Novelship URL</th>
+            <th>Store URL</th>
+            <th>Price</th>
+          </thead>
+          <tr repeat.for="product of products.data">
+            <td data-label="Name">
+              <a href.bind="'user/shops/' + shop.data.id + '/products/' + product.id + '/edit'" >${product.name}</a>
+            </td>
+            <td data-label="Novelship URL"><a href="${'products/' + product.id}" target="_blank">novelship link</a></td>
+            <td data-label="Store URL"><a href.bind="product.url" target="_blank">link</a></td>
+            <td data-label="Price">${product.price | toCurrency}</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <pagination size.bind="products.params.page.size" total.bind="products.total" path.bind="path" params.bind="query"></pagination>
+      </div>
     </section>
   </div>
 </template>
