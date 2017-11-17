@@ -38,24 +38,26 @@
         <option repeat.for="batch of batches.data" model.bind="batch.id">${batch.name}</option>
       </select>
     </div>
-    <table class="shop-orders-list">
-      <tr>
-        <th style="width:2rem"></th>
-        <th>Name</th>
-        <th>Customer Info</th>
-        <th if.bind="!requests.params.filter['status:eq']">Status</th>
-        <th>Due Date</th>
-        <th>Created At</th>
-      </tr>
-      <tr class="shop-orders-list__row ${request.status === 'pending' || request.status === 'verify'? 'shop-orders-list__row--red': ''}" repeat.for="request of requests.data">
-        <td><input style="width:1rem;height:1rem" type="checkbox" value.bind="request.id" checked.bind="selectedRequests"></td>
-        <td class="${!request.batch_id ? 'shop-orders-list__unassigned' : ''}"><a href.bind="'user/shops/' + shop.data.id + '/requests/' + request.id">${request.product.name || request.product_details.name || 'Custom Order'}</a></td>
-        <td>${request.customer.email}</td>
-        <td if.bind="!requests.params.filter['status:eq']"><span class="chip ${request.status === 'pending' || request.status === 'verify'? 'animated shake': ''}">${request.status}</span></td>
-        <td>${request.delivery_date | toDate: 'date'}</td>
-        <td>${request.created_at | toDate: 'date'}</td>
-      </tr>
-    </table>
+    <div class="responsive-table">
+      <table class="shop-orders-list">
+        <thead>
+          <th style="width:2rem"></th>
+          <th>Name</th>
+          <th>Customer Info</th>
+          <th>Status</th>
+          <th>Due Date</th>
+          <th>Created At</th>
+        </thead>
+        <tr class="shop-orders-list__row ${request.status === 'pending' || request.status === 'verify'? 'shop-orders-list__row--red': ''}" repeat.for="request of requests.data">
+          <td><input style="width:1rem;height:1rem" type="checkbox" value.bind="request.id" checked.bind="selectedRequests"></td>
+          <td data-label="Name" class="${!request.batch_id ? 'shop-orders-list__unassigned' : ''}"><a href.bind="'user/shops/' + shop.data.id + '/requests/' + request.id">${request.product.name || request.product_details.name || 'Custom Order'}</a></td>
+          <td data-label="Email">${request.customer.email}</td>
+          <td data-label="Status" if.bind="!requests.params.filter['status:eq']"><span class="chip ${request.status === 'pending' || request.status === 'verify'? 'animated shake': ''}">${request.status}</span></td>
+          <td data-label="Due Date">${request.delivery_date | toDate: 'date'}</td>
+          <td data-label="Created At">${request.created_at | toDate: 'date'}</td>
+        </tr>
+      </table>
+    </div>
     <div>
       <pagination-ajax total.bind="requests.total" get-data.call="getOrders()" page.bind="requests.params.page"></pagination-ajax>
     </div>
