@@ -4,8 +4,9 @@ import {DialogService} from 'aurelia-dialog';
 import {ConfirmationDialog} from '~/resources/dialogs/confirmation/confirmation';
 import {ErrorReporting} from '~/services/error-reporting';
 import {Router} from 'aurelia-router';
+import {UserStore} from '~/stores/user';
 
-@inject(Api, DialogService, ErrorReporting, Router)
+@inject(Api, DialogService, ErrorReporting, Router, UserStore)
 export class RequestVM {
   paymentMethod = null;
   state = {};
@@ -15,11 +16,12 @@ export class RequestVM {
     }
   };
 
-  constructor(api, dialog, errorReporting, router) {
+  constructor(api, dialog, errorReporting, router, userStore) {
     this.api = api;
     this.dialog = dialog;
     this.errorReporting = errorReporting;
     this.router = router;
+    this.userStore = userStore;
   }
 
   currentStatus(status) {
@@ -51,6 +53,60 @@ export class RequestVM {
         this.state.showBankPaymentSuccess = true;
       })
       .catch(error => console.log(error));
+  }
+
+  attached() {
+    window.setTimeout(() => {
+      if (this.request.data.status === 'pending_payment' && this.request.data.preorder && !(this.request.data.second_installment_proof || this.request.data.second_installment)) {
+        paypal.Button.render({
+
+          env: 'production', // sandbox | production
+
+          // PayPal Client IDs - replace with your own
+          // Create a PayPal app: https://developer.paypal.com/developer/applications/create
+          client: {
+            sandbox: 'AVC69GGZGSjeiSnJK5REr_bVsCjHngU2eDFegfRmP3K0L_bEjuI3Ah1VbbtSg6M6IYylFMg1-QN_u4Oe',
+            production: 'AQiTpqmI9uXrAZJItFue1ZSzWKl2A3HJnq_5S8qz6UBDFo58qfFdVoiAjE55qS5SLF_mI7-ZUrQmNAKS'
+          },
+
+          // Show the buyer a 'Pay Now' button in the checkout flow
+          commit: true,
+
+          // payment() is called when the button is clicked
+          payment: (data, actions) => {
+            // Make a call to the REST api to create the payment
+            const price = (Number(this.request.data.total_price)).toFixed(2);
+            return actions.payment.create({
+              payment: {
+                transactions: [
+                  {
+                    amount: { total: price, currency: 'SGD' },
+                    description: this.userStore.user.id,
+                    item_list: {
+                      items: [{
+                        name: this.request.data.product.name,
+                        quantity: this.request.data.count,
+                        price: price,
+                        currency: 'SGD'
+                      }]
+                    }
+                  }
+                ]
+              }
+            });
+          },
+
+          // onAuthorize() is called when the buyer approves the payment
+          onAuthorize: (data, actions) => {
+            // Make a call to the REST api to execute the payment
+            console.log(data);
+            return actions.payment.execute().then(() => {
+              this.api.edit(`me/requests/${this.params.request_id}`, {status: 'shipping', second_installment: data.paymentID});
+            });
+          }
+        }, '#secondpayment-paypal-button');
+      }
+    }, 2000);
   }
 
   activate(params) {

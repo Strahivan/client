@@ -35,6 +35,7 @@
     <div if.bind="state.showBankPaymentSuccess" class="user-request-prompt">
       Thank you for confirming your purchase. We will validate reciept of the bank transfer and then will ship the item immediately.
     </div>
+    <div id="secondpayment-paypal-button"></div>
     <bank-payment show.bind="!(state.inflight || state.showSuccess || state.showBankPaymentSuccess)" class="bank-payment-element" amount.bind="request.data.total_price" on-success.call="updateOrderWithBankPayment(proofUrls)"></bank-payment>
   </section>
   <section>
