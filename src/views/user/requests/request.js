@@ -43,16 +43,6 @@ export class RequestVM {
       });
   }
 
-  updateOrder(stripeChargeId) {
-    this.api
-      .edit(`me/requests/${this.request.data.id}`, {status: 'ready_for_delivery', second_installment: stripeChargeId})
-      .then(success => {
-        this.state.inflight = false;
-        this.state.showSuccess = true;
-      })
-      .catch(error => console.log(error));
-  }
-
   updateOrderWithBankPayment(proofUrls) {
     this.api
       .edit(`me/requests/${this.request.data.id}`, {status: 'verify_pending_payment', second_installment_proof: proofUrls})

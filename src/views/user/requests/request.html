@@ -24,7 +24,7 @@
   </section>
   <section if.bind="request.data.status === 'pending_payment' && request.data.preorder && !(request.data.second_installment || request.data.second_installment_proof)">
     <div if.bind="!(state.inflight || state.showSuccess || state.showBankPaymentSuccess)" class="user-request-prompt">
-      Your product has reached our warehouse. Please complete purchase of your item so that we can deliver the item to your address.
+      Your product has reached our warehouse. Please complete purchase of your item so that we can begin shipping the item.
     </div>
     <div if.bind="state.inflight" class="user-request-prompt">
       Submitting data...
@@ -35,7 +35,6 @@
     <div if.bind="state.showBankPaymentSuccess" class="user-request-prompt">
       Thank you for confirming your purchase. We will validate reciept of the bank transfer and then will ship the item immediately.
     </div>
-    <card-payment show.bind="!(state.inflight || state.showSuccess || state.showBankPaymentSuccess)" amount.bind="request.data.total_price" on-success.call="updateOrder(stripeChargeId)"></card-payment>
     <bank-payment show.bind="!(state.inflight || state.showSuccess || state.showBankPaymentSuccess)" class="bank-payment-element" amount.bind="request.data.total_price" on-success.call="updateOrderWithBankPayment(proofUrls)"></bank-payment>
   </section>
   <section>
