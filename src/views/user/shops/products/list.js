@@ -2,8 +2,10 @@ import {Api} from '~/services/api';
 import {inject} from 'aurelia-framework';
 import {activationStrategy} from 'aurelia-router';
 import {Router} from 'aurelia-router';
+import {DialogService} from 'aurelia-dialog';
+import {ConfirmationDialog} from '~/resources/dialogs/confirmation/confirmation';
 
-@inject(Api, Router)
+@inject(Api, Router, DialogService)
 export class ShopProductListVM {
   shop = {};
   products = {
@@ -18,9 +20,10 @@ export class ShopProductListVM {
   countries = {};
   categories = {};
 
-  constructor(api, router) {
+  constructor(api, router, dialog) {
     this.api = api;
     this.router = router;
+    this.dialog = dialog;
   }
 
   determineActivationStrategy() {
@@ -84,5 +87,30 @@ export class ShopProductListVM {
       .then(data => this.categories.data = data.results)
       .catch(err => console.log(err));
   }
+
+  action(selectedAction, product) {
+    selectedAction.call(this, product);
+  }
+
+  delete(product) {
+    this.dialog.open({ viewModel: ConfirmationDialog, model: {message: 'Are you sure to delete this product?'}})
+      .whenClosed(response => {
+        if (!response.wasCancelled) {
+          product.deleted = true;
+          this.api.edit(`me/shops/${this.params.shop_id}/products/${product.id}`, {active: false});
+        }
+      });
+  }
+
+  soldOut(product) {
+    this.dialog.open({ viewModel: ConfirmationDialog, model: {message: 'Are you sure to mark it as sold out?'}})
+      .whenClosed(response => {
+        if (!response.wasCancelled) {
+          product.out_of_stock = true;
+          this.api.edit(`me/shops/${this.params.shop_id}/products/${product.id}`, {out_of_stock: true});
+        }
+      });
+  }
+
 }
 

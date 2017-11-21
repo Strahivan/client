@@ -36,14 +36,22 @@
             <th>Novelship URL</th>
             <th>Store URL</th>
             <th>Price</th>
+            <th>Actions</th>
           </thead>
           <tr repeat.for="product of products.data">
             <td data-label="Name">
-              <a href.bind="'user/shops/' + shop.data.id + '/products/' + product.id + '/edit'" >${product.name}</a>
+              <a css.bind="product.deleted? {'text-decoration': 'line-through'}: {}" href.bind="'user/shops/' + shop.data.id + '/products/' + product.id + '/edit'" >${product.name}</a> <span class="chip" if.bind="product.out_of_stock">out of stock</span>
             </td>
             <td data-label="Novelship URL"><a href="${'products/' + product.id}" target="_blank">novelship link</a></td>
             <td data-label="Store URL"><a href.bind="product.url" target="_blank">link</a></td>
             <td data-label="Price">${product.price | toCurrency}</td>
+            <td data-label="Actions">
+              <select value.bind="selectedAction" change.delegate="action(selectedAction, product)">
+                <option>Choose</option>
+                <option model.bind="delete">Delete</option>
+                <option model.bind="soldOut">Mark Sold Out</option>
+              </select>
+            </td>
           </tr>
         </table>
       </div>
