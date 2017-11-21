@@ -36,7 +36,7 @@ export class RequestVM {
   }
 
   reject() {
-    this.dialog.open({ viewModel: ConfirmationDialog, model: {message: ', cancel order'}})
+    this.dialog.open({ viewModel: ConfirmationDialog, model: {message: 'Are you sure you want to cancel this order?'}})
       .whenClosed(response => {
         if (!response.wasCancelled) {
           this.request.data.status = 'rejected';
