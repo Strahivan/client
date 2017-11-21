@@ -5,6 +5,7 @@ import {ConfirmationDialog} from '~/resources/dialogs/confirmation/confirmation'
 import {ErrorReporting} from '~/services/error-reporting';
 import {Router} from 'aurelia-router';
 import {UserStore} from '~/stores/user';
+import {notify} from '~/services/notification';
 
 @inject(Api, DialogService, ErrorReporting, Router, UserStore)
 export class RequestVM {
@@ -99,8 +100,9 @@ export class RequestVM {
           // onAuthorize() is called when the buyer approves the payment
           onAuthorize: (data, actions) => {
             // Make a call to the REST api to execute the payment
-            console.log(data);
             return actions.payment.execute().then(() => {
+              notify().log('Success!');
+              this.request.data.status = 'shipping';
               this.api.edit(`me/requests/${this.params.request_id}`, {status: 'shipping', second_installment: data.paymentID});
             });
           }
