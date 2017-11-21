@@ -7,7 +7,7 @@ export class ConfirmationDialog {
     this.dialog = dialog;
   }
 
-  activate(message) {
-    this.message = message;
+  activate(data) {
+    this.message = data.message;
   }
 }
