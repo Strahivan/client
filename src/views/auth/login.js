@@ -15,7 +15,6 @@ export class Login {
     this.state = {
       error: {}
     };
-    this.userdata = {};
   }
 
   getFacebookAuthWithRedirect() {
@@ -25,7 +24,15 @@ export class Login {
 
   login() {
     this.state.error.wrongLogin = null;
-    return this.auth.login(this.userdata.email, this.userdata.password)
+    let password = document.getElementById('password').value;
+    if (this.password !== password) {
+      this.password = password;
+    }
+    let email = document.getElementById('email').value;
+    if (this.email !== email) {
+      this.email = email;
+    }
+    return this.auth.login(this.email, this.password)
       .then(response => this.api.fetch('me', {include: ['country', 'shops']}))
       .then(user => this.userStore.user = user)
       .catch(err => {

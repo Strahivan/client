@@ -2,11 +2,11 @@
   <require from="./login.css"></require>
   <form submit.delegate="login()">
     <label> Email
-      <input type="email" class="email" name="email" value.bind="userdata.email">
+      <input id="email" type="email" class="email" name="email" value.bind="email">
     </label>
     <div>
       <label for="password">Password</label>
-      <input type="password" name="password" value.bind="userdata.password">
+      <input id="password" type="password" name="password" value.bind="password">
     </div>
     <div class="error" if.bind="state.error.wrongLogin">${state.error.wrongLogin}</div>
     <button class="submit" type="submit">Login</button>
