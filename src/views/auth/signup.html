@@ -11,13 +11,16 @@
     <label for="repeat">Repeat Password</label>
     <input type="password" name="repeat" value.bind="signup.repeat & validate">
     <button class="submit" type="submit">Signup</button>
+  </form>
+  <div class="rest">
     <div class="signup__prompt">
       Already a user? <a class="border-up" route-href="route: login">Login</a>
     </div>
+    <hr>
     <div class="social">
       <a class="button" href.bind="getFacebookAuthWithRedirect()">
         <i class="ion-social-facebook"></i> Sign up with Facebook
       </a>
     </div>
-  </form>
+  </div>
 </template>

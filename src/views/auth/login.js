@@ -24,7 +24,7 @@ export class Login {
 
   login() {
     this.state.error.wrongLogin = null;
-    return this.auth.login(this.email, this.password)
+    return this.auth.login(this.useremail, this.userpass)
       .then(response => this.api.fetch('me', {include: ['country', 'shops']}))
       .then(user => this.userStore.user = user)
       .catch(err => {

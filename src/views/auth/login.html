@@ -2,24 +2,27 @@
   <require from="./login.css"></require>
   <form submit.delegate="login()">
     <label> Email
-      <input type="email" class="email" name="email" value.bind="email" autofocus>
+      <input type="email" class="email" name="email" value.bind="useremail">
     </label>
     <div>
       <label for="password">Password</label>
-      <input type="password" name="password" value.bind="password">
+      <input type="password" name="password" value.bind="userpass">
     </div>
     <div class="error" if.bind="state.error.wrongLogin">${state.error.wrongLogin}</div>
     <button class="submit" type="submit">Login</button>
+  </form>
+  <div class="rest">
     <div>
       Don't have an account? <a route-href="route: signup">Signup</a>!
     </div>
     <div class="forgot">
       <a route-href="route: reset">Forgot password?</a>
     </div>
+    <hr>
     <div class="social">
       <a class="button" href.bind="getFacebookAuthWithRedirect()">
         <i class="ion-social-facebook"></i> Sign in with Facebook
       </a>
     </div>
-  </form>
+  </div>
 </template>

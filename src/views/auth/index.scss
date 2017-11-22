@@ -1,15 +1,14 @@
-@import '../../style/base';
+@import 'base';
 
 .auth {
-  @include grid-container;
+  @media screen and (min-width: $medium-screen) {
+    max-width: 20rem;
+    margin: auto;
+    margin-top: 10vh;
+  }
   margin-top: 10vh;
 
   form {
-    @include grid-media($desktop) {
-      @include grid-shift(4);
-      @include grid-column(4);
-    }
-
     .submit {
       float: right;
     }
@@ -18,8 +17,14 @@
       color: $red;
     }
 
+  }
+
+  .rest {
+    display: block;
+    width: 100%;
+
     .social {
-      margin-top: 10vh;
+      margin-top: 1rem;
       text-align: center;
     }
 
