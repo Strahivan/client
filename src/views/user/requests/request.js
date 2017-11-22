@@ -108,7 +108,7 @@ export class RequestVM {
           }
         }, '#secondpayment-paypal-button');
       }
-    }, 2000);
+    }, 3000);
   }
 
   activate(params) {
