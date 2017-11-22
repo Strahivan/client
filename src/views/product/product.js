@@ -2,12 +2,11 @@ import {inject} from 'aurelia-framework';
 import {Router} from 'aurelia-router';
 import {Api} from '~/services/api';
 import {PriceService} from '~/services/price';
-import {AdwordsService} from '~/services/adwords';
 import {UserStore} from '~/stores/user';
 import animateScrollTo from 'animated-scroll-to';
 import {setOpenGraphElements, setProductJsonLd, setProductBreadCrumb} from '~/services/metadata';
 
-@inject(Router, Api, AdwordsService, UserStore, PriceService)
+@inject(Router, Api, UserStore, PriceService)
 export class ProductView {
   product = {
     params: {
@@ -20,10 +19,9 @@ export class ProductView {
   selections = {};
   state = {};
 
-  constructor(router, api, adwords, userStore, priceService) {
+  constructor(router, api, userStore, priceService) {
     this.router = router;
     this.api = api;
-    this.adwords = adwords;
     this.userStore = userStore;
     this.priceService = priceService;
   }
@@ -55,7 +53,6 @@ export class ProductView {
   confirm() {
     try {
       const selections = this.getParameters(this.product.data, this.request);
-      this.adwords.reportBuyNowAction();
       this.router.navigateToRoute('checkout', selections);
     } catch (e) {
       console.log(e);
@@ -76,9 +73,5 @@ export class ProductView {
     .catch(error => {
       console.log(error);
     });
-
-    if (params.gclid) {
-      this.adwords.gclid = params.gclid;
-    }
   }
 }
