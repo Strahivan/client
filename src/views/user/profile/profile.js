@@ -1,17 +1,15 @@
 import {inject} from 'aurelia-framework';
 import {Api} from '~/services/api';
 import {UserStore} from '~/stores/user';
-import {Payment} from '~/services/payment';
 import {ExternalHttp} from '~/services/external-http';
 
-@inject(Api, UserStore, Payment, ExternalHttp)
+@inject(Api, UserStore, ExternalHttp)
 export class ProfileEdit {
   countries = {};
   state = {};
 
-  constructor(api, userStore, payment, http) {
+  constructor(api, userStore, http) {
     this.api = api;
-    this.payment = payment;
     this.userStore = userStore;
     this.http = http;
   }
