@@ -159,7 +159,7 @@ export class CheckoutVM {
     }
     this.state.inflight = true;
     this.api
-      .create('me/requests', this.request)
+      .create('me/requests', Object.assign({}, this.request, {active: false, status: 'paypal_pending'}))
       .then(request => {
         return this.api
           .create('integrations/paypal/payment', {

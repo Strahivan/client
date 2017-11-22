@@ -1,12 +1,14 @@
 import {inject} from 'aurelia-framework';
 import {Api} from '~/services/api';
 import {HttpClient} from 'aurelia-fetch-client';
+import {ErrorReporting} from '~/services/error-reporting';
 
-@inject(Api, HttpClient)
+@inject(Api, HttpClient, ErrorReporting)
 export class Acknowledge {
-  constructor(api, http) {
+  constructor(api, http, errorReporting) {
     this.api = api;
     this.http = http;
+    this.errorReporting = errorReporting;
   }
 
   activate(params) {
@@ -24,6 +26,7 @@ export class Acknowledge {
         updates.status = 'confirmed';
         updates.payment_method = 'paypal';
         updates.payment_id = approved.id;
+        updates.active = true;
         return this.api.edit(`me/requests/${params.request_id}`, updates);
       })
       .then(success => {
@@ -31,7 +34,7 @@ export class Acknowledge {
       })
       .catch(err => {
         this.loading = false;
-        console.log(err)
+        this.errorReporting.notifyAndReport(err, 'We were unable to complete the order. Please contact support: support@novelship.com');
       });
     }
   }
