@@ -20,8 +20,9 @@ export class Acknowledge {
       .then((approved) => {
         // if authorization then preorder
         const updates = {};
-        if (approved.transactions[0].related_resources[0].authorization) {
-          updates.authorization_id = approved.transactions[0].related_resources[0].authorization.id;
+        const authorization = approved.transactions[0].related_resources[0].authorization;
+        if (authorization) {
+          updates.authorization_id = authorization.id;
         }
         updates.status = 'confirmed';
         updates.payment_method = 'paypal';
