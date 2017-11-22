@@ -103,7 +103,7 @@ export class RequestVM {
             return actions.payment.execute().then(() => {
               notify().log('Success!');
               this.request.data.status = 'shipping';
-              this.api.edit(`me/requests/${this.params.request_id}`, {status: 'shipping', second_installment: data.paymentID});
+              this.api.edit(`me/requests/${this.params.request_id}`, {status: 'ready_for_delivery', second_installment: data.paymentID});
             });
           }
         }, '#secondpayment-paypal-button');
