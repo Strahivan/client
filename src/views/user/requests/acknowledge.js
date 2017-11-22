@@ -1,6 +1,6 @@
 import {inject} from 'aurelia-framework';
 import {Api} from '~/services/api';
-import {HttpClient} from 'aurelia-fetch-client';
+import {HttpClient, json} from 'aurelia-fetch-client';
 import {ErrorReporting} from '~/services/error-reporting';
 
 @inject(Api, HttpClient, ErrorReporting)
@@ -27,7 +27,12 @@ export class Acknowledge {
         updates.payment_method = 'paypal';
         updates.payment_id = approved.id;
         updates.active = true;
-        return this.api.edit(`me/requests/${params.request_id}`, updates);
+        return this.http
+          .fetch(`me/requests/${params.request_id}`, {
+            method: 'PUT',
+            body: json(updates)
+          })
+          .then(res => res.json());
       })
       .then(success => {
         this.loading = false;
