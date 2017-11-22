@@ -5,25 +5,22 @@ import {Router} from 'aurelia-router';
 import {constants} from '~/services/constants';
 import {UploadService} from '~/services/upload';
 import {PriceService} from '~/services/price';
-import {AdwordsService} from '~/services/adwords';
 import {ErrorReporting} from '~/services/error-reporting';
 import animateScrollTo from 'animated-scroll-to';
 
-@inject(Router, Api, UserStore, UploadService, AdwordsService, ErrorReporting, PriceService)
+@inject(Router, Api, UserStore, UploadService, ErrorReporting, PriceService)
 export class CheckoutVM {
   error = {};
   request = {
     shipping_address: {}
   };
-  cards = [];
   tempUser = {};
 
-  constructor(router, api, userStore, upload, adwords, errorReporting, priceService) {
+  constructor(router, api, userStore, upload, errorReporting, priceService) {
     this.router = router;
     this.api = api;
     this.userStore = userStore;
     this.upload = upload;
-    this.adwords = adwords;
     this.constants = constants;
     this.priceService = priceService;
     this.errorReporting = errorReporting;
@@ -41,14 +38,6 @@ export class CheckoutVM {
 
     this.api.fetch('countries')
       .then(countries => this.countries = countries.results)
-      .catch(err => errorReporting.report(new Error(err.message)));
-
-    this.api.fetch('me/cards')
-      .then(cards => {
-        if (cards.data) {
-          this.cards = cards.data;
-        }
-      })
       .catch(err => errorReporting.report(new Error(err.message)));
 
     this.getProduct(Number(params.product_id), params);
@@ -100,33 +89,7 @@ export class CheckoutVM {
     this.request.total_price = this.priceService.getPrice(this.request, this.product);
   }
 
-  charge(token) {
-    if (!this.validate()) {
-      return;
-    }
-    this.state.inflight = true;
-    this.saveAddress(this.request.shipping_address);
-    this.saveContact(this.tempUser);
-
-    (token ? this.api.create('me/cards', {token}) : Promise.resolve())
-      .then(res => {
-        const cardId = (res && res.card_id) || this.selectedCard;
-        return this.api
-          .create('me/charge', {amount: this.request.total_price, currency: 'SGD', source: cardId});
-      })
-      .then(response => {
-        this.request.stripe_charge_id = response.id;
-        return this.api.create(`products/${this.product.id}/requests`, this.request);
-      })
-      .then(this.confirmPurchase.bind(this))
-      .catch(err => {
-        this.state.inflight = false;
-        return this.errorReporting.report(new Error(err.message));
-      });
-  }
-
   confirmPurchase() {
-    this.adwords.reportSales(this.request.total_price);
     this.router.navigateToRoute('acknowledge');
   }
 

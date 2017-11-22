@@ -62,30 +62,6 @@
         Secure PayPal Checkout
       </span>
     </section>
-    <!-- <section class="checkout&#45;container__card&#45;payment"> -->
-    <!--   <div class="checkout&#45;container__card&#45;payment__button" click.trigger="togglePaymentView('cardpayment')" ref="cardpayment"> -->
-    <!--     <i show.bind="currentPaymentMethod !== 'cardpayment'" class="icon ion&#45;arrow&#45;right&#45;b"></i> -->
-    <!--     <i show.bind="currentPaymentMethod === 'cardpayment'" class="icon ion&#45;arrow&#45;down&#45;b"></i> -->
-    <!--     <i class="icon ion&#45;card"></i> -->
-    <!--     Card Payment -->
-    <!--   </div> -->
-    <!--   <div class="slide&#45;down ${currentPaymentMethod === 'cardpayment' ? 'slide&#45;down&#45;&#45;active': ''}"> -->
-    <!--     <div if.bind="cards.length &#38;&#38; !state.addcard"> -->
-    <!--       <label> -->
-    <!--         Pay using: -->
-    <!--         <select value.bind="selectedCard"> -->
-    <!--           <option repeat.for="card of cards" model.bind="card.id">${card.brand} ending with ${card.last4}</option> -->
-    <!--         </select> -->
-    <!--       </label> -->
-    <!--       <button disabled.bind="state.inflight" click.delegate="charge()">Pay $${request.total_price | toCurrency}</button> -->
-    <!--       <button if.bind="!state.addcard" click.delegate="state.addcard = true">Add Card</button> -->
-    <!--     </div> -->
-    <!--     <div class="checkout&#45;container__card&#45;payment__content__add" if.bind="state.addcard || !cards.length"> -->
-    <!--       <payment&#45;form save.call="charge(token)" button&#45;text="Pay" isDisabled.bind="state.inflight"></payment&#45;form> -->
-    <!--       <a href="#" if.bind="cards.length" click.delegate="state.addcard = false">Cancel</a> -->
-    <!--     </div> -->
-    <!--   </div> -->
-    <!-- </section> -->
     <section class="checkout-container__bank-payment" ref="bankpayment">
       <div class="checkout-container__bank-payment__button" click.trigger="togglePaymentView('bankpayment')" ref="bankpayment">
         <i show.bind="currentPaymentMethod !== 'bankpayment'" class="icon ion-arrow-right-b"></i>
