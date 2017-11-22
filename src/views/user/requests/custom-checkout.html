@@ -40,30 +40,6 @@
             <input change.delegate="saveUserInfo('phone', userStore.user.phone)" value.bind="userStore.user.phone & validate" type="text" />
         </div>
       </section>
-      <section class="cc__card-payment">
-        <div class="cc__card-payment__button" click.trigger="togglePaymentView('card-payment')">
-          <i show.bind="currentPaymentMethod !== 'card-payment'" class="icon ion-arrow-right-b"></i>
-          <i show.bind="currentPaymentMethod === 'card-payment'" class="icon ion-arrow-down-b"></i>
-          <i class="icon ion-card"></i>
-          Card Payment
-        </div>
-        <div show.bind="currentPaymentMethod === 'card-payment'" class="cc__card-payment__content">
-          <div if.bind="cards.length && !state.addcard">
-            <label>
-              Pay using:
-              <select value.bind="selectedCard">
-                <option repeat.for="card of cards" model.bind="card.id">${card.brand} ending with ${card.last4}</option>
-              </select>
-            </label>
-            <button disabled.bind="state.inflight" click.delegate="charge()">Pay $${request.total_price | toCurrency}</button>
-            <button if.bind="!state.addcard" click.delegate="state.addcard = true">Add New Card</button>
-          </div>
-          <div class="cc__card-payment__content__add" if.bind="state.addcard || !cards.length">
-            <payment-form save.call="charge(token)" button-text="Pay" isDisabled.bind="state.inflight"></payment-form>
-            <a href="#" if.bind="cards.length" click.delegate="state.addcard = false">Cancel</a>
-          </div>
-        </div>
-      </section>
       <section class="cc__bank-payment">
         <div class="cc__bank-payment__button" click.trigger="togglePaymentView('bank-payment')">
           <i show.bind="currentPaymentMethod !== 'bank-payment'" class="icon ion-arrow-right-b"></i>

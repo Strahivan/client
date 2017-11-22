@@ -21,11 +21,6 @@ export class ProfileEdit {
       .fetch('countries')
       .then(countries => this.countries.data = countries.results)
       .catch(err => this.countries.error = err);
-
-    this.payment
-      .getCards()
-      .then(cards => this.cards = cards.data)
-      .catch(err => console.log(err));
   }
 
   userUpdate(fragment) {
@@ -33,31 +28,6 @@ export class ProfileEdit {
       .edit('me', fragment)
       .then(success =>this.userStore.user = Object.assign(this.userStore.user, fragment))
       .catch(err => console.log(err));
-  }
-
-  removeCard(cardId) {
-    this.payment.deleteCard(cardId)
-      .then(() => this.payment.getCards())
-      .then(cards => this.cards = cards.data)
-      .catch(err => console.log(err));
-  }
-
-  save(token) {
-    this.state.inflight = true;
-    this.payment.saveCard(token)
-      .then(response => {
-        this.state.inflight = false;
-        return this.payment.getCards();
-      })
-      .then(cards => {
-        this.cards = cards.data;
-        this.state.inflight = false;
-      })
-      .catch(error => {
-        this.state.inflight = false;
-        // send error to admin
-        console.log(error);
-      });
   }
 
   upload() {

@@ -28,15 +28,4 @@
       <editable-address address.bind="userStore.user.address" key="address" callback.call="userUpdate(address)"></editable-address>
     </div>
   </section>
-  <section class="card-list-container">
-    <h3>Cards</h3>
-    <ul class="card-list-container__list">
-      <li class="card-list-container__list__item" repeat.for="card of cards">
-        <i class="icon ion-card"></i>
-        ${card.brand} ending in ${card.last4}
-        <i class="card-list-container__list__item__delete icon ion-trash-a" click.delegate="removeCard(card.id)"></i>
-      </li>
-    </ul>
-    <payment-form save.call="save(token)" button-text="Save Card"></payment-form>
-  </section>
 </template>
