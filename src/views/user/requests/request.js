@@ -101,9 +101,12 @@ export class RequestVM {
           onAuthorize: (data, actions) => {
             // Make a call to the REST api to execute the payment
             return actions.payment.execute().then(() => {
-              notify().log('Success!');
-              this.request.data.status = 'shipping';
-              this.api.edit(`me/requests/${this.params.request_id}`, {status: 'ready_for_delivery', second_installment: data.paymentID});
+              this.api
+                .edit(`me/requests/${this.params.request_id}`, {status: 'ready_for_delivery', second_installment: data.paymentID})
+                .then(success => {
+                  this.request.data.status = 'ready_for_delivery';
+                  notify().log('Success!');
+                });
             });
           }
         }, '#secondpayment-paypal-button');
