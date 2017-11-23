@@ -52,7 +52,7 @@
           <td><input style="width:1rem;height:1rem" type="checkbox" value.bind="request.id" checked.bind="selectedRequests"></td>
           <td data-label="Name" class="${!request.batch_id ? 'shop-orders-list__unassigned' : ''}"><a href.bind="'user/shops/' + shop.data.id + '/requests/' + request.id">${request.product.name || request.product_details.name || 'Custom Order'}</a></td>
           <td data-label="Email">${request.customer.email}</td>
-          <td data-label="Status" if.bind="!requests.params.filter['status:eq']"><span class="chip ${request.status === 'pending' || request.status === 'verify'? 'animated shake': ''}">${request.status}</span></td>
+          <td data-label="Status" if.bind="!requests.params.filter['status:eq']"><span class="chip ${request.status === 'pending' || request.status === 'verify'? 'pulse': ''}">${request.status}</span></td>
           <td data-label="Due Date">${request.delivery_date | toDate: 'date'}</td>
           <td data-label="Created At">${request.created_at | toDate: 'date'}</td>
         </tr>

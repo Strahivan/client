@@ -39,7 +39,7 @@
       <tr class="shop-orders-list__row ${request.status === 'pending' || request.status === 'verify'? 'shop-orders-list__row--red': ''}" repeat.for="request of requests.data">
         <td><a href.bind="'user/shops/' + shop.data.id + '/requests/' + request.id">${request.product.name || request.product_details.name || 'Custom Order'}</a></td>
         <td>${request.customer.email}</td>
-        <td if.bind="!requests.params.filter['status:eq']"><span class="chip ${request.status === 'pending' || request.status === 'verify'? 'animated shake': ''}">${request.status}</span></td>
+        <td if.bind="!requests.params.filter['status:eq']"><span class="chip ${request.status === 'pending' || request.status === 'verify'? 'pulse': ''}">${request.status}</span></td>
         <td>${request.delivery_date | toDate: 'date'}</td>
         <td>${request.created_at | toDate: 'date'}</td>
       </tr>
