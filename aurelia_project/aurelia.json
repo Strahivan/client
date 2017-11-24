@@ -206,11 +206,6 @@
             "path": "../node_modules/aurelia-animator-css/dist/amd",
             "resources": []
           },
-          {
-            "name": "markdown-it",
-            "main": "markdown-it.min",
-            "path": "../node_modules/markdown-it/dist/"
-          },
           "whatwg-fetch",
           "deepmerge",
           {

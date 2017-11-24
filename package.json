@@ -29,7 +29,6 @@
     "humane-js": "^3.2.2",
     "humanize": "0.0.9",
     "lodash.isequal": "^4.5.0",
-    "markdown-it": "^8.3.1",
     "raven-js": "^3.17.0",
     "requirejs": "^2.3.3",
     "text": "github:requirejs/text#latest",
