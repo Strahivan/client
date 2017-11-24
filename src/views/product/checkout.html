@@ -13,12 +13,12 @@
           </select>
         </label>
       </div>
+    </section>
+    <section class="checkout-container__shipping-info">
       <div class="checkout-container__order-info__total-price">
         <label>Total Cost: SGD ${request.total_price | toCurrency}</label>
         <sub if.bind="product.preorder">If paid using Paypal, we only charge when the item is obtained.</sub>
       </div>
-    </section>
-    <section class="checkout-container__shipping-info">
       <div>
         <label>Collection Method</label>
         <select change.delegate="toggleAddress()" value.bind="request.collection_method">
@@ -43,6 +43,11 @@
         <input value.bind="request.shipping_address.city" type="text" />
         Zip * <span if.bind="state.error.zipRequired" style="color:red">Zip is required</span>
         <input value.bind="request.shipping_address.zip" type="text" />
+        Country
+        <select value.bind="request.shipping_address.country" change.delegate="getPrice()">
+          <option model.bind="null">Choose</option>
+          <option repeat.for="country of countries" model.bind="country.name">${country.name}</option>
+        </select>
       </div>
       <div if.bind="!userStore.user.phone">
         Phone * <span if.bind="state.error.phoneRequired" style="color:red">Phone is required</span>

@@ -86,7 +86,15 @@ export class CheckoutVM {
   }
 
   getPrice() {
-    this.request.total_price = this.priceService.getPrice(this.request, this.product);
+    for(var i = 0; i < this.countries.length; i++) {
+      if (this.countries[i].name == this.request.shipping_address.country) {
+        var ship = this.countries[i].shipping_fee;
+        break;
+      } else {
+       var ship = 0.00;
+      }
+    }
+    this.request.total_price = ship + this.priceService.getPrice(this.request, this.product);
   }
 
   confirmPurchase() {
