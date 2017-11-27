@@ -86,14 +86,8 @@ export class CheckoutVM {
   }
 
   getPrice() {
-    for(var i = 0; i < this.countries.length; i++) {
-      if (this.countries[i].name == this.request.shipping_address.country) {
-        var ship = this.countries[i].shipping_fee;
-        break;
-      } else {
-       var ship = 0.00;
-      }
-    }
+    const country = this.countries.find(this.request.shipping_address.country);
+    const ship = country ? 0.00;
     this.request.total_price = ship + this.priceService.getPrice(this.request, this.product);
   }
 
