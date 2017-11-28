@@ -45,7 +45,6 @@
         <input value.bind="request.shipping_address.zip" type="text" />
         Country
         <select value.bind="request.shipping_address.country" change.delegate="getPrice()">
-          <option model.bind="null">${request.shipping_address.country = "Singapore"}</option>
           <option repeat.for="country of countries" model.bind="country.name">${country.name}</option>
         </select>
       </div>
