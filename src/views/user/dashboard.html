@@ -44,7 +44,7 @@
           <a class="dashboard-orders-details__title" href.bind="'user/requests/' + request.id" >${request.product.name || request.product_details.name || 'Custom Product'}</a>
           <div class="dashboard-orders-details__delivery" if.bind="request.delivery_date">Delivery: ${request.delivery_date | toDate: 'date'}</div>
           <div class="dashboard-orders-details__status">
-            <div class="${request.status === 'approval'? 'animated infinite tada': ''}">${request.status}</div>
+            <div class="${request.status === 'approval'? 'pulse': ''}">${request.status}</div>
           </div>
           <div if.bind="request.color || request.size || request.edition">
             <span class="chip" if.bind="request.color">${request.color.name}</span>

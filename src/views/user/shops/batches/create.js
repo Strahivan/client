@@ -1,17 +1,18 @@
 import {inject} from 'aurelia-framework';
 import {Api} from '~/services/api';
 import {notify} from '~/services/notification';
+import {CountryStore} from '~/stores/country';
 
-@inject(Api)
+@inject(Api, CountryStore)
 export class BatchCreateView {
   batch = {};
-  constructor(api) {
+  constructor(api, countryStore) {
     this.api = api;
+    this.countries = countryStore.countries;
   }
 
-  async activate(params) {
+  activate(params) {
     this.batch.shop_id = params.shop_id;
-    this.countries = (await this.api.fetch('countries')).results;
   }
 
   create() {

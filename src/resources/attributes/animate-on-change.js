@@ -9,10 +9,10 @@ export class AnimateOnChangeCustomAttribute {
   }
 
   valueChanged(newValue) {
-    this.animator.addClass(this.element, 'fadeIn').then(() => {
+    this.animator.addClass(this.element, 'fade-in').then(() => {
       setTimeout(() => {
-        this.animator.removeClass(this.element, 'fadeIn');
-      }, 400);
+        this.animator.removeClass(this.element, 'fade-in');
+      }, 100);
     });
   }
 }
