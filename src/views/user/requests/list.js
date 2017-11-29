@@ -1,22 +1,22 @@
 import {inject} from 'aurelia-framework';
 import {Api} from '~/services/api';
-import {ErrorReporting} from '~/services/error-reporting';
+import {ErrorHandler} from '~/services/error';
 
-@inject(Api, ErrorReporting)
+@inject(Api, ErrorHandler)
 export class RequestListVM {
   requests = {
     params: {
       include: ['product']
     }
   }
-  constructor(api, errorReporting) {
+  constructor(api, errorHandler) {
     this.api = api;
-    this.errorReporting = errorReporting;
+    this.errorHandler = errorHandler;
   }
 
   activate(params) {
     this.api.fetch('me/requests', this.requests.params)
       .then(requests => this.requests.data = requests.results)
-      .catch(err => errorReporting.report(new Error(err.message)));
+      .catch(this.errorHandler.notifyAndReport);
   }
 }

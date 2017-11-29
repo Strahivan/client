@@ -1,14 +1,14 @@
 import {inject} from 'aurelia-framework';
 import {Api} from '~/services/api';
 import {HttpClient, json} from 'aurelia-fetch-client';
-import {ErrorReporting} from '~/services/error-reporting';
+import {ErrorHandler} from '~/services/error';
 
-@inject(Api, HttpClient, ErrorReporting)
+@inject(Api, HttpClient, ErrorHandler)
 export class Acknowledge {
-  constructor(api, http, errorReporting) {
+  constructor(api, http, errorHandler) {
     this.api = api;
     this.http = http;
-    this.errorReporting = errorReporting;
+    this.errorHandler = errorHandler;
   }
 
   activate(params) {
@@ -40,7 +40,7 @@ export class Acknowledge {
       })
       .catch(err => {
         this.loading = false;
-        this.errorReporting.notifyAndReport(err, 'We were unable to complete the order. Please contact support: support@novelship.com');
+        this.errorHandler.notifyAndReport(err, 'We were unable to complete the order. Please contact support: support@novelship.com');
       });
     }
   }

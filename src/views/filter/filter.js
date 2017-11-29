@@ -3,8 +3,9 @@ import {Api} from '~/services/api';
 import {EventAggregator} from 'aurelia-event-aggregator';
 import {Router} from 'aurelia-router';
 import {activationStrategy} from 'aurelia-router';
+import {ErrorHandler} from '~/services/error';
 
-@inject(Api, EventAggregator, Router)
+@inject(Api, EventAggregator, Router, ErrorHandler)
 export class FilterView {
   errors = {};
   products = {
@@ -23,9 +24,10 @@ export class FilterView {
     return activationStrategy.replace;
   }
 
-  constructor(api, ea, router) {
+  constructor(api, ea, router, errorHandler) {
     this.api = api;
     this.router = router;
+    this.errorHandler = errorHandler;
     ea.subscribe('filter__search', payload => {
       this.products.params.filter['tsv:search'] = payload;
       this.reload(this.products.params);
@@ -59,9 +61,7 @@ export class FilterView {
         });
         this.products.total = items.total;
       })
-      .catch(error => {
-        this.products.error = error;
-      });
+      .catch(this.errorHandler.notifyAndReport);
   }
 
   getCategories() {
@@ -70,9 +70,7 @@ export class FilterView {
       .then(data => {
         this.categories = data.results;
       })
-      .catch(error => {
-        this.errors.push(error);
-      });
+      .catch(this.errorHandler.notifyAndReport);
   }
 
   getCountries() {
@@ -81,9 +79,7 @@ export class FilterView {
       .then(data => {
         this.countries = data.results;
       })
-      .catch(error => {
-        this.errors.push(error);
-      });
+      .catch(this.errorHandler.notifyAndReport);
   }
 
   activate(params) {

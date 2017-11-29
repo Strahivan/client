@@ -1,7 +1,8 @@
 import {inject} from 'aurelia-framework';
 import {Api} from '~/services/api';
+import {ErrorHandler} from '~/services/error';
 
-@inject(Api)
+@inject(Api, ErrorHandler)
 export class HomeView {
   countries = {};
   categories = {};
@@ -15,8 +16,9 @@ export class HomeView {
     {tag: 'Wear ', color: 'white'}
   ];
 
-  constructor(api) {
+  constructor(api, errorHandler) {
     this.api = api;
+    this.errorHandler = errorHandler;
 
     this.popular = {
       params: {
@@ -65,10 +67,7 @@ export class HomeView {
         this.collections.data = response.results;
         this.selected.collection = response.results[0];
       })
-      .catch(error => {
-        console.log(error);
-        this.collections.error = error;
-      });
+      .catch(this.errorHandler.notifyAndReport);
   }
 
   getAnnouncements() {
@@ -80,9 +79,7 @@ export class HomeView {
         response.results.unshift(response.results.pop());
         this.announcements.data = response.results;
       })
-      .catch(error => {
-        console.log(error);
-      });
+      .catch(this.errorHandler.notifyAndReport);
   }
 
   getProducts(container) {
@@ -91,9 +88,7 @@ export class HomeView {
       .then(response => {
         container.data = response.results;
       })
-      .catch(error => {
-        container.error = error;
-      });
+      .catch(this.errorHandler.notifyAndReport);
   }
 
   getCountries() {
@@ -102,8 +97,6 @@ export class HomeView {
       .then(response => {
         this.countries.data = response.results;
       })
-      .catch(error => {
-        this.countries.error = error;
-      });
+      .catch(this.errorHandler.notifyAndReport);
   }
 }

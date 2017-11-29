@@ -1,21 +1,23 @@
 import {inject} from 'aurelia-framework';
 import {Api} from '~/services/api';
+import {ErrorHandler} from '~/services/error';
 
-@inject(Api)
+@inject(Api, ErrorHandler)
 export class ShopListView {
   shops = {
     params: {}
   }
 
-  constructor(api) {
+  constructor(api, errorHandler) {
     this.api = api;
+    this.errorHandler = errorHandler;
   }
 
   getShops() {
     this.api
     .fetch('shops', this.shops.params)
     .then(data => this.shops.data = data.results)
-    .catch(err => console.log(err));
+    .catch(this.errorHandler.notifyAndReport);
   }
 
   delete(id) {

@@ -1,8 +1,9 @@
 import {inject} from 'aurelia-framework';
 import {Api} from '~/services/api';
 import {notify} from '~/services/notification';
+import {ErrorHandler} from '~/services/error';
 
-@inject(Api)
+@inject(Api, ErrorHandler)
 export class BatchList {
   batches = {
     params: {
@@ -11,8 +12,9 @@ export class BatchList {
       }
     }
   };
-  constructor(api) {
+  constructor(api, errorHandler) {
     this.api = api;
+    this.errorHandler = errorHandler;
   }
 
   saveTrackingInfo(batch) {
@@ -21,7 +23,7 @@ export class BatchList {
     this.api
       .fetch('requests', {filter: {'batch_id:eq': batch.id }, page: {size: 100}})
       .then(requests => {
-        const requestList = requests.map(request => this.api.edit(`requests/${request.id}`, {status: 'shipping'}));
+        const requestList = requests.data.map(request => this.api.edit(`requests/${request.id}`, {status: 'shipping'}));
         const requestListWithAftership = requestList.concat(this.api
           .create('integrations/aftership', {
             tracking_number: batch.temp_tracking_code,
@@ -40,7 +42,7 @@ export class BatchList {
         this.saving = false;
         notify().log('Successfully saved tracking info');
       })
-    .catch(e => notify().log('Error: could not save tracking code.'));
+      .catch(this.errorHandler.notifyAndReport);
   }
 
   activate(params) {
@@ -50,9 +52,7 @@ export class BatchList {
       .then(batchesData => {
         this.batches.data = batchesData.results;
       })
-      .catch(error => {
-        notify().log('Could not load the batches');
-      });
+      .catch(this.errorHandler.notifyAndReport);
   }
 
 }

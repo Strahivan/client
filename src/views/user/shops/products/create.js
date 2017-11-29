@@ -7,8 +7,9 @@ import {ValidationRenderer} from '~/services/validation-renderer';
 import {Product} from './create.model';
 import {constants} from '~/services/constants';
 import animateScrollTo from 'animated-scroll-to';
+import {ErrorHandler} from '~/services/error';
 
-@inject(Api, UploadService, NewInstance.of(ValidationController))
+@inject(Api, UploadService, NewInstance.of(ValidationController), ErrorHandler)
 export class CreateProduct {
   counter = {
     size: 0,
@@ -19,10 +20,11 @@ export class CreateProduct {
   status = {};
   product = new Product();
 
-  constructor(api, upload, controller) {
+  constructor(api, upload, controller, errorHandler) {
     this.controller = controller;
     this.api = api;
     this.upload = upload;
+    this.errorHandler = errorHandler;
     this.controller.addRenderer(new ValidationRenderer());
   }
 
@@ -30,17 +32,17 @@ export class CreateProduct {
     this.api
       .fetch('countries')
       .then(countries => this.countries = countries.results)
-      .catch(err => console.log(err));
+      .catch(this.errorHandler.notifyAndReport);
 
     this.api
       .fetch('brands', {page: {size: 1000}, sort: 'name'})
       .then(brands => this.brands = brands.results)
-      .catch(err => console.log(err));
+      .catch(this.errorHandler.notifyAndReport);
 
     this.api
       .fetch('categories', {page: {size: 100}, sort: 'name'})
       .then(categories => this.categories = categories.results)
-      .catch(err => console.log(err));
+      .catch(this.errorHandler.notifyAndReport);
 
     this.product.shop_id = Number(params.shop_id);
     this.product.postage = constants.defaultPostage;
@@ -143,9 +145,8 @@ export class CreateProduct {
               this.reset();
             })
             .catch(err => {
-              console.log(err);
               this.status.inprogress = false;
-              notify().log('Product creation failed');
+              return this.errorHandler.notifyAndReport(err);
             });
         } else {
           throw new Error('invalid product');

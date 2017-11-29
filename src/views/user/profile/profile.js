@@ -2,14 +2,16 @@ import {inject} from 'aurelia-framework';
 import {Api} from '~/services/api';
 import {UserStore} from '~/stores/user';
 import {ExternalHttp} from '~/services/external-http';
+import {ErrorHandler} from '~/services/error';
 
-@inject(Api, UserStore, ExternalHttp)
+@inject(Api, UserStore, ExternalHttp, ErrorHandler)
 export class ProfileEdit {
   countries = {};
   state = {};
 
-  constructor(api, userStore, http) {
+  constructor(api, userStore, http, errorHandler) {
     this.api = api;
+    this.errorHandler = errorHandler;
     this.userStore = userStore;
     this.http = http;
   }
@@ -18,14 +20,14 @@ export class ProfileEdit {
     this.api
       .fetch('countries')
       .then(countries => this.countries.data = countries.results)
-      .catch(err => this.countries.error = err);
+      .catch(this.errorHandler.notifyAndReport);
   }
 
   userUpdate(fragment) {
     return this.api
       .edit('me', fragment)
       .then(success =>this.userStore.user = Object.assign(this.userStore.user, fragment))
-      .catch(err => console.log(err));
+      .catch(this.errorHandler.notifyAndReport);
   }
 
   upload() {
@@ -39,7 +41,7 @@ export class ProfileEdit {
         });
       })
       .then(success => this.userUpdate({avatar: avatarUrl}))
-      .catch(err => console.log(err));
+      .catch(this.errorHandler.notifyAndReport);
   }
 
   getUploadUrl(file, type) {

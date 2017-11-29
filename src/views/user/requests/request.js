@@ -2,12 +2,12 @@ import {inject} from 'aurelia-framework';
 import {Api} from '~/services/api';
 import {DialogService} from 'aurelia-dialog';
 import {ConfirmationDialog} from '~/resources/dialogs/confirmation/confirmation';
-import {ErrorReporting} from '~/services/error-reporting';
+import {ErrorHandler} from '~/services/error';
 import {Router} from 'aurelia-router';
 import {UserStore} from '~/stores/user';
 import {notify} from '~/services/notification';
 
-@inject(Api, DialogService, ErrorReporting, Router, UserStore)
+@inject(Api, DialogService, ErrorHandler, Router, UserStore)
 export class RequestVM {
   paymentMethod = null;
   state = {};
@@ -17,10 +17,10 @@ export class RequestVM {
     }
   };
 
-  constructor(api, dialog, errorReporting, router, userStore) {
+  constructor(api, dialog, errorHandler, router, userStore) {
     this.api = api;
     this.dialog = dialog;
-    this.errorReporting = errorReporting;
+    this.errorHandler = errorHandler;
     this.router = router;
     this.userStore = userStore;
   }
@@ -53,7 +53,7 @@ export class RequestVM {
         this.state.inflight = false;
         this.state.showBankPaymentSuccess = true;
       })
-      .catch(error => console.log(error));
+      .catch(this.errorHandler.notifyAndReport);
   }
 
   attached() {
@@ -120,6 +120,6 @@ export class RequestVM {
       .then(response => {
         this.request.data = response;
       })
-      .catch(err => this.errorReporting.report(new Error(err.message)));
+      .catch(this.errorHandler.notifyAndReport);
   }
 }

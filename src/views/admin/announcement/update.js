@@ -4,13 +4,15 @@ import {notify} from '~/services/notification';
 import {DialogController} from 'aurelia-dialog';
 import {ExternalHttp} from '~/services/external-http';
 import {utilities} from '~/services/utilities';
+import {ErrorHandler} from '~/services/error';
 
-@inject(Api, DialogController, ExternalHttp)
+@inject(Api, DialogController, ExternalHttp, ErrorHandler)
 export class AnnouncementUpdateView {
-  constructor(api, controller, http) {
+  constructor(api, controller, http, errorHandler) {
     this.api = api;
     this.http = http;
     this.controller = controller;
+    this.errorHandler = errorHandler;
   }
 
   activate(announcement) {
@@ -40,7 +42,7 @@ export class AnnouncementUpdateView {
     })
     .catch(err => {
       this.controller.cancel();
-      return console.log(err);
+      return this.errorHandler.notifyAndReport(err);
     });
   }
 

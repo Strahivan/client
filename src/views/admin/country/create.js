@@ -1,12 +1,14 @@
 import {inject} from 'aurelia-framework';
 import {Api} from '~/services/api';
 import {notify} from '~/services/notification';
+import {ErrorHandler} from '~/services/error';
 
-@inject(Api)
+@inject(Api, ErrorHandler)
 export class CountryCreateView {
-  constructor(api) {
+  constructor(api, errorHandler) {
     //TODO: Create a model for validation
     this.api = api;
+    this.errorHandler = errorHandler;
   }
 
   create() {
@@ -15,7 +17,7 @@ export class CountryCreateView {
         notify().log('Successfully created!');
         this.country = {};
       })
-      .catch(err => console.log(err));
+      .catch(this.errorHandler.notifyAndReport);
   }
 }
 

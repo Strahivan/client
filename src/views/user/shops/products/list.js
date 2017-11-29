@@ -4,8 +4,9 @@ import {activationStrategy} from 'aurelia-router';
 import {Router} from 'aurelia-router';
 import {DialogService} from 'aurelia-dialog';
 import {ConfirmationDialog} from '~/resources/dialogs/confirmation/confirmation';
+import {ErrorHandler} from '~/services/error';
 
-@inject(Api, Router, DialogService)
+@inject(Api, Router, DialogService, ErrorHandler)
 export class ShopProductListVM {
   shop = {};
   products = {
@@ -20,10 +21,11 @@ export class ShopProductListVM {
   countries = {};
   categories = {};
 
-  constructor(api, router, dialog) {
+  constructor(api, router, dialog, errorHandler) {
     this.api = api;
     this.router = router;
     this.dialog = dialog;
+    this.errorHandler = errorHandler;
   }
 
   determineActivationStrategy() {
@@ -53,7 +55,7 @@ export class ShopProductListVM {
         this.products.data = products.results;
         this.products.total = products.total;
       })
-      .catch(err => console.log(err));
+      .catch(this.errorHandler.notifyAndReport);
   }
 
   activate(params, config, instruction) {
@@ -75,17 +77,17 @@ export class ShopProductListVM {
 
     this.api.fetch(`me/shops/${params.shop_id}`)
       .then(shop => this.shop.data = shop)
-      .catch(err => console.log(err));
+      .catch(this.errorHandler.notifyAndReport);
 
     this.api
       .fetch('countries')
       .then(data => this.countries.data = data.results)
-      .catch(err => console.log(err));
+      .catch(this.errorHandler.notifyAndReport);
 
     this.api
       .fetch('categories')
       .then(data => this.categories.data = data.results)
-      .catch(err => console.log(err));
+      .catch(this.errorHandler.notifyAndReport);
   }
 
   action(selectedAction, product) {

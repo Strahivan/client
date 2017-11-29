@@ -5,22 +5,22 @@ import {Router} from 'aurelia-router';
 import {constants} from '~/services/constants';
 import {UploadService} from '~/services/upload';
 import {PriceService} from '~/services/price';
-import {ErrorReporting} from '~/services/error-reporting';
+import {ErrorHandler} from '~/services/error';
 import animateScrollTo from 'animated-scroll-to';
 
-@inject(Router, Api, UserStore, UploadService, ErrorReporting, PriceService)
+@inject(Router, Api, UserStore, UploadService, ErrorHandler, PriceService)
 export class CheckoutVM {
   error = {};
   tempUser = {};
 
-  constructor(router, api, userStore, upload, errorReporting, priceService) {
+  constructor(router, api, userStore, upload, errorHandler, priceService) {
     this.router = router;
     this.api = api;
     this.userStore = userStore;
     this.upload = upload;
     this.constants = constants;
     this.priceService = priceService;
-    this.errorReporting = errorReporting;
+    this.errorHandler = errorHandler;
 
     this.state = {
       addcard: false,
@@ -31,7 +31,7 @@ export class CheckoutVM {
   activate(params) {
     this.api.fetch('countries')
       .then(countries => this.countries = countries.results)
-      .catch(err => errorReporting.report(new Error(err.message)));
+      .catch(this.errorHandler.notifyAndReport);
 
     this.getProduct(Number(params.product_id), params);
   }
@@ -78,7 +78,7 @@ export class CheckoutVM {
         this.selectOptions(selections);
         this.request.total_price = this.priceService.getPrice(this.request, this.product);
       })
-      .catch(err => this.errorReporting.report(new Error(err.message)));
+      .catch(this.errorHandler.notifyAndReport);
   }
 
   getPrice() {
@@ -175,7 +175,7 @@ export class CheckoutVM {
       })
       .catch(err => {
         this.state.inflight = false;
-        console.log(err);
+        this.errorHandler.notifyAndReport(err);
       });
   }
 
@@ -193,7 +193,7 @@ export class CheckoutVM {
         return this.api.create(`products/${this.product.id}/requests`, this.request);
       })
       .then(this.confirmPurchase.bind(this))
-      .catch(err => this.errorReporting.report(new Error(err.message)));
+      .catch(this.errorHandler.notifyAndReport);
   }
 
   selectOptions(selections) {

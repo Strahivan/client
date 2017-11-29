@@ -3,6 +3,7 @@ import {Api} from '~/services/api';
 import {notify} from '~/services/notification';
 import {DialogController} from 'aurelia-dialog';
 import {ExternalHttp} from '~/services/external-http';
+import {ErrorHandler} from '~/services/error';
 
 function filterUntouchedProperties(main, updated) {
   const result = {};
@@ -15,12 +16,13 @@ function filterUntouchedProperties(main, updated) {
   return result;
 }
 
-@inject(Api, DialogController, ExternalHttp)
+@inject(Api, DialogController, ExternalHttp, ErrorHandler)
 export class CategoryUpdateView {
-  constructor(api, controller, http) {
+  constructor(api, controller, http, errorHandler) {
     this.api = api;
     this.http = http;
     this.controller = controller;
+    this.errorHandler = errorHandler;
   }
 
   activate(category) {
@@ -29,7 +31,7 @@ export class CategoryUpdateView {
     this.api
       .fetch('categories')
       .then(data => this.categories = data.result)
-      .catch(err => console.log(err));
+      .catch(this.errorHandler.notifyAndReport);
   }
 
   update() {
@@ -54,7 +56,7 @@ export class CategoryUpdateView {
     })
     .catch(err => {
       this.controller.cancel();
-      return console.log(err);
+      return this.errorHandler.notifyAndReport(err);
     });
   }
 

@@ -1,21 +1,23 @@
 import {inject} from 'aurelia-framework';
 import {Api} from '~/services/api';
+import {ErrorHandler} from '~/services/error';
 
-@inject(Api)
+@inject(Api, ErrorHandler)
 export class CountryListView {
   countries = {
     params: {}
   }
 
-  constructor(api) {
+  constructor(api, errorHandler) {
     this.api = api;
+    this.api = errorHandler;
   }
 
   getCountries() {
     this.api
-    .fetch('countries', this.countries.params)
-    .then(data => this.countries.data = data.results)
-    .catch(err => console.log(err));
+      .fetch('countries', this.countries.params)
+      .then(data => this.countries.data = data.results)
+      .catch(this.errorHandler.notifyAndReport);
   }
 
   delete(id) {

@@ -8,10 +8,6 @@
     <label>Url
       <input type="text" value.bind="product.url" />
     </label>
-    <label>Description
-      <textarea type="text" value.bind="product.description & validate">
-      </textarea>
-    </label>
     <label>Images
       <input type="file" files.bind="gallery | toArray" accept="image/*" multiple/>
     </label>

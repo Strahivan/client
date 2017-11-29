@@ -1,11 +1,13 @@
 import {inject} from 'aurelia-framework';
 import {Api} from '~/services/api';
+import {ErrorHandler} from '~/services/error';
 
 //factory of since we need to pass the path
-@inject(Api)
+@inject(Api, ErrorHandler)
 export class RequestView {
-  constructor(api) {
+  constructor(api, errorHandler) {
     this.api = api;
+    this.errorHandler = errorHandler;
     this.request = {
       params: {
         include: ['source', 'destination']
@@ -19,9 +21,7 @@ export class RequestView {
       .then(request => {
         this.request.data = request;
       })
-      .catch(error => {
-        this.request.error = error;
-      });
+      .catch(this.errorHandler.notifyAndReport);
   }
 
   activate(params) {

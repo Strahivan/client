@@ -5,8 +5,9 @@ import {PriceService} from '~/services/price';
 import {UserStore} from '~/stores/user';
 import animateScrollTo from 'animated-scroll-to';
 import {setOpenGraphElements, setProductJsonLd, setProductBreadCrumb} from '~/services/metadata';
+import {ErrorHandler} from '~/services/error';
 
-@inject(Router, Api, UserStore, PriceService)
+@inject(Router, Api, UserStore, PriceService, ErrorHandler)
 export class ProductView {
   product = {
     params: {
@@ -19,11 +20,12 @@ export class ProductView {
   selections = {};
   state = {};
 
-  constructor(router, api, userStore, priceService) {
+  constructor(router, api, userStore, priceService, errorHandler) {
     this.router = router;
     this.api = api;
     this.userStore = userStore;
     this.priceService = priceService;
+    this.errorHandler = errorHandler;
   }
 
   getParameters(product, request) {
@@ -55,23 +57,21 @@ export class ProductView {
       const selections = this.getParameters(this.product.data, this.request);
       this.router.navigateToRoute('checkout', selections);
     } catch (e) {
-      console.log(e);
+      return this.errorHandler.notifyAndReport(e);
     }
   }
 
   activate(params) {
     this.api
-    .fetch(`products/${params.product_id}`, this.product.params)
-    .then(product => {
-      this.product.data = product;
-      this.request.total_price = product.price - (product.discount || 0);
-      const d = document.getElementById('product-container');
-      setOpenGraphElements('product', this.product.data);
-      setProductJsonLd(this.product.data, d);
-      setProductBreadCrumb(this.product.data, d);
-    })
-    .catch(error => {
-      console.log(error);
-    });
+      .fetch(`products/${params.product_id}`, this.product.params)
+      .then(product => {
+        this.product.data = product;
+        this.request.total_price = product.price - (product.discount || 0);
+        const d = document.getElementById('product-container');
+        setOpenGraphElements('product', this.product.data);
+        setProductJsonLd(this.product.data, d);
+        setProductBreadCrumb(this.product.data, d);
+      })
+      .catch(this.errorHandler.notifyAndReport);
   }
 }
