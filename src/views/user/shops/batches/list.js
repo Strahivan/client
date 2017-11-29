@@ -23,7 +23,7 @@ export class BatchList {
     this.api
       .fetch('requests', {filter: {'batch_id:eq': batch.id }, page: {size: 100}})
       .then(requests => {
-        const requestList = requests.data.map(request => this.api.edit(`requests/${request.id}`, {status: 'shipping'}));
+        const requestList = requests.results.map(request => this.api.edit(`requests/${request.id}`, {status: 'shipping'}));
         const requestListWithAftership = requestList.concat(this.api
           .create('integrations/aftership', {
             tracking_number: batch.temp_tracking_code,
