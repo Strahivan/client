@@ -29,10 +29,6 @@ export class CheckoutVM {
   }
 
   activate(params) {
-    // if the
-    // try creating an order first
-    // then try getting paid for the order
-
     this.api.fetch('countries')
       .then(countries => this.countries = countries.results)
       .catch(err => errorReporting.report(new Error(err.message)));
@@ -55,7 +51,7 @@ export class CheckoutVM {
       .then(product => {
         this.product = product;
         const currentDay = new Date();
-        if (this.userStore.user && this.userStore.user.address && !this.userStore.user.address.country){
+        if (this.userStore.user && this.userStore.user.address && !this.userStore.user.address.country) {
           this.userStore.user.address.country = 'Singapore';
         }
         const deliveryDate = new Date(currentDay.setDate(currentDay.getDate() + (product.delivery_time || 10) + this.getBufferDays(product.source_id)));
@@ -76,7 +72,7 @@ export class CheckoutVM {
           destination_id: this.userStore.user && this.userStore.user.country_id || constants.defaultDestination,
           collection_method: 'courier',
           count: 1,
-          shipping_address: (this.userStore.user && this.userStore.user.address) || {line_1: '', line_2: '', zip: '', city: ''},
+          shipping_address: (this.userStore.user && this.userStore.user.address) || {line_1: '', line_2: '', zip: '', city: '', country: 'Singapore'},
           delivery_date: deliveryDate.toISOString()
         };
         this.selectOptions(selections);
@@ -86,7 +82,7 @@ export class CheckoutVM {
   }
 
   getPrice() {
-    const country = this.countries.find((country) => country.name === this.request.shipping_address.country);
+    const country = this.countries.find((cntry) => cntry.name === this.request.shipping_address.country);
     const ship = country ? country.shipping_fee : 0;
     this.request.total_price = ship + this.priceService.getPrice(this.request, this.product);
   }
