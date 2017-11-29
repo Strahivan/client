@@ -11,9 +11,6 @@ import animateScrollTo from 'animated-scroll-to';
 @inject(Router, Api, UserStore, UploadService, ErrorReporting, PriceService)
 export class CheckoutVM {
   error = {};
-  request = {
-    shipping_address: {}
-  };
   tempUser = {};
 
   constructor(router, api, userStore, upload, errorReporting, priceService) {
@@ -58,6 +55,9 @@ export class CheckoutVM {
       .then(product => {
         this.product = product;
         const currentDay = new Date();
+        if (this.userStore.user && this.userStore.user.address && !this.userStore.user.address.country){
+          this.userStore.user.address.country = 'Singapore';
+        }
         const deliveryDate = new Date(currentDay.setDate(currentDay.getDate() + (product.delivery_time || 10) + this.getBufferDays(product.source_id)));
         this.request = {
           product_id: product.id,
@@ -86,7 +86,9 @@ export class CheckoutVM {
   }
 
   getPrice() {
-    this.request.total_price = this.priceService.getPrice(this.request, this.product);
+    const country = this.countries.find((country) => country.name === this.request.shipping_address.country);
+    const ship = country ? country.shipping_fee : 0;
+    this.request.total_price = ship + this.priceService.getPrice(this.request, this.product);
   }
 
   confirmPurchase() {
