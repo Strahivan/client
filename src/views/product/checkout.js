@@ -61,11 +61,8 @@ export class CheckoutVM {
           shop_id: product.shop_id,
           base_price: product.price,
           cost: product.cost,
-          tiers: product.source.tiers,
           local_delivery_fee: product.local_delivery_fee,
-          delta: product.price_override,
           discount: product.discount,
-          ems_fee: product.source.ems_fee,
           weight: product.weight,
           preorder: (product.preorder ? true : false),
           postage: product.courier || constants.defaultCourier,
@@ -129,6 +126,12 @@ export class CheckoutVM {
 
     this.api.edit('me', { address: address })
       .then(success => this.userStore.user.address = address);
+
+    const country = this.countries.find((cntry) => cntry.name === address.country);
+    if (country) {
+      this.api.edit('me', { country_id: country.id })
+        .then(success => this.userStore.user.country_id = country.id);
+    }
   }
 
   saveContact(tempUser) {
@@ -155,6 +158,8 @@ export class CheckoutVM {
     if (!this.validate()) {
       return;
     }
+    this.saveAddress(this.request.shipping_address);
+    this.saveContact(this.tempUser);
     this.state.inflight = true;
     this.api
       .create('me/requests', Object.assign({}, this.request, {active: false, status: 'paypal_pending'}))
