@@ -1,6 +1,7 @@
 import {inject} from 'aurelia-framework';
 import {Api} from '~/services/api';
 import {UserStore} from '~/stores/user';
+import {CountryStore} from '~/stores/country';
 import {Router} from 'aurelia-router';
 import {constants} from '~/services/constants';
 import {UploadService} from '~/services/upload';
@@ -8,15 +9,16 @@ import {PriceService} from '~/services/price';
 import {ErrorHandler} from '~/services/error';
 import animateScrollTo from 'animated-scroll-to';
 
-@inject(Router, Api, UserStore, UploadService, ErrorHandler, PriceService)
+@inject(Router, Api, UserStore, CountryStore, UploadService, ErrorHandler, PriceService)
 export class CheckoutVM {
   error = {};
   tempUser = {};
 
-  constructor(router, api, userStore, upload, errorHandler, priceService) {
+  constructor(router, api, userStore, countryStore, upload, errorHandler, priceService) {
     this.router = router;
     this.api = api;
     this.userStore = userStore;
+    this.countryStore = countryStore;
     this.upload = upload;
     this.constants = constants;
     this.priceService = priceService;
@@ -29,10 +31,6 @@ export class CheckoutVM {
   }
 
   activate(params) {
-    this.api.fetch('countries')
-      .then(countries => this.countries = countries.results)
-      .catch(this.errorHandler.notifyAndReport);
-
     this.getProduct(Number(params.product_id), params);
   }
 
@@ -80,7 +78,7 @@ export class CheckoutVM {
   }
 
   getPrice() {
-    const country = this.countries.find((cntry) => cntry.name === this.request.shipping_address.country);
+    const country = this.countryStore.countries.find((cntry) => cntry.name === this.request.shipping_address.country);
     const shippingFee = country ? country.shipping_fee : 0;
     const credits = this.userStore.user.referral_credit || 0;
     const referralUserDiscount = this.request.referred_by ?  constants.referralUserDiscount : 0;
@@ -126,7 +124,7 @@ export class CheckoutVM {
     this.api.edit('me', { address: address })
       .then(success => this.userStore.user.address = address);
 
-    const country = this.countries.find((cntry) => cntry.name === address.country);
+    const country = this.countryStore.countries.find((cntry) => cntry.name === address.country);
     if (country) {
       this.api.edit('me', { country_id: country.id })
         .then(success => this.userStore.user.country_id = country.id);

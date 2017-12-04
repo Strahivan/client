@@ -57,7 +57,7 @@
         <input value.bind="request.shipping_address.zip" type="text" />
         Country
         <select value.bind="request.shipping_address.country" change.delegate="getPrice()">
-          <option repeat.for="country of countries" model.bind="country.name">${country.name}</option>
+          <option repeat.for="country of countryStore.countries" model.bind="country.name">${country.name}</option>
         </select>
       </div>
       <div if.bind="!userStore.user.phone">
