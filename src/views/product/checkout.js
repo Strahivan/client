@@ -31,7 +31,16 @@ export class CheckoutVM {
   }
 
   activate(params) {
-    this.getProduct(Number(params.product_id), params);
+    Promise.all([
+      this.api.fetch('countries'),
+      this.api.fetch('me', {include: ['shops', 'country']})
+    ])
+    .then(results => {
+      this.countryStore.countries = results[0].results;
+      this.userStore.user = results[1];
+      return Promise.resolve();
+    })
+    .then(() => this.getProduct(Number(params.product_id), params));
   }
 
   getBufferDays(countryId) {
