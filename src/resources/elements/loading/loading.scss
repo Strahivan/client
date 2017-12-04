@@ -1,15 +1,15 @@
 @import 'base';
 
 .loading {
-  height: 100vh;
+  bottom: 0;
   left: 0;
-  position: absolute;
+  position: fixed;
+  right: 0;
   top: 0;
-  width: 100vw;
 }
 
 .loading-spinner {
   left: 50%;
   position: absolute;
-  top: 30%;
+  top: 50%;
 }
