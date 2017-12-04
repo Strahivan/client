@@ -68,6 +68,7 @@ export class CheckoutVM {
           postage: product.courier || constants.defaultCourier,
           destination_id: this.userStore.user && this.userStore.user.country_id || constants.defaultDestination,
           collection_method: 'courier',
+          applied_credit: this.userStore.user.referral_credit || 0,
           count: 1,
           shipping_address: (this.userStore.user && this.userStore.user.address) || {line_1: '', line_2: '', zip: '', city: '', country: 'Singapore'},
           delivery_date: deliveryDate.toISOString()
@@ -80,8 +81,10 @@ export class CheckoutVM {
 
   getPrice() {
     const country = this.countries.find((cntry) => cntry.name === this.request.shipping_address.country);
-    const ship = country ? country.shipping_fee : 0;
-    this.request.total_price = ship + this.priceService.getPrice(this.request, this.product);
+    const shippingFee = country ? country.shipping_fee : 0;
+    const credits = this.userStore.user.referral_credit || 0;
+    const referralUserDiscount = this.request.referred_by ?  constants.referralUserDiscount : 0;
+    this.request.total_price = this.priceService.getPrice(this.request, this.product) + shippingFee - (referralUserDiscount + credits);
   }
 
   confirmPurchase() {
@@ -152,6 +155,29 @@ export class CheckoutVM {
   togglePaymentView(toggle) {
     animateScrollTo(this[toggle]);
     this.currentPaymentMethod = this.currentPaymentMethod === toggle ? '' : toggle;
+  }
+
+  applyReferralCode(tempReferralCode) {
+    this.state.error.noSuchReferralCode = false;
+    if (tempReferralCode === this.userStore.user.referral_code) {
+      return this.errorHandler.notifyAndReport(new Error('Cannot apply your own referral code'));
+    }
+    this.state.applyReferralCode = true;
+    this.api
+      .fetch('users', {filter: {'referral_code:eq': tempReferralCode}})
+      .then(user => {
+        if (user.results.length) {
+          this.request.referred_by = user.results[0].id;
+          this.getPrice();
+        } else {
+          this.state.error.noSuchReferralCode = true;
+        }
+        this.state.applyReferralCode = false;
+      })
+      .catch(err => {
+        this.state.applyReferralCode = false;
+        return this.errorHandler.notifyAndReport(err);
+      });
   }
 
   payWithPaypal() {

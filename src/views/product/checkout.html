@@ -2,25 +2,36 @@
   <require from="./checkout.css"></require>
   <require from="../../resources/fragments/bank-payment-instructions.html"></require>
   <require from="../../resources/fragments/order-details.html"></require>
-  <div class="checkout-container ${state.inflight ? 'blur': ''}">
+  <div class="checkout ${state.inflight ? 'blur': ''}">
     <order-details product.bind="product" request.bind="request"></order-details>
+    <hr>
     <section>
-      <div class="checkout-container__order-details__count" if.bind="request.count">
-        <label>
-          Quantity:
-          <select value.bind="request.count" change.delegate="getPrice()">
-            <option repeat.for="i of 9" model.bind="i+1">${i+1}</option>
-          </select>
-        </label>
-      </div>
-    </section>
-    <section class="checkout-container__shipping-info">
-      <div class="checkout-container__order-info__total-price">
-        <label>Total Cost: SGD ${request.total_price | toCurrency}</label>
+      <div class="checkout__total-price">
+        <label>Total Cost: SGD ${request.total_price | toCurrency} <span if.bind="userStore.user.referral_credit">$${userStore.user.referral_credit} referral credit applied</span></label>
+        <form if.bind="!(userStore.user.referred_by || request.referred_by)" class="checkout__referral field has-addons" submit.delegate="applyReferralCode(tempReferralCode)">
+          <div class="control">
+            <input class="input" type="text" value.bind="tempReferralCode" placeholder="Referral code">
+          </div>
+          <div class="control">
+            <button type="submit" disabled.bind="!tempReferralCode" class="button is-info ${state.applyReferralCode ? 'is-loading' : ''}">
+              Apply
+            </button>
+          </div>
+        </form>
+        <div>
+          <span if.bind="state.error.noSuchReferralCode" style="color:red">
+            No such referral code exists
+          </span>
+        </div>
+        <div if.bind="request.referred_by" class="fade-in">Referral code applied ($5 off)</div>
         <sub if.bind="product.preorder">If paid using Paypal, we only charge when the item is obtained.</sub>
       </div>
+
+    </section>
+    <section class="checkout__shipping-info">
+      <hr>
       <div>
-        <label>Collection Method</label>
+        <label>Collection Method:</label>
         <select change.delegate="toggleAddress()" value.bind="request.collection_method">
           <option value="pickup">Pickup</option>
           <option value="courier">Courier (Free)</option>
@@ -58,16 +69,16 @@
       </div>
     </section>
     <hr>
-    <section class="checkout-container__paypal">
+    <section class="checkout__paypal">
       <button class="paypal-button" click.delegate="payWithPaypal()">
-       <img class="paypal-logo" src="/images/paypal.png" alt=""> ${product.preorder ? 'Book Now' : 'Buy Now'} with PayPal
+        <img class="paypal-logo" src="/images/paypal.png" alt=""> ${product.preorder ? 'Book Now' : 'Buy Now'} with PayPal
       </button>
       <span class="paypal-button-callout">
         Secure PayPal Checkout
       </span>
     </section>
-    <section class="checkout-container__bank-payment" ref="bankpayment">
-      <div class="checkout-container__bank-payment__button" click.trigger="togglePaymentView('bankpayment')" ref="bankpayment">
+    <section class="checkout__bank-payment" ref="bankpayment">
+      <div class="checkout__bank-payment__button" click.trigger="togglePaymentView('bankpayment')" ref="bankpayment">
         <i show.bind="currentPaymentMethod !== 'bankpayment'" class="icon ion-arrow-right-b"></i>
         <i show.bind="currentPaymentMethod === 'bankpayment'" class="icon ion-arrow-down-b"></i>
         <i class="icon ion-cash"></i>
@@ -75,7 +86,7 @@
       </div>
       <div class="slide-down ${currentPaymentMethod === 'bankpayment' ? 'slide-down--active': ''}">
         <bank-payment-instructions amount.bind="request.total_price"></bank-payment-instructions>
-        <div class="checkout-container__bank-payment__ref"><span if.bind="state.error.proofRequired" style="color:red">Proof is required</span>
+        <div class="checkout__bank-payment__ref"><span if.bind="state.error.proofRequired" style="color:red">Proof is required</span>
           <input type="file" files.bind="proof | toArray">
           <button disabled.bind="state.inflight" click.delegate="saveProof()">Submit Proof</button>
         </div>
