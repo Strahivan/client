@@ -43,7 +43,7 @@
     </ul>
   </section>
 
-  <section if.bind="requests.data" class="dashboard-orders-container">
+  <section if.bind="requests.data.length" class="dashboard-orders-container">
     <h1>Orders</h1>
     <ul class="dashboard-orders">
       <li class="dashboard-orders__row" repeat.for="request of requests.data">
