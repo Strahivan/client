@@ -74,7 +74,7 @@ export class CheckoutVM {
           delivery_date: deliveryDate.toISOString()
         };
         this.selectOptions(selections);
-        this.request.total_price = this.priceService.getPrice(this.request, this.product);
+        this.getPrice();
       })
       .catch(this.errorHandler.notifyAndReport);
   }
@@ -85,10 +85,6 @@ export class CheckoutVM {
     const credits = this.userStore.user.referral_credit || 0;
     const referralUserDiscount = this.request.referred_by ?  constants.referralUserDiscount : 0;
     this.request.total_price = this.priceService.getPrice(this.request, this.product) + shippingFee - (referralUserDiscount + credits);
-  }
-
-  confirmPurchase() {
-    this.router.navigateToRoute('acknowledge');
   }
 
   validate() {
@@ -223,7 +219,9 @@ export class CheckoutVM {
         this.request.proof = streams.map(stream => stream.url.split('?')[0]);
         return this.api.create(`products/${this.product.id}/requests`, this.request);
       })
-      .then(this.confirmPurchase.bind(this))
+      .then(request => {
+        window.location.href = `${window.location.origin}/user/requests/${request.id}/acknowledge`;
+      })
       .catch(this.errorHandler.notifyAndReport);
   }
 

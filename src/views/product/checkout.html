@@ -7,7 +7,8 @@
     <hr>
     <section>
       <div class="checkout__total-price">
-        <label>Total Cost: SGD ${request.total_price | toCurrency} <span if.bind="userStore.user.referral_credit">$${userStore.user.referral_credit} referral credit applied</span></label>
+        <label>Total Cost: SGD ${request.total_price | toCurrency}</label>
+        <div class="fade-in" if.bind="userStore.user.referral_credit">$${userStore.user.referral_credit} referral credit applied</div>
         <form if.bind="!(userStore.user.referred_by || request.referred_by)" class="checkout__referral field has-addons" submit.delegate="applyReferralCode(tempReferralCode)">
           <div class="control">
             <input class="input" type="text" value.bind="tempReferralCode" placeholder="Referral code">
