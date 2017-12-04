@@ -7,7 +7,7 @@
       Create
     </a>
     <table>
-      <tr repeat.for="announcement of announcements.data">
+      <tr class="${!announcement.active ? 'deleted' : ''}" repeat.for="announcement of announcements.data">
         <td>
           <img src.bind="announcement.image" alt=""/>
         </td>
@@ -18,7 +18,7 @@
           <i click.delegate="edit(announcement)" class="icon ion-edit"></i>
         </td>
         <td>
-          <i click.delegate="delete(announcement.id)" class="icon ion-trash-b"></i>
+          <i click.delegate="delete(announcement.id, $index)" class="icon ion-trash-b"></i>
         </td>
       </tr>
     </table>

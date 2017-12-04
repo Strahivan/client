@@ -3,6 +3,7 @@ import {Api} from '~/services/api';
 import {DialogService} from 'aurelia-dialog';
 import {AnnouncementUpdateView} from '~/views/admin/announcement/update';
 import {ErrorHandler} from '~/services/error';
+import {notify} from '~/services/notification';
 
 @inject(Api, DialogService, ErrorHandler)
 export class AnnouncementListView {
@@ -30,8 +31,14 @@ export class AnnouncementListView {
       });
   }
 
-  delete(id) {
-    console.log(id);
+  delete(id, index) {
+    this.api
+      .remove(`announcements/${id}`)
+      .then(success => {
+        notify().log('Successfully deleted');
+        this.announcements.data[index].active = false;
+      })
+      .catch(this.errorHandler.notifyAndReport);
   }
 
   activate() {
