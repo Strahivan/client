@@ -8,23 +8,22 @@
       <a href.bind="product.id ? ('products/' + product.id) : product.url" class="order-details__title">
         ${product.name || 'Custom Product'}
       </a>
+      <!-- <hr> -->
       <div class="checkout-container__order-detail__size" if.bind="request.size">
-        Size: ${request.size.name}
+       <span class="label">Size</span>: ${request.size.name}
       </div>
       <div class="checkout-container__order-details__color" if.bind="request.color">
-        Color: ${request.color.name}
+        <span class="label">Color</span>: ${request.color.name}
       </div>
       <div class="checkout-container__order-details__variation" if.bind="request.variation">
         Edition: ${request.variation.name}
       </div>
       <div if.bind="request.instructions">
-        <label>
-          Instructions:
-        </label>
+        <span class="label">Instructions</span>: 
         ${request.instructions}
       </div>
       <div class="order-details__arrival">
-        <label>Est. Delivery: &nbsp;</label>
+        <span class="label">Est. Delivery: &nbsp;</span>
         ${request.delivery_date | toDate:'date'}
       </div>
     </div>

@@ -7,7 +7,6 @@
       <span if.bind="product.out_of_stock" class="card-element__sold-out-sticker">Sold out</span>
     </a>
     <div if.bind="product.discount" class="card-element__ribbon">
-      <!-- <i class="icon ion&#45;flame"></i> -->
       $${product.discount | toCurrency} off
     </div>
     <div class="card-element__header">

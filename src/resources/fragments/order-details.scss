@@ -1,16 +1,31 @@
+@import 'base';
+
 .order-details {
-  // display: flex;
-  text-align: center;
+  @media screen and (min-width: $medium-screen) {
+    margin-top: 1rem;
+    align-items: center;
+    display: flex;
+  }
+
+  &__title {
+    font-size: 1.2rem;
+  }
+
   &__image {
+    @media screen and (max-width: $small-screen) {
+      display: flex;
+      justify-content: center;
+    }
     margin-right: 1rem;
     img {
-      height: 10rem;
+      max-width: 100%;
+      min-width: 8rem;
+      height: 12rem;
       object-fit: cover;
     }
   }
-  &__arrival {
-    display: flex;
-    white-space: nowrap;
-    justify-content: center;
+
+  &__info {
+
   }
 }
