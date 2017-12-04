@@ -11,6 +11,9 @@ export const constants = {
     zip: 'S168976',
     city: 'Singapore'
   },
+  referralUserDiscount: 5,
+  referralCredit: 5,
+  defaultShipping: 25,
   adwordsConversionLabels: {
     buyNow: 'rt_xCOK2-XEQv4u4oAM',
     purchase: 'NArACKa5-XEQv4u4oAM'
