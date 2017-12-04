@@ -21,7 +21,7 @@ export class Acknowledge {
       .then(res => res.json())
       .then(request => {
         if (request.referred_by) {
-          return this.api.fetch(`users/${request.customer_id}`);
+          return this.api.fetch(`users/${request.referred_by}`);
         }
         return Promise.resolve();
       })
