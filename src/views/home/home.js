@@ -46,7 +46,7 @@ export class HomeView {
 
   getBrands() {
     this.api
-      .fetch('brands', {sort: '-sequence', filter: {'sequence:notNull': true}})
+      .fetch('brands', {sort: '-sequence', filter: {'sequence:notNull': true}, page: {size: 8}})
       .then(response => {
         this.brands.data = response.results;
       });
