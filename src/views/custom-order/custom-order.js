@@ -11,9 +11,9 @@ import {PriceEstimatorDialog} from '~/views/custom-order/price-estimator';
 import {ValidationController} from 'aurelia-validation';
 import {ValidationRenderer} from '~/services/validation-renderer';
 import {UserStore} from '~/stores/user';
-import {ErrorReporting} from '~/services/error-reporting';
+import {ErrorHandler} from '~/services/error';
 
-@inject(Api, Router, UrlExtraction, CountryStore, NewInstance.of(ValidationController), DialogService, UserStore, ErrorReporting)
+@inject(Api, Router, UrlExtraction, CountryStore, NewInstance.of(ValidationController), DialogService, UserStore, ErrorHandler)
 export class CustomOrderView {
   request = new CustomOrder();
 
@@ -32,7 +32,7 @@ export class CustomOrderView {
 
   userdata = {};
 
-  constructor(api, router, extractor, countryStore, controller, dialog, userStore, errorReporting) {
+  constructor(api, router, extractor, countryStore, controller, dialog, userStore, errorHandler) {
     this.api = api;
     this.router = router;
     this.dialog = dialog;
@@ -40,7 +40,7 @@ export class CustomOrderView {
     this.controller = controller;
     this.countryStore = countryStore;
     this.userStore = userStore;
-    this.errorReporting = errorReporting;
+    this.errorHandler = errorHandler;
 
     Object.assign(this.request, this.init);
     this.controller.addRenderer(new ValidationRenderer());
@@ -53,13 +53,13 @@ export class CustomOrderView {
       });
   }
 
-  getData(ur) {
+  getData() {
     this.extractor.getUrlData(this.request.url)
     .then(data => {
       this.request.product_details.name = data.meta && data.meta.title;
       this.request.product_details.picture = data.links && data.links.thumbnail && data.links.thumbnail[0] && data.links.thumbnail[0].href;
     })
-    .catch(err => this.errorReporting.report(new Error(err.message)));
+    .catch(this.errorHandler.notifyAndReport);
   }
 
   createOrder() {
@@ -85,7 +85,7 @@ export class CustomOrderView {
     })
     .catch(err => {
       this.state.inflight = false;
-      this.errorReporting.report(new Error(err.message));
+      this.errorHandler.notifyAndReport(err);
     });
   }
 }

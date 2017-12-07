@@ -6,18 +6,18 @@ import {ValidationController, ValidationRules} from 'aurelia-validation';
 import {ValidationRenderer} from '~/services/validation-renderer';
 import {UserStore} from '~/stores/user';
 import {notify} from '~/services/notification';
-import {ErrorReporting} from '~/services/error-reporting';
+import {ErrorHandler} from '~/services/error';
 
-@inject(Api, UploadService, UserStore, ErrorReporting, NewInstance.of(ValidationController), Router)
+@inject(Api, UploadService, UserStore, ErrorHandler, NewInstance.of(ValidationController), Router)
 export class CustomCheckout {
   state = {};
   userFragment = {};
 
-  constructor(api, upload, userStore, errorReporting, validationController, router) {
+  constructor(api, upload, userStore, errorHandler, validationController, router) {
     this.api = api;
     this.upload = upload;
     this.userStore = userStore;
-    this.errorReporting = errorReporting;
+    this.errorHandler = errorHandler;
     this.validationController = validationController;
     this.router = router;
 
@@ -37,7 +37,8 @@ export class CustomCheckout {
         this.unitPrice = this.request.total_price * this.request.count;
         this.request.collection_method = 'courier';
       })
-      .catch(err => notify().log('Successfully placed order. Waiting for verification.'));
+      .then(success => notify().log('Successfully placed order. Waiting for verification.'))
+      .catch(this.errorHandler.notifyAndReport);
 
     this.api.fetch('me/cards')
       .then(cards => {
@@ -45,7 +46,7 @@ export class CustomCheckout {
           this.cards = cards.data;
         }
       })
-      .catch(err => this.errorReporting.report(new Error(err.message)));
+      .catch(err => this.errorHandler.notifyAndReport);
 
     setTimeout(() => {
       ValidationRules
@@ -76,7 +77,7 @@ export class CustomCheckout {
               this.state.inflight = false;
               this.router.navigateToRoute('acknowledge', {request_id: this.request.id});
             })
-            .catch(err => this.errorReporting.report(new Error(err.message)));
+            .catch(this.errorHandler.notifyAndReport);
         } else {
           throw new Error('invalid request');
         }
@@ -121,7 +122,7 @@ export class CustomCheckout {
             .catch(error => {
               // console.log(error);
               this.state.inflight = false;
-              this.errorReporting.report(new Error(error.message));
+              this.errorHandler.notifyAndReport(error);
             });
         } else {
           throw new Error('invalid request');

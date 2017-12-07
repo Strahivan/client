@@ -5,14 +5,16 @@ import {NewPassword} from './new-password.model';
 import {ValidationController} from 'aurelia-validation';
 import {ValidationRenderer} from '~/services/validation-renderer';
 import {notify} from '~/services/notification';
+import {ErrorHandler} from '~/services/error';
 
-@inject(Api, Router, NewInstance.of(ValidationController))
+@inject(Api, Router, NewInstance.of(ValidationController), ErrorHandler)
 export class NewPasswordView {
   reset = new NewPassword();
-  constructor(api, router, controller) {
+  constructor(api, router, controller, errorHandler) {
     this.api = api;
     this.router = router;
     this.controller = controller;
+    this.errorHandler = errorHandler;
     this.controller.addRenderer(new ValidationRenderer());
   }
 
@@ -33,7 +35,7 @@ export class NewPasswordView {
         notify().log('Successfully changed password');
         return this.router.navigateToRoute('login');
       })
-      .catch(err => console.log(err));
+      .catch(this.errorHandler.notifyAndReport);
   }
 }
 

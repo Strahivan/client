@@ -2,8 +2,9 @@ import {inject} from 'aurelia-framework';
 import {Api} from '~/services/api';
 import {activationStrategy} from 'aurelia-router';
 import {setOpenGraphElements} from '~/services/metadata';
+import {ErrorHandler} from '~/services/error';
 
-@inject(Api)
+@inject(Api, ErrorHandler)
 export class CollectionView {
   collectionproducts = {
     params: {
@@ -20,8 +21,9 @@ export class CollectionView {
     }
   };
 
-  constructor(api) {
+  constructor(api, errorHandler) {
     this.api = api;
+    this.errorHandler = errorHandler;
   }
 
   determineActivationStrategy() {
@@ -41,7 +43,7 @@ export class CollectionView {
         setOpenGraphElements('collection', collection);
         this.collection.data = collection;
       })
-      .catch(err => console.log(err));
+      .catch(this.errorHandler.notifyAndReport);
 
     this.api
       .fetch(`collections/${param.collection_id}/collectionproducts`, this.collectionproducts.params)
@@ -49,6 +51,6 @@ export class CollectionView {
         this.collectionproducts.total = response.total;
         this.collectionproducts.data = response.results;
       })
-      .catch(err => console.log(err));
+      .catch(this.errorHandler.notifyAndReport);
   }
 }

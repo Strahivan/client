@@ -2,23 +2,25 @@ import {inject} from 'aurelia-framework';
 import {Api} from '~/services/api';
 import {DialogService} from 'aurelia-dialog';
 import {CollectionUpdateView} from './update';
+import {ErrorHandler} from '~/services/error';
 
-@inject(Api, DialogService)
+@inject(Api, DialogService, ErrorHandler)
 export class CollectionListView {
   collections = {
     params: {}
   }
 
-  constructor(api, dialog) {
+  constructor(api, dialog, errorHandler) {
     this.api = api;
     this.dialog = dialog;
+    this.errorHandler = errorHandler;
   }
 
   getCollections() {
     this.api
     .fetch('collections', this.collections.params)
     .then(data => this.collections.data = data.results)
-    .catch(err => console.log(err));
+    .catch(this.errorHandler.notifyAndReport);
   }
 
   edit(collection) {

@@ -23,7 +23,17 @@
       <a class="user-info__details__logout" href="#" click.delegate="auth.logout()">Logout</a>
     </div>
   </section>
+  <hr>
+  <section>
+    <div>
+      Referral Code: ${userStore.user.referral_code}
+    </div>
+    <div>
+      Credits: ${userStore.user.referral_credit ? '$' + userStore.user.referral_credit : 'You don\'t have any credit yet. You can ask your friends to buy using your referral code to earn credits.'}
+    </div>
 
+  </section>
+  <hr>
   <section if.bind="shops.data && shops.data.length" class="dashboard-shops">
     <h1>Shops</h1>
     <ul>
@@ -33,7 +43,7 @@
     </ul>
   </section>
 
-  <section if.bind="requests.data" class="dashboard-orders-container">
+  <section if.bind="requests.data.length" class="dashboard-orders-container">
     <h1>Orders</h1>
     <ul class="dashboard-orders">
       <li class="dashboard-orders__row" repeat.for="request of requests.data">

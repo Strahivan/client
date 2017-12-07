@@ -4,9 +4,9 @@ import {constants} from '~/services/constants';
 import {UserStore} from '~/stores/user';
 import {CountryStore} from '~/stores/country';
 import {AuthService} from 'aurelia-auth';
-import {ErrorReporting} from '~/services/error-reporting';
+import {ErrorHandler} from '~/services/error';
 
-@inject(Api, AuthService, ErrorReporting, UserStore, CountryStore)
+@inject(Api, AuthService, ErrorHandler, UserStore, CountryStore)
 export class DashboardView {
   requests = {
     params: {
@@ -20,23 +20,23 @@ export class DashboardView {
   };
   shops = {};
 
-  constructor(api, auth, errorReporting, userStore, countryStore) {
+  constructor(api, auth, errorHandler, userStore, countryStore) {
     this.api = api;
     this.auth = auth;
     this.userStore = userStore;
-    this.errorReporting = errorReporting;
+    this.errorHandler = errorHandler;
   }
 
   activate() {
     this.api
       .fetch('me/requests', this.requests.params)
       .then(requests => this.requests.data = requests.results)
-      .catch(err => this.errorReporting.report(new Error(err.message)));
+      .catch(this.errorHandler.notifyAndReport);
 
     this.api
       .fetch('me/shops')
       .then(shops => this.shops.data = shops.results)
-      .catch(err => this.errorReporting.report(new Error(err.message)));
+      .catch(this.errorHandler.notifyAndReport);
   }
 }
 

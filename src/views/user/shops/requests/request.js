@@ -3,8 +3,9 @@ import {Api} from '~/services/api';
 import {notify} from '~/services/notification';
 import {constants} from '~/services/constants';
 import {utilities} from '~/services/utilities';
+import {ErrorHandler} from '~/services/error';
 
-@inject(Api)
+@inject(Api, ErrorHandler)
 export class ShopRequestVM {
   request = {
     params: {
@@ -14,8 +15,9 @@ export class ShopRequestVM {
   editRequest = {};
   statuses = constants.requestStatus;
 
-  constructor(api) {
+  constructor(api, errorHandler) {
     this.api = api;
+    this.errorHandler = errorHandler;
   }
 
   activate(params) {
@@ -26,9 +28,7 @@ export class ShopRequestVM {
         this.request.data = response;
         this.editRequest = (JSON.parse(JSON.stringify(response)));
       })
-      .catch(err => {
-        console.log(err);
-      });
+      .catch(this.errorHandler.notifyAndReport);
   }
 
   update(fragment) {
@@ -40,8 +40,6 @@ export class ShopRequestVM {
         Object.assign(this.request.data, updateFragment);
         notify().log('Successfully updated!');
       })
-      .catch(err => {
-        notify().log('Update failed!');
-      });
+      .catch(this.errorHandler.notifyAndReport);
   }
 }

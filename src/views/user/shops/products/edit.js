@@ -1,12 +1,14 @@
 import {inject} from 'aurelia-framework';
 import {Api} from '~/services/api';
-import {notify, ajaxErrorHandler} from '~/services/notification';
+import {notify} from '~/services/notification';
 import {utilities} from '~/services/utilities';
+import {ErrorHandler} from '~/services/error';
 
-@inject(Api)
+@inject(Api, ErrorHandler)
 export class EditProductView {
-  constructor(api) {
+  constructor(api, errorHandler) {
     this.api = api;
+    this.errorHandler = errorHandler;
   }
 
   activate(params) {
@@ -17,21 +19,21 @@ export class EditProductView {
         this.product = product;
         this.newProduct = JSON.parse(JSON.stringify(this.product));
       })
-      .catch(ajaxErrorHandler);
+      .catch(this.errorHandler.notifyAndReport);
 
     this.api
       .fetch('collections')
       .then(data => {
         this.collections = data.results;
       })
-      .catch(ajaxErrorHandler);
+      .catch(this.errorHandler.notifyAndReport);
   }
 
   updateCollection(collectionId) {
     this.api
       .create(`collections/${collectionId}/collectionproducts`, { product_id: this.product.id })
       .then(success => notify().log('Added to new collection'))
-      .catch(ajaxErrorHandler);
+      .catch(this.errorHandler.notifyAndReport);
   }
 
   removeFromCollection(collectionId) {
@@ -42,7 +44,7 @@ export class EditProductView {
         notify().log('Successfully removed');
         this.newProduct.collections = this.newProduct.collections.filter(collection => collection.id !== collectionId);
       })
-      .catch(ajaxErrorHandler);
+      .catch(this.errorHandler.notifyAndReport);
   }
 
   edit() {
@@ -50,7 +52,7 @@ export class EditProductView {
     this.api
       .edit(`products/${this.params.product_id}`, fragment)
       .then(success => notify().log('Successfully Updated'))
-      .catch(ajaxErrorHandler);
+      .catch(this.errorHandler.notifyAndReport);
   }
 
   swap(from, to) {

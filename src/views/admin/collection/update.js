@@ -3,6 +3,7 @@ import {Api} from '~/services/api';
 import {notify} from '~/services/notification';
 import {DialogController} from 'aurelia-dialog';
 import {UploadService} from '~/services/upload';
+import {ErrorHandler} from '~/services/error';
 
 function filterUntouchedProperties(main, updated) {
   const result = {};
@@ -15,12 +16,13 @@ function filterUntouchedProperties(main, updated) {
   return result;
 }
 
-@inject(Api, DialogController, UploadService)
+@inject(Api, DialogController, UploadService, ErrorHandler)
 export class CollectionUpdateView {
-  constructor(api, controller, upload) {
+  constructor(api, controller, upload, errorHandler) {
     this.api = api;
     this.upload = upload;
     this.controller = controller;
+    this.errorHandler = errorHandler;
   }
 
   activate(collection) {
@@ -43,7 +45,7 @@ export class CollectionUpdateView {
     })
     .catch(err => {
       this.controller.cancel();
-      return console.log(err);
+      this.errorHandler.notifyAndReport(err);
     });
   }
 }

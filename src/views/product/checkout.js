@@ -1,26 +1,28 @@
 import {inject} from 'aurelia-framework';
 import {Api} from '~/services/api';
 import {UserStore} from '~/stores/user';
+import {CountryStore} from '~/stores/country';
 import {Router} from 'aurelia-router';
 import {constants} from '~/services/constants';
 import {UploadService} from '~/services/upload';
 import {PriceService} from '~/services/price';
-import {ErrorReporting} from '~/services/error-reporting';
+import {ErrorHandler} from '~/services/error';
 import animateScrollTo from 'animated-scroll-to';
 
-@inject(Router, Api, UserStore, UploadService, ErrorReporting, PriceService)
+@inject(Router, Api, UserStore, CountryStore, UploadService, ErrorHandler, PriceService)
 export class CheckoutVM {
   error = {};
   tempUser = {};
 
-  constructor(router, api, userStore, upload, errorReporting, priceService) {
+  constructor(router, api, userStore, countryStore, upload, errorHandler, priceService) {
     this.router = router;
     this.api = api;
     this.userStore = userStore;
+    this.countryStore = countryStore;
     this.upload = upload;
     this.constants = constants;
     this.priceService = priceService;
-    this.errorReporting = errorReporting;
+    this.errorHandler = errorHandler;
 
     this.state = {
       addcard: false,
@@ -29,15 +31,16 @@ export class CheckoutVM {
   }
 
   activate(params) {
-    // if the
-    // try creating an order first
-    // then try getting paid for the order
-
-    this.api.fetch('countries')
-      .then(countries => this.countries = countries.results)
-      .catch(err => errorReporting.report(new Error(err.message)));
-
-    this.getProduct(Number(params.product_id), params);
+    Promise.all([
+      this.api.fetch('countries'),
+      this.api.fetch('me', {include: ['shops', 'country']})
+    ])
+    .then(results => {
+      this.countryStore.countries = results[0].results;
+      this.userStore.user = results[1];
+      return Promise.resolve();
+    })
+    .then(() => this.getProduct(Number(params.product_id), params));
   }
 
   getBufferDays(countryId) {
@@ -55,7 +58,7 @@ export class CheckoutVM {
       .then(product => {
         this.product = product;
         const currentDay = new Date();
-        if (this.userStore.user && this.userStore.user.address && !this.userStore.user.address.country){
+        if (this.userStore.user && this.userStore.user.address && !this.userStore.user.address.country) {
           this.userStore.user.address.country = 'Singapore';
         }
         const deliveryDate = new Date(currentDay.setDate(currentDay.getDate() + (product.delivery_time || 10) + this.getBufferDays(product.source_id)));
@@ -65,34 +68,30 @@ export class CheckoutVM {
           shop_id: product.shop_id,
           base_price: product.price,
           cost: product.cost,
-          tiers: product.source.tiers,
           local_delivery_fee: product.local_delivery_fee,
-          delta: product.price_override,
           discount: product.discount,
-          ems_fee: product.source.ems_fee,
           weight: product.weight,
           preorder: (product.preorder ? true : false),
           postage: product.courier || constants.defaultCourier,
           destination_id: this.userStore.user && this.userStore.user.country_id || constants.defaultDestination,
           collection_method: 'courier',
+          applied_credit: this.userStore.user.referral_credit || 0,
           count: 1,
-          shipping_address: (this.userStore.user && this.userStore.user.address) || {line_1: '', line_2: '', zip: '', city: ''},
+          shipping_address: (this.userStore.user && this.userStore.user.address) || {line_1: '', line_2: '', zip: '', city: '', country: 'Singapore'},
           delivery_date: deliveryDate.toISOString()
         };
         this.selectOptions(selections);
-        this.request.total_price = this.priceService.getPrice(this.request, this.product);
+        this.getPrice();
       })
-      .catch(err => this.errorReporting.report(new Error(err.message)));
+      .catch(this.errorHandler.notifyAndReport);
   }
 
   getPrice() {
-    const country = this.countries.find((country) => country.name === this.request.shipping_address.country);
-    const ship = country ? country.shipping_fee : 0;
-    this.request.total_price = ship + this.priceService.getPrice(this.request, this.product);
-  }
-
-  confirmPurchase() {
-    this.router.navigateToRoute('acknowledge');
+    const country = this.countryStore.countries.find((cntry) => cntry.name === this.request.shipping_address.country);
+    const shippingFee = country ? country.shipping_fee : 0;
+    const credits = this.userStore.user.referral_credit || 0;
+    const referralUserDiscount = this.request.referred_by ?  constants.referralUserDiscount : 0;
+    this.request.total_price = this.priceService.getPrice(this.request, this.product) + shippingFee - (referralUserDiscount + credits);
   }
 
   validate() {
@@ -133,6 +132,12 @@ export class CheckoutVM {
 
     this.api.edit('me', { address: address })
       .then(success => this.userStore.user.address = address);
+
+    const country = this.countryStore.countries.find((cntry) => cntry.name === address.country);
+    if (country) {
+      this.api.edit('me', { country_id: country.id })
+        .then(success => this.userStore.user.country_id = country.id);
+    }
   }
 
   saveContact(tempUser) {
@@ -155,10 +160,35 @@ export class CheckoutVM {
     this.currentPaymentMethod = this.currentPaymentMethod === toggle ? '' : toggle;
   }
 
+  applyReferralCode(tempReferralCode) {
+    this.state.error.noSuchReferralCode = false;
+    if (tempReferralCode === this.userStore.user.referral_code) {
+      return this.errorHandler.notifyAndReport(new Error('Cannot apply your own referral code'));
+    }
+    this.state.applyReferralCode = true;
+    this.api
+      .fetch('users', {filter: {'referral_code:eq': tempReferralCode}})
+      .then(user => {
+        if (user.results.length) {
+          this.request.referred_by = user.results[0].id;
+          this.getPrice();
+        } else {
+          this.state.error.noSuchReferralCode = true;
+        }
+        this.state.applyReferralCode = false;
+      })
+      .catch(err => {
+        this.state.applyReferralCode = false;
+        return this.errorHandler.notifyAndReport(err);
+      });
+  }
+
   payWithPaypal() {
     if (!this.validate()) {
       return;
     }
+    this.saveAddress(this.request.shipping_address);
+    this.saveContact(this.tempUser);
     this.state.inflight = true;
     this.api
       .create('me/requests', Object.assign({}, this.request, {active: false, status: 'paypal_pending'}))
@@ -179,7 +209,7 @@ export class CheckoutVM {
       })
       .catch(err => {
         this.state.inflight = false;
-        console.log(err);
+        this.errorHandler.notifyAndReport(err);
       });
   }
 
@@ -196,8 +226,10 @@ export class CheckoutVM {
         this.request.proof = streams.map(stream => stream.url.split('?')[0]);
         return this.api.create(`products/${this.product.id}/requests`, this.request);
       })
-      .then(this.confirmPurchase.bind(this))
-      .catch(err => this.errorReporting.report(new Error(err.message)));
+      .then(request => {
+        window.location.href = `${window.location.origin}/user/requests/${request.id}/acknowledge`;
+      })
+      .catch(this.errorHandler.notifyAndReport);
   }
 
   selectOptions(selections) {

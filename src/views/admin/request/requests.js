@@ -1,10 +1,12 @@
 import {inject} from 'aurelia-framework';
 import {Api} from '~/services/api';
+import {ErrorHandler} from '~/services/error';
 
-@inject(Api)
+@inject(Api, ErrorHandler)
 export class RequestView {
-  constructor(api) {
+  constructor(api, errorHandler) {
     this.api = api;
+    this.errorHandler = errorHandler;
     this.requests = {
       params: {
         filter: {},
@@ -26,9 +28,7 @@ export class RequestView {
       .then(items => {
         this.requests.data = items.results;
       })
-      .catch(error => {
-        this.requests.error = error;
-      });
+      .catch(this.errorHandler.notifyAndReport);
   }
 
   getCountries() {
@@ -37,9 +37,7 @@ export class RequestView {
       .then(items => {
         this.countries.data = items.results;
       })
-      .catch(error => {
-        this.countries.error = error;
-      });
+      .catch(this.errorHandler.notifyAndReport);
   }
 
   activate() {

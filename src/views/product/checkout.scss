@@ -1,10 +1,6 @@
 @import '../../style/base';
 
-.blur {
-  filter: blur(5px);
-}
-
-.checkout-container {
+.checkout {
   @include grid-column(12);
   @include grid-media($desktop) {
     @include grid-shift(3);
@@ -19,12 +15,13 @@
         height: 6rem;
       }
     }
-    &__total-price {
-      font-size: $subheader-font-size;
-      sub {
-        font-size: .9rem;
-        text-decoration: underline;
-      }
+  }
+  &__total-price {
+    text-align: center;
+    font-size: $subheader-font-size;
+    sub {
+      font-size: .9rem;
+      text-decoration: underline;
     }
   }
 
@@ -68,6 +65,14 @@
     &__title {
       font-size: $subheader-font-size;
     }
+
+    &__count {
+      margin: auto;
+      text-align: center;
+      select {
+        max-width: 6rem;
+      }
+    }
   }
 
   &__loading {
@@ -109,5 +114,10 @@
     &__content {
     }
   }
+
+  .field.has-addons {
+    justify-content: center;
+  }
+
 }
 

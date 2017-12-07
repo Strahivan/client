@@ -1,19 +1,18 @@
 import {inject, bindable} from 'aurelia-framework';
 import {UploadService} from '~/services/upload';
-import {ErrorReporting} from '~/services/error-reporting';
-import {notify} from '~/services/notification';
+import {ErrorHandler} from '~/services/error';
 import {Api} from '~/services/api';
 
-@inject(Api, ErrorReporting, UploadService)
+@inject(Api, ErrorHandler, UploadService)
 export class BankPayment {
   @bindable amount;
   @bindable onSuccess;
 
   // assumes that parent controller has state and paymentMethod properties
-  constructor(api, errorReporting, upload) {
+  constructor(api, errorHandler, upload) {
     this.api = api;
     this.upload = upload;
-    this.errorReporting = errorReporting;
+    this.errorHandler = errorHandler;
   }
 
   bind(bindingContext, overrideContext) {
@@ -26,10 +25,9 @@ export class BankPayment {
       .then(streams => {
         return this.onSuccess({proofUrls: streams.map(stream => stream.url.split('?')[0])});
       })
-      .catch(error => {
-        notify().log(err.message);
+      .catch(err => {
         this.parent.state.inflight = false;
-        return this.errorReporting.report(new Error(err.message));
+        return this.errorHandler.notifyAndReport(err);
       });
   }
 }

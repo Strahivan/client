@@ -4,8 +4,9 @@ import {constants} from '~/services/constants';
 import {activationStrategy} from 'aurelia-router';
 import {Router} from 'aurelia-router';
 import {CountryStore} from '~/stores/country';
+import {ErrorHandler} from '~/services/error';
 
-@inject(Api, Router, CountryStore)
+@inject(Api, Router, CountryStore, ErrorHandler)
 export class BatchView {
   requests = {
     params: {
@@ -20,11 +21,12 @@ export class BatchView {
   shop = {};
   products = {};
 
-  constructor(api, router, countryStore) {
+  constructor(api, router, countryStore, errorHandler) {
     this.api = api;
     this.router = router;
     this.statuses = constants.requestStatus;
     this.countryStore = countryStore;
+    this.errorHandler = errorHandler;
   }
 
   determineActivationStrategy() {
@@ -55,7 +57,7 @@ export class BatchView {
         this.requests.data = requests.results;
         this.requests.total = requests.total;
       })
-      .catch(err => console.log(err));
+      .catch(this.errorHandler.notifyAndReport);
   }
 
   activate(params, config, instruction) {
@@ -75,9 +77,10 @@ export class BatchView {
     this.getOrders();
     this.api.fetch(`me/shops/${params.shop_id}`)
       .then(shop => this.shop.data = shop)
-      .catch(err => console.log(err));
+      .catch(this.errorHandler.notifyAndReport);
+
     this.api.fetch(`me/shops/${params.shop_id}/products`, {page: {size: 1000}})
       .then(products => this.products.data = products.results)
-      .catch(err => console.log(err));
+      .catch(this.errorHandler.notifyAndReport);
   }
 }

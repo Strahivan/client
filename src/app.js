@@ -6,39 +6,37 @@ import {Api} from '~/services/api';
 import {ValidationRules} from 'aurelia-validation';
 import {CountryStore} from '~/stores/country';
 import {customRules} from '~/services/validation-rules';
-import {ErrorReporting} from '~/services/error-reporting';
+import {ErrorHandler} from '~/services/error';
 
-@inject(FetchConfig, AuthService, UserStore, CountryStore, Api, ErrorReporting)
+@inject(FetchConfig, AuthService, UserStore, CountryStore, Api, ErrorHandler)
 export class App {
-  constructor(fetchConfig, auth, userStore, countryStore, api, errorReporting) {
+  constructor(fetchConfig, auth, userStore, countryStore, api, errorHandler) {
     this.fetchConfig = fetchConfig;
     this.auth = auth;
     this.userStore = userStore;
     this.countryStore = countryStore;
     this.api = api;
-    this.errorReporting = errorReporting;
+    this.errorHandler = errorHandler;
 
-    errorReporting.reportUnhandledErrors();
+    errorHandler.reportUnhandledErrors();
     ValidationRules.customRule(...customRules.numberRange);
   }
 
   activate() {
     this.fetchConfig.configure();
-    try {
-      this.api
-        .fetch('countries')
-        .then(countries => this.countryStore.countries = countries.results);
+    this.api
+      .fetch('countries')
+      .then(countries => this.countryStore.countries = countries.results)
+      .catch(this.errorHandler.notifyAndReport);
 
-      if (this.auth.isAuthenticated()) {
-        this.api
-          .fetch('me', {include: ['country', 'shops']})
-          .then(me => {
-            this.userStore.user = me;
-            this.errorReporting.setUserContext(me);
-          });
-      }
-    } catch (e) {
-      this.errorReporting.report(e);
+    if (this.auth.isAuthenticated()) {
+      this.api
+        .fetch('me', {include: ['country', 'shops']})
+        .then(me => {
+          this.userStore.user = me;
+          this.errorHandler.setUserContext(me);
+        })
+        .catch(this.errorHandler.notifyAndReport);
     }
   }
 

@@ -4,8 +4,9 @@ import {constants} from '~/services/constants';
 import {Router} from 'aurelia-router';
 import {CountryStore} from '~/stores/country';
 import {notify} from '~/services/notification';
+import {ErrorHandler} from '~/services/error';
 
-@inject(Api, Router, CountryStore)
+@inject(Api, Router, CountryStore, ErrorHandler)
 export class ShopRequestListVM {
   requests = {
     params: {
@@ -29,9 +30,10 @@ export class ShopRequestListVM {
   state = {};
   selectedRequests = [];
 
-  constructor(api, router, countryStore) {
+  constructor(api, router, countryStore, errorHandler) {
     this.api = api;
     this.router = router;
+    this.errorHandler = errorHandler;
     this.statuses = constants.requestStatus;
     this.countryStore = countryStore;
   }
@@ -47,14 +49,15 @@ export class ShopRequestListVM {
         this.requests.data = requests.results;
         this.requests.total = requests.total;
       })
-      .catch(err => console.log(err));
+      .catch(this.errorHandler.notifyAndReport);
   }
 
   addToBatch(batchId) {
-    this.selectedRequests.forEach(requestId => {
-      this.api.edit(`shops/${this.params.shop_id}/requests/${requestId}`, {batch_id: Number(batchId)});
-    });
-    this.selectedRequests = [];
+    Promise.all(this.selectedRequests.map(requestId => {
+      return this.api.edit(`shops/${this.params.shop_id}/requests/${requestId}`, {batch_id: Number(batchId)});
+    }))
+      .then(success => this.selectedRequests = [])
+      .catch(this.errorHandler.notifyAndReport);
     this.getOrders();
     notify().log('Successfully added');
   }
@@ -70,12 +73,13 @@ export class ShopRequestListVM {
     this.getOrders();
     this.api.fetch(`me/shops/${params.shop_id}`)
       .then(shop => this.shop.data = shop)
-      .catch(err => console.log(err));
+      .catch(this.errorHandler.notifyAndReport);
 
     this.api
       .fetch(`me/shops/${params.shop_id}/batches`, this.batches.params)
       .then(batches => {
         this.batches.data = batches.results;
-      });
+      })
+      .catch(this.errorHandler.notifyAndReport);
   }
 }

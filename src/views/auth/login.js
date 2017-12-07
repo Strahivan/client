@@ -2,16 +2,16 @@ import {inject} from 'aurelia-framework';
 import {Api} from '~/services/api';
 import {AuthService} from 'aurelia-auth';
 import {UserStore} from '~/stores/user';
-import {ErrorReporting} from '~/services/error-reporting';
+import {ErrorHandler} from '~/services/error';
 import environment from '~/environment';
 
-@inject(AuthService, Api, UserStore, ErrorReporting)
+@inject(AuthService, Api, UserStore, ErrorHandler)
 export class Login {
-  constructor(auth, api, userStore, errorReporting) {
+  constructor(auth, api, userStore, errorHandler) {
     this.auth = auth;
     this.api = api;
     this.userStore = userStore;
-    this.errorReporting = errorReporting;
+    this.errorHandler = errorHandler;
     this.state = {
       error: {}
     };
@@ -40,7 +40,7 @@ export class Login {
           this.state.error.wrongLogin = 'Wrong username or password';
           return;
         }
-        this.errorReporting.report(new Error(err.message));
+        this.errorHandler.report(err);
       });
   }
 }

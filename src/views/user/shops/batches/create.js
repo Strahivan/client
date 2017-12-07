@@ -2,13 +2,15 @@ import {inject} from 'aurelia-framework';
 import {Api} from '~/services/api';
 import {notify} from '~/services/notification';
 import {CountryStore} from '~/stores/country';
+import {ErrorHandler} from '~/services/error';
 
-@inject(Api, CountryStore)
+@inject(Api, CountryStore, ErrorHandler)
 export class BatchCreateView {
   batch = {};
-  constructor(api, countryStore) {
+  constructor(api, countryStore, errorHandler) {
     this.api = api;
     this.countries = countryStore.countries;
+    this.errorHandler = errorHandler;
   }
 
   activate(params) {
@@ -24,6 +26,6 @@ export class BatchCreateView {
         this.api.edit(`batches/${batch.id}`, {name: `${selectedCountry.shortcode} #${batch.id}`});
         this.batch = {shop_id: this.batch.shop_id};
       })
-      .catch(err => console.log(err));
+      .catch(this.errorHandler.notifyAndReport);
   }
 }
